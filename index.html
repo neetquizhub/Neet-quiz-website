@@ -1,499 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MedQuest NEET</title>
-
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f1f6ff;
-  color: #172554;
-}
-
-header {
-  background: #123b70;
-  color: white;
-  text-align: center;
-  padding: 28px 15px;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 30px;
-}
-
-header p {
-  margin-bottom: 0;
-}
-
-.container {
-  max-width: 750px;
-  margin: 25px auto;
-  padding: 15px;
-}
-
-.home-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-}
-
-.subject {
-  background: white;
-  border: 2px solid #dbeafe;
-  border-radius: 15px;
-  padding: 25px 10px;
-  font-size: 19px;
-  font-weight: bold;
-  color: #123b70;
-  cursor: pointer;
-  min-height: 125px;
-}
-
-.subject:hover {
-  background: #dbeafe;
-}
-
-.icon {
-  display: block;
-  font-size: 35px;
-  margin-bottom: 12px;
-}
-
-button {
-  font-family: inherit;
-}
-
-.back, .action {
-  background: #123b70;
-  color: white;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 5px 4px 5px 0;
-}
-
-.question-card {
-  background: white;
-  padding: 20px;
-  margin: 15px 0;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px #dbeafe;
-}
-
-.option {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  padding: 13px;
-  margin: 9px 0;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.option:focus, .option:hover {
-  background: #dbeafe;
-}
-
-.option.selected {
-  background: #dbeafe;
-  border: 2px solid #2563eb;
-}
-
-.small {
-  color: #64748b;
-  font-size: 14px;
-}
-
-#quiz, #result {
-  display: none;
-}
-
-#explanations {
-  margin-top: 20px;
-}
-
-.explanation {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  margin: 12px 0;
-}
-
-footer {
-  text-align: center;
-  padding: 25px;
-  color: #64748b;
-  font-size: 13px;
-}
-
-@media (max-width: 400px) {
-  .subject {
-    font-size: 16px;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <h1>🩺 MedQuest NEET</h1>
-  <p>Practice. Improve. Achieve.</p>
-</header>
-
-<main class="container">
-
-  <section id="home">
-    <h2>Choose Your Test</h2>
-    <p>Select a subject to start practising.</p>
-
-    <div class="home-grid">
-      <button class="subject" onclick="startQuiz('Biology')">
-        <span class="icon">🧬</span>
-        Biology
-      </button>
-
-      <button class="subject" onclick="startQuiz('Physics')">
-        <span class="icon">⚡</span>
-        Physics
-      </button>
-
-      <button class="subject" onclick="startQuiz('Chemistry')">
-        <span class="icon">⚗️</span>
-        Chemistry
-      </button>
-
-      <button class="subject" onclick="startQuiz('Grand Test')">
-        <span class="icon">🏆</span>
-        Grand Test
-      </button>
-    </div>
-  </section>
-
-  <section id="quiz">
-    <button class="back" onclick="goHome()">← Home</button>
-    <h2 id="quizTitle"></h2>
-    <p id="progress" class="small"></p>
-
-    <div id="questionArea"></div>
-
-    <button class="action" id="prevBtn" onclick="moveQuestion(-1)">
-      Previous
-    </button>
-
-    <button class="action" id="nextBtn" onclick="moveQuestion(1)">
-      Next →
-    </button>
-
-    <button class="action" id="submitBtn" onclick="submitQuiz()">
-      Submit Test
-    </button>
-  </section>
-
-  <section id="result">
-    <h2>🎉 Test Completed!</h2>
-    <div class="question-card">
-      <h3 id="scoreText"></h3>
-      <p id="detailText"></p>
-    </div>
-
-    <div id="explanations"></div>
-
-    <button class="action" onclick="goHome()">Back to Home</button>
-    <button class="action" onclick="retryQuiz()">Try Again</button>
-  </section>
-
-</main>
-
-<footer>
-  MedQuest NEET · Independent practice quiz
-</footer>
-
-<script>
-const questionBank = {
-  "Biology": [
-    {
-      q: "Which organelle is called the powerhouse of the cell?",
-      options: ["Ribosome", "Mitochondrion", "Lysosome", "Golgi apparatus"],
-      answer: 1,
-      explanation: "Mitochondria produce most cellular ATP through aerobic respiration."
-    },
-    {
-      q: "Which cells transport oxygen in human blood?",
-      options: ["Platelets", "Neurons", "Red blood cells", "Lymphocytes"],
-      answer: 2,
-      explanation: "Red blood cells contain haemoglobin, which transports oxygen."
-    },
-    {
-      q: "What is the basic unit of heredity?",
-      options: ["Tissue", "Gene", "Organ", "Lipid"],
-      answer: 1,
-      explanation: "A gene is a DNA sequence that contributes to a functional product or hereditary trait."
-    },
-    {
-      q: "Which plant tissue transports water mainly from roots?",
-      options: ["Phloem", "Epidermis", "Xylem", "Cortex"],
-      answer: 2,
-      explanation: "Xylem transports water and dissolved minerals from roots to the rest of the plant."
-    },
-    {
-      q: "Which molecule carries genetic information in most organisms?",
-      options: ["DNA", "Glucose", "Cellulose", "Cholesterol"],
-      answer: 0,
-      explanation: "DNA stores hereditary information in most living organisms."
-    }
-  ],
-
-  "Physics": [
-    {
-      q: "What is the SI unit of force?",
-      options: ["Joule", "Watt", "Newton", "Pascal"],
-      answer: 2,
-      explanation: "The SI unit of force is the newton (N)."
-    },
-    {
-      q: "What is the approximate acceleration due to gravity near Earth's surface?",
-      options: ["4.9 m/s²", "9.8 m/s²", "15 m/s²", "98 m/s²"],
-      answer: 1,
-      explanation: "The average value of g near Earth's surface is approximately 9.8 m/s²."
-    },
-    {
-      q: "Which quantity is measured in watts?",
-      options: ["Power", "Energy", "Force", "Momentum"],
-      answer: 0,
-      explanation: "Power is the rate of transfer of energy and is measured in watts."
-    },
-    {
-      q: "What is the SI unit of electric current?",
-      options: ["Volt", "Ohm", "Ampere", "Coulomb"],
-      answer: 2,
-      explanation: "Electric current is measured in amperes (A)."
-    },
-    {
-      q: "Which type of lens converges parallel rays of light?",
-      options: ["Concave lens", "Convex lens", "Plane glass", "None of these"],
-      answer: 1,
-      explanation: "A convex lens converges parallel rays towards its principal focus."
-    }
-  ],
-
-  "Chemistry": [
-    {
-      q: "What is the chemical symbol for sodium?",
-      options: ["So", "S", "Na", "N"],
-      answer: 2,
-      explanation: "The chemical symbol for sodium is Na."
-    },
-    {
-      q: "A solution with pH 3 is best described as:",
-      options: ["Acidic", "Neutral", "Basic", "Always a salt"],
-      answer: 0,
-      explanation: "At ordinary conditions, a pH below 7 indicates an acidic solution."
-    },
-    {
-      q: "What is the atomic number of carbon?",
-      options: ["4", "6", "8", "12"],
-      answer: 1,
-      explanation: "Carbon has six protons, so its atomic number is 6."
-    },
-    {
-      q: "Which particles are found in the nucleus of an ordinary atom?",
-      options: ["Only electrons", "Protons and neutrons", "Only neutrons", "Electrons and protons"],
-      answer: 1,
-      explanation: "The nucleus contains protons and, in most atoms, neutrons."
-    },
-    {
-      q: "Which type of bond involves sharing electron pairs?",
-      options: ["Ionic bond", "Covalent bond", "Metallic bond only", "Hydrogen bond only"],
-      answer: 1,
-      explanation: "Covalent bonds form when atoms share one or more pairs of electrons."
-    }
-  ],
-
-  "Grand Test": [
-    {
-      q: "BIOLOGY: Where does photosynthesis occur in plant cells?",
-      options: ["Mitochondria", "Chloroplasts", "Ribosomes", "Nucleus"],
-      answer: 1,
-      explanation: "Photosynthesis occurs in chloroplasts, which contain chlorophyll."
-    },
-    {
-      q: "PHYSICS: A body travels 100 m in 20 s. Its average speed is:",
-      options: ["2 m/s", "5 m/s", "10 m/s", "20 m/s"],
-      answer: 1,
-      explanation: "Average speed = distance/time = 100/20 = 5 m/s."
-    },
-    {
-      q: "CHEMISTRY: How many protons does a nitrogen atom have?",
-      options: ["5", "7", "14", "21"],
-      answer: 1,
-      explanation: "Nitrogen has atomic number 7, so it contains seven protons."
-    },
-    {
-      q: "BIOLOGY: Which blood component helps in clotting?",
-      options: ["Platelets", "Red blood cells", "Plasma water only", "Neurons"],
-      answer: 0,
-      explanation: "Platelets help form the initial plug during blood clotting."
-    },
-    {
-      q: "PHYSICS: What is the SI unit of work?",
-      options: ["Newton", "Watt", "Joule", "Ampere"],
-      answer: 2,
-      explanation: "Work is measured in joules (J)."
-    }
-  ]
-};
-
-let currentSubject = "";
-let currentIndex = 0;
-let userAnswers = [];
-let finalScore = 0;
 
 function startQuiz(subject) {
   currentSubject = subject;
+  questions = questionBank[subject];
   currentIndex = 0;
-  userAnswers = Array(questionBank[subject].length).fill(null);
+  score = 0;
 
   document.getElementById("home").style.display = "none";
   document.getElementById("result").style.display = "none";
   document.getElementById("quiz").style.display = "block";
-  document.getElementById("quizTitle").textContent = subject;
-  document.getElementById("submitBtn").style.display = "inline-block";
-
+  document.getElementById("subject").textContent = subject;
   showQuestion();
-  window.scrollTo(0, 0);
 }
 
 function showQuestion() {
-  const questions = questionBank[currentSubject];
+  answered = false;
+
   const item = questions[currentIndex];
 
   document.getElementById("progress").textContent =
     "Question " + (currentIndex + 1) + " of " + questions.length;
 
-  const area = document.getElementById("questionArea");
-  area.innerHTML = "";
+  document.getElementById("question").textContent = item.q;
+  document.getElementById("feedback").textContent = "";
 
-  const card = document.createElement("div");
-  card.className = "question-card";
+  const optionsBox = document.getElementById("options");
+  optionsBox.innerHTML = "";
 
-  const title = document.createElement("h3");
-  title.textContent = (currentIndex + 1) + ". " + item.q;
-  card.appendChild(title);
-
-  item.options.forEach((option, index) => {
+  item.options.forEach(function(option, index) {
     const button = document.createElement("button");
     button.className = "option";
-    button.textContent =
-      String.fromCharCode(65 + index) + ". " + option;
-
-    if (userAnswers[currentIndex] === index) {
-      button.classList.add("selected");
-    }
-
-    button.onclick = function () {
-      userAnswers[currentIndex] = index;
-      showQuestion();
+    button.textContent = String.fromCharCode(65 + index) + ". " + option;
+    button.onclick = function() {
+      checkAnswer(index);
     };
-
-    card.appendChild(button);
+    optionsBox.appendChild(button);
   });
 
-  area.appendChild(card);
-
-  document.getElementById("prevBtn").disabled = currentIndex === 0;
-  document.getElementById("nextBtn").disabled =
-    currentIndex === questions.length - 1;
+  const nextButton = document.getElementById("next");
+  nextButton.textContent =
+    currentIndex === questions.length - 1 ? "Submit Test" : "Next Question →";
 }
 
-function moveQuestion(direction) {
-  const total = questionBank[currentSubject].length;
-  currentIndex = Math.max(0, Math.min(total - 1, currentIndex + direction));
-  showQuestion();
-  window.scrollTo(0, 0);
+function checkAnswer(selected) {
+  if (answered) return;
+  answered = true;
+
+  const item = questions[currentIndex];
+  const optionButtons = document.querySelectorAll("#options button");
+
+  optionButtons.forEach(function(button) {
+    button.disabled = true;
+  });
+
+  if (selected === item.answer) {
+    score++;
+    document.getElementById("feedback").textContent =
+      "✅ Correct! " + item.explanation;
+  } else {
+    document.getElementById("feedback").textContent =
+      "❌ Correct answer: " + item.options[item.answer] +
+      ". " + item.explanation;
+  }
 }
 
-function submitQuiz() {
-  const questions = questionBank[currentSubject];
-  const unanswered = userAnswers.filter(answer => answer === null).length;
-
-  if (unanswered > 0) {
-    const confirmSubmit = confirm(
-      "You have " + unanswered + " unanswered question(s). Submit anyway?"
-    );
-    if (!confirmSubmit) return;
+function nextQuestion() {
+  if (!answered) {
+    document.getElementById("feedback").textContent =
+      "Please select an answer first!";
+    return;
   }
 
-  finalScore = 0;
-  questions.forEach((question, index) => {
-    if (userAnswers[index] === question.answer) {
-      finalScore++;
-    }
-  });
+  if (currentIndex < questions.length - 1) {
+    currentIndex++;
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
 
+function showResult() {
   document.getElementById("quiz").style.display = "none";
   document.getElementById("result").style.display = "block";
 
-  document.getElementById("scoreText").textContent =
-    "Your Score: " + finalScore + " / " + questions.length;
+  document.getElementById("score").textContent =
+    "Your Score: " + score + " / " + questions.length;
 
-  document.getElementById("detailText").textContent =
-    "Correct: " + finalScore +
-    " | Incorrect: " +
-    userAnswers.filter((answer, index) =>
-      answer !== null && answer !== questions[index].answer
-    ).length +
-    " | Unanswered: " + unanswered;
-
-  const explanationArea = document.getElementById("explanations");
-  explanationArea.innerHTML = "<h3>Answers & Explanations</h3>";
-
-  questions.forEach((question, index) => {
-    const box = document.createElement("div");
-    box.className = "explanation";
-
-    const chosen = userAnswers[index] === null
-      ? "Not answered"
-      : question.options[userAnswers[index]];
-
-    box.innerHTML =
-      "<strong>Q" + (index + 1) + ".</strong> " +
-      escapeHTML(question.q) +
-      "<p>Your answer: " + escapeHTML(chosen) + "</p>" +
-      "<p>Correct answer: <strong>" +
-      escapeHTML(question.options[question.answer]) +
-      "</strong></p>" +
-      "<p>" + escapeHTML(question.explanation) + "</p>";
-
-    explanationArea.appendChild(box);
-  });
-
-  window.scrollTo(0, 0);
-}
-
-function escapeHTML(text) {
-  return String(text).replace(/[&<>"']/g, function (char) {
-    return {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    }[char];
-  });
+  document.getElementById("message").textContent =
+    score === questions.length
+      ? "Excellent! All answers correct!"
+      : "Good attempt! Practise again to improve.";
 }
 
 function retryQuiz() {
@@ -501,176 +96,10 @@ function retryQuiz() {
 }
 
 function goHome() {
-  document.getElementById("home").style.display = "block";
   document.getElementById("quiz").style.display = "none";
   document.getElementById("result").style.display = "none";
-  window.scrollTo(0, 0);
+  document.getElementById("home").style.display = "block";
 }
 </script>
-
 </body>
 </html>
-
-On Sat, 10 Oct, 2026, 8:42 am Bhavs, <bhaaavs2801@gmail.com> wrote:
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MedQuest NEET</title>
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f0f7ff;
-  margin: 0;
-  padding: 20px;
-  text-align: center;
-}
-header {
-  background: #075985;
-  color: white;
-  padding: 22px;
-  border-radius: 15px;
-}
-.card {
-  background: white;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 500px;
-  border-radius: 15px;
-  box-shadow: 0 2px 10px #ccc;
-}
-button {
-  display: block;
-  width: 100%;
-  padding: 13px;
-  margin: 10px 0;
-  border: 0;
-  border-radius: 9px;
-  background: #0284c7;
-  color: white;
-  font-size: 16px;
-}
-button:active { background: #0369a1; }
-#result { font-weight: bold; }
-</style>
-</head>
-<body>
-
-<header>
-  <h1>🩺 MedQuest NEET</h1>
-  <p>Practice. Learn. Improve.</p>
-  <p>Free NEET Biology Quiz</p>
-</header>
-
-<div class="card">
-  <h2 id="question">Welcome, NEET Aspirant!</h2>
-  <div id="answers"></div>
-  <p id="result">Start your free quiz below.</p>
-  <button onclick="startQuiz()" id="start">Start Quiz</button>
-  <button onclick="nextQuestion()" id="next" hidden>Next Question</button>
-</div>
-
-<script>
-const questions = [
-  {
-    q: "Which organelle is known as the powerhouse of the cell?",
-    options: ["Nucleus", "Mitochondrion", "Ribosome", "Golgi apparatus"],
-    answer: 1,
-    explanation: "Mitochondria produce most cellular ATP through aerobic respiration."
-  },
-  {
-    q: "Which molecule carries genetic information in most organisms?",
-    options: ["Glucose", "DNA", "Lipids", "Starch"],
-    answer: 1,
-    explanation: "DNA stores hereditary information in most living organisms."
-  },
-  {
-    q: "Which pigment is essential for photosynthesis?",
-    options: ["Haemoglobin", "Melanin", "Chlorophyll", "Keratin"],
-    answer: 2,
-    explanation: "Chlorophyll absorbs light energy for photosynthesis."
-  },
-  {
-    q: "The basic structural and functional unit of life is:",
-    options: ["Tissue", "Organ", "Cell", "Organ system"],
-    answer: 2,
-    explanation: "The cell is the basic structural and functional unit of life."
-  },
-  {
-    q: "Which blood cells help in blood clotting?",
-    options: ["RBCs", "Platelets", "Neurons", "Osteocytes"],
-    answer: 1,
-    explanation: "Platelets play an important role in blood clot formation."
-  }
-];
-
-let current = 0;
-let score = 0;
-let answered = false;
-
-function startQuiz() {
-  current = 0;
-  score = 0;
-  document.getElementById("start").hidden = true;
-  showQuestion();
-}
-
-function showQuestion() {
-  answered = false;
-  document.getElementById("result").textContent = "";
-  document.getElementById("next").hidden = true;
-  document.getElementById("question").textContent =
-    (current + 1) + ". " + questions[current].q;
-
-  const box = document.getElementById("answers");
-  box.innerHTML = "";
-
-  questions[current].options.forEach((option, index) => {
-    const button = document.createElement("button");
-    button.textContent = option;
-    button.onclick = () => checkAnswer(index);
-    box.appendChild(button);
-  });
-}
-
-function checkAnswer(index) {
-  if (answered) return;
-  answered = true;
-
-  if (index === questions[current].answer) score++;
-
-  document.getElementById("result").textContent =
-    (index === questions[current].answer ? "✅ Correct! " : "❌ Incorrect. ") +
-    questions[current].explanation;
-
-  document.querySelectorAll("#answers button").forEach(button => {
-    button.disabled = true;
-    button.style.opacity = "0.7";
-  });
-
-  document.getElementById("next").hidden = false;
-  document.getElementById("next").textContent =
-    current === questions.length - 1 ? "See Final Score" : "Next Question";
-}
-
-function nextQuestion() {
-  if (current < questions.length - 1) {
-    current++;
-    showQuestion();
-  } else {
-    document.getElementById("question").textContent = "🎉 Quiz Completed!";
-    document.getElementById("answers").innerHTML = "";
-    document.getElementById("result").textContent =
-      "Your score: " + score + " / " + questions.length;
-    document.getElementById("next").hidden = true;
-    document.getElementById("start").hidden = false;
-    document.getElementById("start").textContent = "Try Again";
-  }
-}
-</script>
-
-</body>
-</html>
-
-    
