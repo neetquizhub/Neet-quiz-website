@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedQuest NEET</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f7ff;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+header {
+  background: #075985;
+  color: white;
+  padding: 22px;
+  border-radius: 15px;
+}
+.card {
+  background: white;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 500px;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px #ccc;
+}
+button {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin: 10px 0;
+  border: 0;
+  border-radius: 9px;
+  background: #0284c7;
+  color: white;
+  font-size: 16px;
+}
+button:active { background: #0369a1; }
+#result { font-weight: bold; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🩺 MedQuest NEET</h1>
+  <p>Practice. Learn. Improve.</p>
+  <p>Free NEET Biology Quiz</p>
+</header>
+
+<div class="card">
+  <h2 id="question">Welcome, NEET Aspirant!</h2>
+  <div id="answers"></div>
+  <p id="result">Start your free quiz below.</p>
+  <button onclick="startQuiz()" id="start">Start Quiz</button>
+  <button onclick="nextQuestion()" id="next" hidden>Next Question</button>
+</div>
+
+<script>
+const questions = [
+  {
+    q: "Which organelle is known as the powerhouse of the cell?",
+    options: ["Nucleus", "Mitochondrion", "Ribosome", "Golgi apparatus"],
+    answer: 1,
+    explanation: "Mitochondria produce most cellular ATP through aerobic respiration."
+  },
+  {
+    q: "Which molecule carries genetic information in most organisms?",
+    options: ["Glucose", "DNA", "Lipids", "Starch"],
+    answer: 1,
+    explanation: "DNA stores hereditary information in most living organisms."
+  },
+  {
+    q: "Which pigment is essential for photosynthesis?",
+    options: ["Haemoglobin", "Melanin", "Chlorophyll", "Keratin"],
+    answer: 2,
+    explanation: "Chlorophyll absorbs light energy for photosynthesis."
+  },
+  {
+    q: "The basic structural and functional unit of life is:",
+    options: ["Tissue", "Organ", "Cell", "Organ system"],
+    answer: 2,
+    explanation: "The cell is the basic structural and functional unit of life."
+  },
+  {
+    q: "Which blood cells help in blood clotting?",
+    options: ["RBCs", "Platelets", "Neurons", "Osteocytes"],
+    answer: 1,
+    explanation: "Platelets play an important role in blood clot formation."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function startQuiz() {
+  current = 0;
+  score = 0;
+  document.getElementById("start").hidden = true;
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+  document.getElementById("result").textContent = "";
+  document.getElementById("next").hidden = true;
+  document.getElementById("question").textContent =
+    (current + 1) + ". " + questions[current].q;
+
+  const box = document.getElementById("answers");
+  box.innerHTML = "";
+
+  questions[current].options.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.textContent = option;
+    button.onclick = () => checkAnswer(index);
+    box.appendChild(button);
+  });
+}
+
+function checkAnswer(index) {
+  if (answered) return;
+  answered = true;
+
+  if (index === questions[current].answer) score++;
+
+  document.getElementById("result").textContent =
+    (index === questions[current].answer ? "✅ Correct! " : "❌ Incorrect. ") +
+    questions[current].explanation;
+
+  document.querySelectorAll("#answers button").forEach(button => {
+    button.disabled = true;
+    button.style.opacity = "0.7";
+  });
+
+  document.getElementById("next").hidden = false;
+  document.getElementById("next").textContent =
+    current === questions.length - 1 ? "See Final Score" : "Next Question";
+}
+
+function nextQuestion() {
+  if (current < questions.length - 1) {
+    current++;
+    showQuestion();
+  } else {
+    document.getElementById("question").textContent = "🎉 Quiz Completed!";
+    document.getElementById("answers").innerHTML = "";
+    document.getElementById("result").textContent =
+      "Your score: " + score + " / " + questions.length;
+    document.getElementById("next").hidden = true;
+    document.getElementById("start").hidden = false;
+    document.getElementById("start").textContent = "Try Again";
+  }
+}
+</script>
+
+</body>
+</html>
