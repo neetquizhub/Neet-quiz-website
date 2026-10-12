@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NEET Quiz Hub</title>
   <style>
-    /* CSS Styles */
     :root {
       --primary-color: #0d47a1;
       --primary-light: #1976d2;
@@ -41,19 +40,16 @@
       color: var(--white);
       text-align: center;
       padding: 20px 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 
     header h1 {
       font-size: 2rem;
       font-weight: 700;
-      letter-spacing: 0.5px;
     }
 
     header p {
-      font-size: 1rem;
-      color: var(--secondary-color);
       margin-top: 5px;
+      color: var(--secondary-color);
     }
 
     main {
@@ -72,7 +68,6 @@
       margin-bottom: 20px;
     }
 
-    /* Views */
     .view {
       display: none;
     }
@@ -81,7 +76,6 @@
       display: block;
     }
 
-    /* Home View */
     .home-title {
       font-size: 1.25rem;
       font-weight: 600;
@@ -98,7 +92,7 @@
 
     .subject-btn {
       background-color: var(--primary-light);
-      color: var(--white);
+      color: white;
       border: none;
       border-radius: 8px;
       padding: 16px 20px;
@@ -106,19 +100,13 @@
       font-weight: 600;
       cursor: pointer;
       width: 100%;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
-    .subject-btn:active {
-      background-color: var(--primary-color);
-    }
-
-    /* Quiz View */
     .quiz-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
       margin-bottom: 15px;
       padding-bottom: 10px;
       border-bottom: 2px solid var(--secondary-color);
@@ -140,7 +128,15 @@
       font-size: 1.1rem;
       font-weight: 600;
       margin-bottom: 20px;
-      line-height: 1.4;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .question-image {
+      display: none;
+      max-width: 100%;
+      max-height: 360px;
+      margin: 0 auto 20px;
     }
 
     .options-container {
@@ -151,7 +147,7 @@
     }
 
     .option-btn {
-      background-color: var(--white);
+      background-color: white;
       border: 2px solid var(--border-color);
       border-radius: 8px;
       padding: 12px 15px;
@@ -159,9 +155,10 @@
       text-align: left;
       cursor: pointer;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       color: var(--text-dark);
       width: 100%;
+      line-height: 1.4;
     }
 
     .option-label {
@@ -171,25 +168,18 @@
       color: var(--primary-color);
       padding: 4px 8px;
       border-radius: 4px;
-      font-size: 0.9rem;
     }
 
     .option-btn.correct {
       background-color: #e8f5e9;
       border-color: var(--success-color);
       color: var(--success-color);
-      font-weight: 600;
     }
 
     .option-btn.incorrect {
       background-color: #ffebee;
       border-color: var(--danger-color);
       color: var(--danger-color);
-      font-weight: 600;
-    }
-
-    .option-btn.disabled {
-      cursor: not-allowed;
     }
 
     .explanation-box {
@@ -200,7 +190,8 @@
       border-radius: 4px;
       margin-bottom: 20px;
       font-size: 0.95rem;
-      line-height: 1.4;
+      line-height: 1.5;
+      white-space: pre-wrap;
     }
 
     .explanation-title {
@@ -216,16 +207,14 @@
 
     .action-btn {
       background-color: var(--primary-color);
-      color: var(--white);
+      color: white;
       border: none;
       border-radius: 6px;
       padding: 12px 24px;
       font-size: 1rem;
-      font-weight: 600;
       cursor: pointer;
     }
 
-    /* Result View */
     .result-container {
       text-align: center;
     }
@@ -244,8 +233,6 @@
     }
 
     .marks-display {
-      font-size: 1.1rem;
-      color: var(--text-light);
       margin-bottom: 25px;
     }
 
@@ -253,10 +240,11 @@
       display: flex;
       gap: 10px;
       justify-content: center;
+      flex-wrap: wrap;
     }
 
     .btn-secondary {
-      background-color: var(--white);
+      background-color: white;
       color: var(--primary-color);
       border: 2px solid var(--primary-color);
     }
@@ -272,308 +260,59 @@
 </head>
 <body>
 
-  <header>
-    <h1>NEET Quiz Hub</h1>
-    <p>Practice. Learn. Improve.</p>
-  </header>
+<header>
+  <h1>NEET Quiz Hub</h1>
+  <p>Practice. Learn. Improve.</p>
+</header>
 
-  <main>
-    <!-- HOME VIEW -->
-    <div id="home-view" class="card view active">
-      <div class="home-title">Select Subject to Start Quiz</div>
-      <div class="subject-grid">
-        <button class="subject-btn" onclick="startQuiz('biology')">Biology</button>
-        <button class="subject-btn" onclick="startQuiz('physics')">Physics</button>
-        <button class="subject-btn" onclick="startQuiz('chemistry')">Chemistry</button>
-        <button class="subject-btn" onclick="startQuiz('grand')">Grand Test</button>
-      </div>
+<main>
+  <div id="home-view" class="card view active">
+    <div class="home-title">Select Subject to Start Quiz</div>
+    <div class="subject-grid">
+      <button class="subject-btn" onclick="startQuiz('biology')">Biology</button>
+      <button class="subject-btn" onclick="startQuiz('physics')">Physics</button>
+      <button class="subject-btn" onclick="startQuiz('chemistry')">Chemistry</button>
+      <button class="subject-btn" onclick="startQuiz('grand')">Grand Test</button>
+    </div>
+  </div>
+
+  <div id="quiz-view" class="card view">
+    <div class="quiz-header">
+      <div id="quiz-subject" class="quiz-title">Subject</div>
+      <div id="question-counter" class="question-counter"></div>
     </div>
 
-    <!-- QUIZ VIEW -->
-    <div id="quiz-view" class="card view">
-      <div class="quiz-header">
-        <div id="quiz-subject" class="quiz-title">Subject</div>
-        <div id="question-counter" class="question-counter">Question 1 of 5</div>
-      </div>
-      
-      <div id="question-text" class="question-text">Question loading...</div>
-      
-      <div id="options-container" class="options-container">
-        <!-- Options generated dynamically -->
-      </div>
+    <div id="question-text" class="question-text"></div>
+    <img id="question-image" class="question-image" alt="Question diagram">
+    <div id="options-container" class="options-container"></div>
 
-      <div id="explanation-box" class="explanation-box">
-        <div class="explanation-title">Explanation:</div>
-        <div id="explanation-text"></div>
-      </div>
-
-      <div class="quiz-footer">
-        <button id="next-btn" class="action-btn" onclick="nextQuestion()" style="display: none;">Next Question</button>
-      </div>
+    <div id="explanation-box" class="explanation-box">
+      <div class="explanation-title">Explanation:</div>
+      <div id="explanation-text"></div>
     </div>
 
-    <!-- RESULT VIEW -->
-    <div id="result-view" class="card view">
-      <div class="result-container">
-        <div class="result-title">Quiz Completed!</div>
-        <div id="score-display" class="score-display">0 / 0</div>
-        <div id="marks-display" class="marks-display">Total Marks: 0</div>
-        
-        <div class="result-actions">
-          <button class="action-btn btn-secondary" onclick="retryQuiz()">Retry Test</button>
-          <button class="action-btn" onclick="showHome()">Home</button>
-        </div>
+    <div class="quiz-footer">
+      <button id="next-btn" class="action-btn" onclick="nextQuestion()" style="display:none">
+        Next Question
+      </button>
+    </div>
+  </div>
+
+  <div id="result-view" class="card view">
+    <div class="result-container">
+      <div class="result-title">Quiz Completed!</div>
+      <div id="score-display" class="score-display">0 / 0</div>
+      <div id="marks-display" class="marks-display">Total Marks: 0</div>
+      <div class="result-actions">
+        <button class="action-btn btn-secondary" onclick="retryQuiz()">Retry Test</button>
+        <button class="action-btn" onclick="showHome()">Home</button>
       </div>
     </div>
-  </main>
+  </div>
+</main>
 
-  <footer>
-    &copy; NEET Quiz Hub — All Rights Reserved
-  </footer>
+<footer>&copy; NEET Quiz Hub — All Rights Reserved</footer>
 
-  <script>
-    // QUESTION BANK DATA
-    const questionBank = {
-      biology: [
-        {
-          question: "Which organelle is known as the powerhouse of the cell?",
-          options: ["Nucleus", "Mitochondria", "Ribosome", "Golgi Body"],
-          correct: 1,
-          explanation: "Mitochondria are known as the powerhouse of the cell because they synthesize ATP (cellular energy) through aerobic respiration."
-        },
-        {
-          question: "During photosynthesis, oxygen is evolved from:",
-          options: ["Carbon dioxide", "Water", "Glucose", "Chlorophyll"],
-          correct: 1,
-          explanation: "Oxygen liberated during photosynthesis comes from the photolysis (splitting) of water molecules."
-        },
-        {
-          question: "Which hormone regulates blood calcium levels by decreasing them?",
-          options: ["Parathyroid Hormone", "Thyroxin", "Calcitonin", "Insulin"],
-          correct: 2,
-          explanation: "Calcitonin, secreted by the thyroid gland, lowers blood calcium levels when they are high."
-        },
-        {
-          question: "The structural and functional unit of the human kidney is:",
-          options: ["Neuron", "Nephron", "Alveoli", "Hepatocyte"],
-          correct: 1,
-          explanation: "The nephron is the basic structural and functional unit responsible for filtering blood and producing urine in kidneys."
-        },
-        {
-          question: "Which of the following is an example of a non-vascular plant?",
-          options: ["Fern", "Pine", "Moss", "Rose"],
-          correct: 2,
-          explanation: "Mosses belong to Bryophytes, which are non-vascular plants lacking xylem and phloem."
-        }
-      ],
-      physics: [
-        {
-          question: "What is the SI unit of electric current?",
-          options: ["Volt", "Watt", "Ampere", "Ohm"],
-          correct: 2,
-          explanation: "The Ampere (A) is the base SI unit used to measure electric current."
-        },
-        {
-          question: "If the velocity of a moving object is doubled, its kinetic energy becomes:",
-          options: ["Doubled", "Four times", "Halved", "Unchanged"],
-          correct: 1,
-          explanation: "Kinetic Energy KE = 1/2 m v^2. Since KE is proportional to v^2, doubling velocity quadruples kinetic energy."
-        },
-        {
-          question: "Which wave property determines the loudness of sound?",
-          options: ["Frequency", "Wavelength", "Amplitude", "Speed"],
-          correct: 2,
-          explanation: "Loudness depends on the energy carried by the wave, which is directly proportional to the square of its amplitude."
-        },
-        {
-          question: "Light enters from air into glass. Which of the following parameters does NOT change?",
-          options: ["Wavelength", "Velocity", "Frequency", "Direction"],
-          correct: 2,
-          explanation: "The frequency of light depends solely on the source and remains constant when transitioning between different media."
-        },
-        {
-          question: "The work done by a conservative force along a closed path is always:",
-          options: ["Positive", "Negative", "Zero", "Infinite"],
-          correct: 2,
-          explanation: "By definition, work done by conservative forces (like gravity or electrostatic forces) around any closed loop is zero."
-        }
-      ],
-      chemistry: [
-        {
-          question: "What is the pH of a neutral aqueous solution at 25°C?",
-          options: ["0", "7", "14", "1"],
-          correct: 1,
-          explanation: "At 25°C, pure water has equal concentration of H+ and OH- ions, giving a neutral pH value of 7."
-        },
-        {
-          question: "Which gas is evolved when reactive metals react with dilute acids?",
-          options: ["Oxygen", "Nitrogen", "Hydrogen", "Carbon Dioxide"],
-          correct: 2,
-          explanation: "Metals displace hydrogen from acids, producing a salt and liberating hydrogen gas (H2)."
-        },
-        {
-          question: "The geometry of a methane (CH4) molecule is:",
-          options: ["Linear", "Trigonal planar", "Tetrahedral", "Octahedral"],
-          correct: 2,
-          explanation: "Methane has sp3 hybridization with four single bonds around the central carbon, resulting in a tetrahedral geometry."
-        },
-        {
-          question: "Which element has the highest electronegativity on the Pauling scale?",
-          options: ["Oxygen", "Chlorine", "Fluorine", "Nitrogen"],
-          correct: 2,
-          explanation: "Fluorine is the most electronegative element in the periodic table with a value of 4.0 on the Pauling scale."
-        },
-        {
-          question: "An oxidation process involves:",
-          options: ["Gain of electrons", "Loss of electrons", "Gain of hydrogen", "Loss of oxygen"],
-          correct: 1,
-          explanation: "Oxidation is defined as the loss of electrons (OIL: Oxidation Is Loss)."
-        }
-      ]
-    };
+<script>
 
-    // STATE VARIABLES
-    let currentQuestions = [];
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let answerSelected = false;
-    let currentSubjectName = "";
-
-    // DOM ELEMENTS
-    const homeView = document.getElementById('home-view');
-    const quizView = document.getElementById('quiz-view');
-    const resultView = document.getElementById('result-view');
-    
-    const quizSubjectElement = document.getElementById('quiz-subject');
-    const questionCounterElement = document.getElementById('question-counter');
-    const questionTextElement = document.getElementById('question-text');
-    const optionsContainer = document.getElementById('options-container');
-    const explanationBox = document.getElementById('explanation-box');
-    const explanationText = document.getElementById('explanation-text');
-    const nextBtn = document.getElementById('next-btn');
-
-    // HELPER FUNCTIONS
-    function showView(viewElement) {
-      homeView.classList.remove('active');
-      quizView.classList.remove('active');
-      resultView.classList.remove('active');
-      viewElement.classList.add('active');
-    }
-
-    function showHome() {
-      showView(homeView);
-    }
-
-    // START QUIZ
-    function startQuiz(subject) {
-      score = 0;
-      currentQuestionIndex = 0;
-
-      if (subject === 'grand') {
-        currentQuestions = [
-          ...questionBank.biology,
-          ...questionBank.physics,
-          ...questionBank.chemistry
-        ];
-        currentSubjectName = "Grand Test";
-      } else {
-        currentQuestions = [...questionBank[subject]];
-        currentSubjectName = subject.charAt(0).toUpperCase() + subject.slice(1);
-      }
-
-      quizSubjectElement.textContent = currentSubjectName;
-      showView(quizView);
-      loadQuestion();
-    }
-
-    // LOAD QUESTION
-    function loadQuestion() {
-      answerSelected = false;
-      explanationBox.style.display = 'none';
-      nextBtn.style.display = 'none';
-
-      const q = currentQuestions[currentQuestionIndex];
-      questionCounterElement.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
-      questionTextElement.textContent = q.question;
-
-      optionsContainer.innerHTML = '';
-      const labels = ['A', 'B', 'C', 'D'];
-
-      q.options.forEach((option, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        btn.onclick = () => selectAnswer(index);
-        btn.innerHTML = `<span class="option-label">${labels[index]}</span> ${option}`;
-        optionsContainer.appendChild(btn);
-      });
-    }
-
-    // SELECT ANSWER
-    function selectAnswer(selectedIndex) {
-      if (answerSelected) return; // Prevent multiple selections
-      answerSelected = true;
-
-      const q = currentQuestions[currentQuestionIndex];
-      const buttons = optionsContainer.children;
-
-      if (selectedIndex === q.correct) {
-        score++;
-        buttons[selectedIndex].classList.add('correct');
-      } else {
-        buttons[selectedIndex].classList.add('incorrect');
-        buttons[q.correct].classList.add('correct');
-      }
-
-      // Disable all buttons after selection
-      for (let btn of buttons) {
-        btn.classList.add('disabled');
-      }
-
-      // Show explanation & Next Button
-      explanationText.textContent = q.explanation;
-      explanationBox.style.display = 'block';
-
-      if (currentQuestionIndex === currentQuestions.length - 1) {
-        nextBtn.textContent = 'Submit Test';
-      } else {
-        nextBtn.textContent = 'Next Question';
-      }
-      nextBtn.style.display = 'inline-block';
-    }
-
-    // NEXT QUESTION OR SUBMIT
-    function nextQuestion() {
-      currentQuestionIndex++;
-      if (currentQuestionIndex < currentQuestions.length) {
-        loadQuestion();
-      } else {
-        showResults();
-      }
-    }
-
-    // RETRY QUIZ
-    function retryQuiz() {
-      if (currentSubjectName === "Grand Test") {
-        startQuiz('grand');
-      } else {
-        startQuiz(currentSubjectName.toLowerCase());
-      }
-    }
-
-    // SHOW RESULTS
-    function showResults() {
-      const totalQuestions = currentQuestions.length;
-      document.getElementById('score-display').textContent = `${score} / ${totalQuestions}`;
-      
-      // NEET style marking schema: +4 for correct, 0 for incorrect (or simple raw marks)
-      const totalMarks = totalQuestions * 4;
-      const scoredMarks = score * 4;
-      document.getElementById('marks-display').textContent = `Total Marks: ${scoredMarks} / ${totalMarks}`;
-
-      showView(resultView);
-    }
-  </script>
-</body>
-</html>
-
-Show quoted text
+  
