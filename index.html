@@ -314,5 +314,146 @@
 <footer>&copy; NEET Quiz Hub — All Rights Reserved</footer>
 
 <script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbwFodJNqxrw8LwvnPcQRcSH0eMFZGAxcpIpbLYQauCP6GlaVgoEgcE2YmS_dvcH6ATLMQ/exec";
+
+  let allQuestions = [];
+  let currentQuestions = [];
+  let currentIndex = 0;
+  let score = 0;
+
+  // 1. Google Sheet Apps Script nundi Questions fetch cheyadaaniki
+  async function fetchQuestions() {
+    try {
+      const response = await fetch(API_URL);
+      allQuestions = await response.json();
+      console.log("Questions Loaded:", allQuestions);
+    } catch (error) {
+      console.error("Error loading questions:", error);
+    }
+  }
+
+  // Page load avagane questions fetch chestundhi
+  window.onload = fetchQuestions;
+
+  // 2. Subject select chesinappudu Quiz start cheyadaniki
+  function startQuiz(subject) {
+    if (allQuestions.length === 0) {
+      alert("Questions inka load avutunnayi, 2 seconds aagi try cheyandi!");
+      return;
+    }
+
+    if (subject === 'grand') {
+      currentQuestions = allQuestions;
+    } else {
+      currentQuestions = allQuestions.filter(q => 
+        (q.Category && q.Category.toLowerCase() === subject.toLowerCase()) || 
+        (q.Chapter && q.Chapter.toLowerCase().includes(subject.toLowerCase()))
+      );
+    }
+
+    if (currentQuestions.length === 0) {
+      currentQuestions = allQuestions; // Data missing unte fallback to all
+    }
+
+    currentIndex = 0;
+    score = 0;
+
+    document.getElementById('home-view').classList.remove('active');
+    document.getElementById('quiz-view').classList.add('active');
+    
+    showQuestion();
+  }
+
+  // 3. Current Question ni screen meeda render cheyadaaniki
+  function showQuestion() {
+    const q = currentQuestions[currentIndex];
+    
+    document.getElementById('quiz-subject').innerText = q.Chapter || q.Category || "NEET Quiz";
+    document.getElementById('question-counter').innerText = `Question ${currentIndex + 1} / ${currentQuestions.length}`;
+    document.getElementById('question-text').innerText = q.Question || "";
+
+    // Image URL unte display chestundhi
+    const imgElement = document.getElementById('question-image');
+    if (q.ImageUrl && q.ImageUrl.trim() !== "") {
+      imgElement.src = q.ImageUrl;
+      imgElement.style.display = "block";
+    } else {
+      imgElement.style.display = "none";
+    }
+
+    // Options UI setup
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = "";
+
+    const options = [
+      { text: q.OptionA, num: 1 },
+      { text: q.OptionB, num: 2 },
+      { text: q.OptionC, num: 3 },
+      { text: q.OptionD, num: 4 }
+    ];
+
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = opt.text || "";
+      btn.onclick = () => selectOption(opt.num, q.CorrectAnswer, q.Solution);
+      optionsContainer.appendChild(btn);
+    });
+
+    document.getElementById('explanation-box').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+  }
+
+  // 4. Option Select chesinappudu Correct / Wrong verify cheyadaaniki
+  function selectOption(selected, correct, solution) {
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(btn => btn.disabled = true);
+
+    const correctNum = parseInt(correct);
+
+    if (selected === correctNum) {
+      score++;
+    }
+
+    // Explanation show cheyadaaniki
+    const expBox = document.getElementById('explanation-box');
+    const expText = document.getElementById('explanation-text');
+    expText.innerText = solution || "No explanation provided.";
+    expBox.style.display = 'block';
+
+    document.getElementById('next-btn').style.display = 'block';
+  }
+
+  // 5. Next Question ki velladaaniki
+  function nextQuestion() {
+    currentIndex++;
+    if (currentIndex < currentQuestions.length) {
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  // 6. Test complete ayyaka Results screen chupinchadaaniki
+  function showResults() {
+    document.getElementById('quiz-view').classList.remove('active');
+    document.getElementById('result-view').classList.add('active');
+
+    document.getElementById('score-display').innerText = `${score} / ${currentQuestions.length}`;
+    document.getElementById('marks-display').innerText = `Total Marks: ${score * 4} / ${currentQuestions.length * 4}`;
+  }
+
+  function retryQuiz() {
+    document.getElementById('result-view').classList.remove('active');
+    document.getElementById('home-view').classList.add('active');
+  }
+
+  function showHome() {
+    document.getElementById('result-view').classList.remove('active');
+    document.getElementById('quiz-view').classList.remove('active');
+    document.getElementById('home-view').classList.add('active');
+  }
+</script>
+  
 
   
