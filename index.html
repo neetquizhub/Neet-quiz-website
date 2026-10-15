@@ -321,24 +321,23 @@
   let currentIndex = 0;
   let score = 0;
 
-  // 1. Google Sheet Apps Script nundi Questions fetch cheyadaaniki
+  // 1. Fetch Questions from Google Apps Script
   async function fetchQuestions() {
     try {
       const response = await fetch(API_URL);
       allQuestions = await response.json();
-      console.log("Questions Loaded:", allQuestions);
+      console.log("Questions Loaded Successfully:", allQuestions);
     } catch (error) {
       console.error("Error loading questions:", error);
     }
   }
 
-  // Page load avagane questions fetch chestundhi
   window.onload = fetchQuestions;
 
-  // 2. Subject select chesinappudu Quiz start cheyadaniki
+  // 2. Start Quiz Logic
   function startQuiz(subject) {
     if (allQuestions.length === 0) {
-      alert("Questions inka load avutunnayi, 2 seconds aagi try cheyandi!");
+      alert("Questions are still loading, please wait 2 seconds and try again!");
       return;
     }
 
@@ -352,7 +351,7 @@
     }
 
     if (currentQuestions.length === 0) {
-      currentQuestions = allQuestions; // Data missing unte fallback to all
+      currentQuestions = allQuestions;
     }
 
     currentIndex = 0;
@@ -364,15 +363,14 @@
     showQuestion();
   }
 
-  // 3. Current Question ni screen meeda render cheyadaaniki
+  // 3. Show Current Question
   function showQuestion() {
     const q = currentQuestions[currentIndex];
     
     document.getElementById('quiz-subject').innerText = q.Chapter || q.Category || "NEET Quiz";
-    document.getElementById('question-counter').innerText = `Question ${currentIndex + 1} / ${currentQuestions.length}`;
+    document.getElementById('question-counter').innerText = `Question ${currentIndex + 1} of ${currentQuestions.length}`;
     document.getElementById('question-text').innerText = q.Question || "";
 
-    // Image URL unte display chestundhi
     const imgElement = document.getElementById('question-image');
     if (q.ImageUrl && q.ImageUrl.trim() !== "") {
       imgElement.src = q.ImageUrl;
@@ -381,7 +379,6 @@
       imgElement.style.display = "none";
     }
 
-    // Options UI setup
     const optionsContainer = document.getElementById('options-container');
     optionsContainer.innerHTML = "";
 
@@ -404,7 +401,7 @@
     document.getElementById('next-btn').style.display = 'none';
   }
 
-  // 4. Option Select chesinappudu Correct / Wrong verify cheyadaaniki
+  // 4. Select Option Logic
   function selectOption(selected, correct, solution) {
     const buttons = document.querySelectorAll('.option-btn');
     buttons.forEach(btn => btn.disabled = true);
@@ -415,16 +412,15 @@
       score++;
     }
 
-    // Explanation show cheyadaaniki
     const expBox = document.getElementById('explanation-box');
     const expText = document.getElementById('explanation-text');
-    expText.innerText = solution || "No explanation provided.";
+    expText.innerText = solution || "No explanation provided for this question.";
     expBox.style.display = 'block';
 
     document.getElementById('next-btn').style.display = 'block';
   }
 
-  // 5. Next Question ki velladaaniki
+  // 5. Next Question Logic
   function nextQuestion() {
     currentIndex++;
     if (currentIndex < currentQuestions.length) {
@@ -434,7 +430,7 @@
     }
   }
 
-  // 6. Test complete ayyaka Results screen chupinchadaaniki
+  // 6. Display Results
   function showResults() {
     document.getElementById('quiz-view').classList.remove('active');
     document.getElementById('result-view').classList.add('active');
@@ -454,6 +450,4 @@
     document.getElementById('home-view').classList.add('active');
   }
 </script>
-  
-
   
