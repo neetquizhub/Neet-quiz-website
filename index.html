@@ -392,16 +392,15 @@
       document.getElementById('question-progress').innerText = `Q ${index + 1} / ${activeQuestions.length}`;
       document.getElementById('question-title').innerText = `${index + 1}. ${q.Question || ""}`;
 
-    // Handle Image URL Conversion
-      const imgContainer = document.getElementById('image-container');
+  const imgContainer = document.getElementById('image-container');
       const imgElem = document.getElementById('question-image');
       const processedImgUrl = formatImageUrl(q.ImageUrl);
 
       if (processedImgUrl !== "") {
         imgElem.src = processedImgUrl;
-        imgContainer.style.display = "block";
+        imgContainer ? imgContainer.style.display = "block" : imgElem.style.display = "block";
       } else {
-        imgContainer.style.display = "none";
+        imgContainer ? imgContainer.style.display = "none" : imgElem.style.display = "none";
       }
 
       const optionsBox = document.getElementById('options-container');
