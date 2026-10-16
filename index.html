@@ -3,114 +3,183 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEET Quiz Hub | Interactive Practice Portal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>NEET Quiz Hub | Practice Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
-      --card-bg: #1e293b;
-      --card-border: #334155;
-      --accent-physics: #38bdf8;
-      --accent-chem: #f43f5e;
-      --accent-botany: #10b981;
-      --accent-zoo: #f59e0b;
-      --accent-grand: #8b5cf6;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --success: #10b981;
-      --success-bg: rgba(16, 185, 129, 0.15);
-      --danger: #f43f5e;
-      --danger-bg: rgba(244, 63, 94, 0.15);
-      --radius: 18px;
+      --bg-cream: #faf8f5;
+      --card-bg: #ffffff;
+      --text-dark: #2d3748;
+      --text-muted: #718096;
+      --accent-soft-purple: #7c3aed;
+      --accent-soft-blue: #2563eb;
+      --accent-soft-green: #059669;
+      --accent-soft-amber: #d97706;
+      --border-color: #edf2f7;
+      --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+      --success-soft: #d1fae5;
+      --success-text: #065f46;
+      --danger-soft: #fee2e2;
+      --danger-text: #991b1b;
+      --radius: 20px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+    body { background-color: var(--bg-cream); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.7; }
 
-    header { text-align: center; padding: 25px 20px 10px; }
-    header h1 { font-size: 2rem; font-weight: 800; background: linear-gradient(to right, #38bdf8, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 5px; }
+    header {
+      background: #ffffff;
+      text-align: center;
+      padding: 30px 20px 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--accent-soft-purple);
+      letter-spacing: -0.5px;
+    }
+    header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 4px; font-weight: 500; }
 
-    main { flex: 1; max-width: 950px; width: 100%; margin: 15px auto 30px; padding: 0 18px; }
+    main { flex: 1; max-width: 900px; width: 100%; margin: 30px auto; padding: 0 20px; }
 
-    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 32px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); display: none; }
-    .card.active { display: block; animation: fadeIn 0.35s ease-out; }
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 35px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-color);
+      display: none;
+    }
+    .card.active { display: block; animation: fadeIn 0.4s ease-out; }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-    /* Welcome View */
-    .welcome-box { text-align: center; padding: 30px 15px; }
-    .welcome-badge { display: inline-block; background: rgba(139, 92, 246, 0.2); color: #c084fc; padding: 6px 16px; border-radius: 30px; font-weight: 700; font-size: 0.85rem; margin-bottom: 15px; border: 1px solid rgba(139, 92, 246, 0.3); }
-    .welcome-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; }
-    .welcome-desc { color: var(--text-muted); font-size: 1.05rem; max-width: 550px; margin: 0 auto 30px; line-height: 1.6; }
+    /* Welcome Section */
+    .welcome-box { text-align: center; padding: 20px 10px; }
+    .badge-pill {
+      display: inline-block;
+      background: #f3e8ff;
+      color: var(--accent-soft-purple);
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+    .welcome-title { font-family: 'Outfit', sans-serif; font-size: 2.2rem; font-weight: 700; color: #1a202c; margin-bottom: 15px; }
+    .welcome-desc { color: var(--text-muted); font-size: 1.05rem; max-width: 580px; margin: 0 auto 35px; line-height: 1.8; }
 
-    .btn-letsgo { background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%); color: white; border: none; padding: 18px 48px; border-radius: 14px; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: all 0.25s; box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.4); }
-    .btn-letsgo:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 25px -5px rgba(139, 92, 246, 0.5); }
+    .btn-letsgo {
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: white; border: none; padding: 18px 50px; border-radius: 16px;
+      font-size: 1.15rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+      box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.3);
+      letter-spacing: 0.5px;
+    }
+    .btn-letsgo:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -5px rgba(124, 58, 237, 0.4); }
 
-    /* Subject Selection Dashboard */
-    .section-heading { font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; text-align: center; }
-    .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+    .loading-status { font-size: 0.9rem; color: var(--accent-soft-purple); font-weight: 600; margin-top: 15px; display: block; }
 
-    .subject-card { background: #0f172a; border: 1px solid var(--card-border); border-radius: 16px; padding: 22px; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden; }
-    .subject-card:hover { transform: translateY(-4px); border-color: #64748b; }
-    .subject-icon { font-size: 2.2rem; margin-bottom: 12px; }
-    .subject-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
-    .subject-desc { font-size: 0.85rem; color: var(--text-muted); }
-    .subject-badge { position: absolute; top: 18px; right: 18px; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: rgba(255,255,255,0.08); }
+    /* Subject Selection Board */
+    .section-heading { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 25px; text-align: center; color: #1a202c; }
+    .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
 
-    .card-phy { border-top: 4px solid var(--accent-physics); }
-    .card-chem { border-top: 4px solid var(--accent-chem); }
-    .card-bot { border-top: 4px solid var(--accent-botany); }
-    .card-zoo { border-top: 4px solid var(--accent-zoo); }
-    .card-grand { border-top: 4px solid var(--accent-grand); grid-column: 1 / -1; }
+    .subject-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 18px;
+      padding: 25px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .subject-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); border-color: #cbd5e1; }
+    
+    .subject-icon-badge {
+      width: 48px; height: 48px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 16px;
+    }
+    .phy-bg { background: #eff6ff; color: #2563eb; }
+    .chem-bg { background: #fef2f2; color: #dc2626; }
+    .bot-bg { background: #ecfdf5; color: #059669; }
+    .zoo-bg { background: #fffbeb; color: #d97706; }
+    .grand-bg { background: #f3e8ff; color: #7c3aed; }
 
-    /* Quiz Bar & Palette Trigger */
-    .quiz-topbar { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 12px 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--card-border); }
-    .btn-palette-trigger { background: #334155; color: var(--text-main); border: 1px solid #475569; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.88rem; transition: 0.2s; }
-    .btn-palette-trigger:hover { background: #475569; }
+    .subject-title { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; color: #1a202c; }
+    .subject-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
 
-    /* Big Question View */
-    .question-title-box { font-size: 1.35rem; font-weight: 700; line-height: 1.6; margin-bottom: 25px; color: #ffffff; white-space: pre-wrap; }
-    .question-img { max-width: 100%; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--card-border); }
+    .card-grand { grid-column: 1 / -1; border-color: #ddd6fe; }
 
-    .options-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 25px; }
-    .opt-btn { background: #0f172a; border: 1.5px solid var(--card-border); border-radius: 12px; padding: 16px 20px; color: var(--text-main); font-size: 1.05rem; font-weight: 500; text-align: left; cursor: pointer; transition: all 0.2s; }
-    .opt-btn:hover:not(:disabled) { border-color: #64748b; background: #1e293b; }
-    .opt-btn.correct { background: var(--success-bg) !important; border-color: var(--success) !important; color: #6ee7b7 !important; font-weight: 700; }
-    .opt-btn.wrong { background: var(--danger-bg) !important; border-color: var(--danger) !important; color: #fca5a5 !important; font-weight: 700; }
+    /* Quiz Bar & Header */
+    .quiz-topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #f8fafc; padding: 14px 22px; border-radius: 14px;
+      margin-bottom: 28px; border: 1px solid var(--border-color);
+    }
+    .btn-palette-trigger {
+      background: #ffffff; color: var(--text-dark); border: 1.5px solid var(--border-color);
+      padding: 10px 18px; border-radius: 10px; font-weight: 600; cursor: pointer;
+      font-size: 0.9rem; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+    .btn-palette-trigger:hover { background: #f1f5f9; }
 
-    .explanation-drawer { background: rgba(16, 185, 129, 0.08); border-left: 4px solid var(--success); padding: 18px; border-radius: 10px; margin-bottom: 25px; display: none; }
-    .explanation-drawer strong { color: #6ee7b7; font-size: 1rem; display: block; margin-bottom: 6px; }
+    /* Questions & Options View */
+    .question-title-box { font-size: 1.25rem; font-weight: 600; line-height: 1.8; margin-bottom: 28px; color: #1a202c; white-space: pre-wrap; }
+    .question-img { max-width: 100%; border-radius: 14px; margin-bottom: 25px; border: 1px solid var(--border-color); }
 
-    .nav-row { display: flex; justify-content: space-between; gap: 12px; }
-    .btn-nav { padding: 12px 28px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; font-size: 0.95rem; }
-    .btn-next-q { background: #38bdf8; color: #0f172a; }
-    .btn-submit-q { background: rgba(244, 63, 94, 0.2); color: #fca5a5; border: 1px solid rgba(244, 63, 94, 0.4); }
+    .options-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+    .opt-btn {
+      background: #ffffff; border: 1.5px solid var(--border-color); border-radius: 14px;
+      padding: 18px 22px; color: var(--text-dark); font-size: 1.02rem; font-weight: 500;
+      text-align: left; cursor: pointer; transition: all 0.2s ease; line-height: 1.6;
+    }
+    .opt-btn:hover:not(:disabled) { border-color: var(--accent-soft-purple); background: #faf5ff; }
+    .opt-btn.correct { background: var(--success-soft) !important; border-color: var(--accent-soft-green) !important; color: var(--success-text) !important; font-weight: 600; }
+    .opt-btn.wrong { background: var(--danger-soft) !important; border-color: #ef4444 !important; color: var(--danger-text) !important; font-weight: 600; }
 
-    /* Modal Drawer for Palette */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); display: none; justify-content: center; align-items: center; z-index: 1000; }
+    .explanation-drawer {
+      background: #ecfdf5; border-left: 4px solid var(--accent-soft-green);
+      padding: 20px; border-radius: 12px; margin-bottom: 28px; display: none; line-height: 1.7;
+    }
+    .explanation-drawer strong { color: var(--success-text); font-size: 1rem; display: block; margin-bottom: 6px; }
+
+    .nav-row { display: flex; justify-content: space-between; gap: 14px; }
+    .btn-nav { padding: 14px 32px; border-radius: 12px; font-weight: 600; border: none; cursor: pointer; font-size: 0.98rem; }
+    .btn-next-q { background: var(--accent-soft-purple); color: white; }
+    .btn-next-q:hover { opacity: 0.9; }
+    .btn-submit-q { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+    /* Palette Modal Drawer */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: none; justify-content: center; align-items: center; z-index: 1000; }
     .modal-overlay.active { display: flex; }
-    .modal-content { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 25px; max-width: 550px; width: 90%; max-height: 80vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+    .modal-content { background: #ffffff; border-radius: 24px; padding: 30px; max-width: 550px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.8rem; cursor: pointer; }
 
     .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-    .p-btn { padding: 10px 0; background: #0f172a; border: 1px solid var(--card-border); color: var(--text-main); border-radius: 8px; font-weight: 600; text-align: center; cursor: pointer; }
-    .p-btn.active { border-color: #38bdf8; color: #38bdf8; font-weight: 800; }
-    .p-btn.correct { background: var(--success); color: white; border-color: var(--success); }
-    .p-btn.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+    .p-btn { padding: 12px 0; background: #f8fafc; border: 1px solid var(--border-color); color: var(--text-dark); border-radius: 10px; font-weight: 600; text-align: center; cursor: pointer; font-size: 0.9rem; }
+    .p-btn.active { border-color: var(--accent-soft-purple); color: var(--accent-soft-purple); font-weight: 700; background: #f3e8ff; }
+    .p-btn.correct { background: var(--accent-soft-green); color: white; border-color: var(--accent-soft-green); }
+    .p-btn.wrong { background: #ef4444; color: white; border-color: #ef4444; }
 
-    /* Results Dashboard */
+    /* Results Screen */
     .result-box { text-align: center; }
-    .score-badge { font-size: 3rem; font-weight: 800; color: #38bdf8; margin: 15px 0; }
-    .motivate-quote { background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 16px; margin: 20px 0; font-style: italic; color: #c084fc; font-weight: 600; }
+    .score-badge { font-family: 'Outfit', sans-serif; font-size: 3.2rem; font-weight: 700; color: var(--accent-soft-purple); margin: 15px 0; }
+    .motivate-quote { background: #f3e8ff; border: 1px solid #e9d5ff; border-radius: 16px; padding: 20px; margin: 25px 0; font-style: italic; color: #6b21a8; font-weight: 500; line-height: 1.7; }
 
-    .weak-report { background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); padding: 18px; border-radius: 12px; text-align: left; margin-top: 20px; }
-    .weak-report h4 { color: #fca5a5; margin-bottom: 10px; }
-    .weak-report ul { padding-left: 20px; font-size: 0.95rem; color: #fecaca; }
+    .weak-report { background: #fef2f2; border: 1px solid #fecaca; padding: 22px; border-radius: 16px; text-align: left; margin-top: 25px; }
+    .weak-report h4 { color: #991b1b; margin-bottom: 12px; font-family: 'Outfit', sans-serif; font-size: 1.1rem; }
+    .weak-report ul { padding-left: 22px; font-size: 0.95rem; color: #7f1d1d; line-height: 1.8; }
 
-    .consistency-note { text-align: center; margin-top: 25px; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
-    .thank-you { font-size: 1.2rem; font-weight: 700; color: #38bdf8; margin-top: 10px; }
+    .consistency-note { text-align: center; margin-top: 30px; color: var(--text-muted); font-size: 0.98rem; line-height: 1.8; }
+    .thank-you { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--accent-soft-purple); margin-top: 12px; }
   </style>
 </head>
 <body>
@@ -124,10 +193,11 @@
     <!-- Screen 1: Welcome -->
     <div id="welcome-view" class="card active">
       <div class="welcome-box">
-        <span class="welcome-badge">NEET PRACTICE PORTAL</span>
+        <span class="badge-pill">NEET PRACTICE PORTAL</span>
         <h2 class="welcome-title">Hello! Welcome to NEET Quiz Hub 👋</h2>
         <p class="welcome-desc">Step into your personalized NEET practice dashboard. Choose subject-specific practice sets or test your endurance with a full 200-question grand mock test.</p>
-        <button class="btn-letsgo" onclick="showSubjectBoard()">Let's Go! 🚀</button>
+        <button id="letsgo-btn" class="btn-letsgo" onclick="showSubjectBoard()">Let's Go! 🚀</button>
+        <span id="loading-msg" class="loading-status">⚡ Syncing Question Bank...</span>
       </div>
     </div>
 
@@ -136,37 +206,32 @@
       <div class="section-heading">Select Practice Mode</div>
       <div class="subject-grid">
 
-        <div class="subject-card card-phy" onclick="startQuiz('Physics')">
-          <span class="subject-badge">Q 1 - 50</span>
-          <div class="subject-icon">⚛️</div>
-          <div class="subject-title">Physics</div>
+        <div class="subject-card" onclick="startQuiz('Physics')">
+          <div class="subject-icon-badge phy-bg">🔬</div>
+          <div class="subject-title">Physics Practice</div>
           <div class="subject-desc">Mechanics, Electrodynamics, Optics & Modern Physics</div>
         </div>
 
-        <div class="subject-card card-chem" onclick="startQuiz('Chemistry')">
-          <span class="subject-badge">Q 51 - 100</span>
-          <div class="subject-icon">🧪</div>
-          <div class="subject-title">Chemistry</div>
+        <div class="subject-card" onclick="startQuiz('Chemistry')">
+          <div class="subject-icon-badge chem-bg">⚗️</div>
+          <div class="subject-title">Chemistry Practice</div>
           <div class="subject-desc">Physical, Organic & Inorganic Chemical Reactions</div>
         </div>
 
-        <div class="subject-card card-bot" onclick="startQuiz('Botany')">
-          <span class="subject-badge">Q 101 - 150</span>
-          <div class="subject-icon">🌿</div>
-          <div class="subject-title">Botany</div>
+        <div class="subject-card" onclick="startQuiz('Botany')">
+          <div class="subject-icon-badge bot-bg">🌱</div>
+          <div class="subject-title">Botany Practice</div>
           <div class="subject-desc">Plant Anatomy, Genetics, Cell Biology & Ecology</div>
         </div>
 
-        <div class="subject-card card-zoo" onclick="startQuiz('Zoology')">
-          <span class="subject-badge">Q 151 - 200</span>
-          <div class="subject-icon">🐾</div>
-          <div class="subject-title">Zoology</div>
+        <div class="subject-card" onclick="startQuiz('Zoology')">
+          <div class="subject-icon-badge zoo-bg">🐾</div>
+          <div class="subject-title">Zoology Practice</div>
           <div class="subject-desc">Human Physiology, Biomolecules & Reproduction</div>
         </div>
 
         <div class="subject-card card-grand" onclick="startQuiz('Grand')">
-          <span class="subject-badge">Full Mock</span>
-          <div class="subject-icon">🏆</div>
+          <div class="subject-icon-badge grand-bg">⭐</div>
           <div class="subject-title">NEET Grand Mock Test</div>
           <div class="subject-desc">Full-length test covering all 200 questions across Physics, Chemistry, Botany & Zoology</div>
         </div>
@@ -178,8 +243,8 @@
     <div id="quiz-view" class="card">
       <div class="quiz-topbar">
         <div>
-          <span id="current-subject-tag" style="font-weight: 800; color: #38bdf8;">Physics</span>
-          <span id="question-progress" style="color: var(--text-muted); font-size: 0.9rem; margin-left: 10px;">Question 1 / 50</span>
+          <span id="current-subject-tag" style="font-weight: 700; color: var(--accent-soft-purple); font-size: 1.05rem;">Physics</span>
+          <span id="question-progress" style="color: var(--text-muted); font-size: 0.9rem; margin-left: 12px;">Question 1 / 50</span>
         </div>
         <button class="btn-palette-trigger" onclick="togglePaletteModal(true)">📋 Question Palette</button>
       </div>
@@ -203,7 +268,7 @@
     <!-- Screen 4: Results -->
     <div id="result-view" class="card">
       <div class="result-box">
-        <h2>Performance Evaluation Report</h2>
+        <h2 style="font-family:'Outfit', sans-serif;">Performance Evaluation Report</h2>
         <div id="final-score" class="score-badge">0 / 800</div>
 
         <div id="motivate-quote" class="motivate-quote">"Success in NEET is the sum of small efforts repeated day in and day out!"</div>
@@ -218,16 +283,16 @@
           <div class="thank-you">Thank You 😊</div>
         </div>
 
-        <button class="btn-letsgo" style="margin-top: 25px; width: 100%;" onclick="showSubjectBoard()">Try Another Quiz</button>
+        <button class="btn-letsgo" style="margin-top: 30px; width: 100%;" onclick="showSubjectBoard()">Try Another Quiz</button>
       </div>
     </div>
   </main>
 
-  <!-- Question Palette Modal -->
+  <!-- Question Palette Modal Drawer -->
   <div id="palette-modal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 style="color: var(--text-main);">Question Palette</h3>
+        <h3 style="font-family:'Outfit', sans-serif; color: var(--text-dark);">Question Palette</h3>
         <button class="modal-close" onclick="togglePaletteModal(false)">&times;</button>
       </div>
       <div id="modal-palette-grid" class="palette-grid"></div>
@@ -237,16 +302,28 @@
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwFodJNqxrw8LwvnPcQRcSH0eMFZGAxcpIpbLYQauCP6GlaVgoEgcE2YmS_dvcH6ATLMQ/exec";
 
-    let allQuestions = [];
+    let grandQuestions = [];
+    let subjectQuestions = {
+      Physics: [],
+      Chemistry: [],
+      Botany: [],
+      Zoology: []
+    };
+
     let activeQuestions = [];
     let userAnswers = {};
     let currentIndex = 0;
+    let isDataLoaded = false;
 
     async function fetchQuestions() {
       try {
         const response = await fetch(API_URL);
-        allQuestions = await response.json();
-        console.log("NEET Questions Bank Loaded:", allQuestions.length);
+        grandQuestions = await response.json();
+        isDataLoaded = true;
+        
+        const loadElem = document.getElementById('loading-msg');
+        if (loadElem) loadElem.style.display = 'none';
+        console.log("Grand Test Questions Bank Loaded:", grandQuestions.length);
       } catch (err) {
         console.error("Error loading questions:", err);
       }
@@ -264,16 +341,20 @@
     }
 
     function startQuiz(mode) {
-      if (allQuestions.length === 0) {
-        alert("Questions are loading from the database. Please wait 2 seconds and click again!");
-        return;
+      if (mode === 'Grand') {
+        if (!isDataLoaded || grandQuestions.length === 0) {
+          alert("Data is loading. Please wait 1 second and click again!");
+          return;
+        }
+        activeQuestions = grandQuestions;
+      } else {
+        const currentSubQuestions = subjectQuestions[mode] || [];
+        if (currentSubQuestions.length === 0) {
+          alert(`Questions for ${mode} will be updated soon! Please practice using the NEET Grand Mock Test.`);
+          return;
+        }
+        activeQuestions = currentSubQuestions;
       }
-
-      if (mode === 'Physics') activeQuestions = allQuestions.slice(0, 50);
-      else if (mode === 'Chemistry') activeQuestions = allQuestions.slice(50, 100);
-      else if (mode === 'Botany') activeQuestions = allQuestions.slice(100, 150);
-      else if (mode === 'Zoology') activeQuestions = allQuestions.slice(150, 200);
-      else activeQuestions = allQuestions; // Grand Test
 
       currentIndex = 0;
       userAnswers = {};
@@ -393,38 +474,4 @@
 
     function evaluateResults() {
       let totalMarks = 0;
-      let weakChapters = {};
-
-      activeQuestions.forEach((q, idx) => {
-        const selected = userAnswers[idx];
-        const correct = parseInt(q.CorrectAnswer);
-        const chapter = q.Chapter || "General Concepts";
-
-        if (selected !== undefined) {
-          if (selected === correct) {
-            totalMarks += 4;
-          } else {
-            totalMarks -= 1;
-            weakChapters[chapter] = (weakChapters[chapter] || 0) + 1;
-          }
-        }
-      });
-
-      showView('result-view');
-      document.getElementById('final-score').innerText = `${totalMarks} / ${activeQuestions.length * 4}`;
-
-      const weakListElem = document.getElementById('weak-list');
-      weakListElem.innerHTML = "";
-
-      const weakKeys = Object.keys(weakChapters);
-      if (weakKeys.length === 0) {
-        weakListElem.innerHTML = "<li>Outstanding accuracy! No major weak chapters detected in attempted questions.</li>";
-      } else {
-        weakKeys.forEach(chap => {
-          weakListElem.innerHTML += `<li><strong>${chap}</strong> (${weakChapters[chap]} incorrect attempts)</li>`;
-        });
-      }
-    }
-  </script>
-</body>
-</html>
+      let weak
