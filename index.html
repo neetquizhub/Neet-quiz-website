@@ -1,408 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEET Quiz Hub | Practice Portal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Portal</title>
   <style>
     :root {
-      --bg-cream: #faf8f5;
+      --primary-color: #4a90e2;
+      --success-color: #2ecc71;
+      --error-color: #e74c3c;
+      --bg-color: #f4f7f6;
       --card-bg: #ffffff;
-      --text-dark: #0f172a;
-      --text-muted: #475569;
-      --accent-soft-purple: #7c3aed;
-      --border-color: #cbd5e1;
-      --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-      --success-soft: #d1fae5;
-      --danger-soft: #fee2e2;
-      --radius: 20px;
+      --text-color: #2c3e50;
+      --border-radius: 12px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-    body { background-color: var(--bg-cream); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.6; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
 
-    header { background: #ffffff; text-align: center; padding: 22px 15px 14px; border-bottom: 2px solid var(--border-color); }
-    header h1 { font-family: 'Outfit', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--accent-soft-purple); }
-    header p { color: var(--text-muted); font-size: 1rem; margin-top: 4px; font-weight: 600; }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-    main { flex: 1; max-width: 950px; width: 100%; margin: 15px auto; padding: 0 12px; }
+    .container {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 750px;
+      padding: 32px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      display: none;
+    }
 
-    .card { background: var(--card-bg); border-radius: var(--radius); padding: 24px 20px; box-shadow: var(--shadow-soft); border: 2px solid var(--border-color); display: none; }
-    .card.active { display: block; animation: fadeIn 0.3s ease-out; }
+    .container.active {
+      display: block;
+    }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    /* Loading Screen */
+    #loading-view {
+      text-align: center;
+      font-size: 1.4rem;
+      color: #666;
+    }
 
-    .welcome-box { text-align: center; padding: 20px 5px; }
-    .badge-pill { display: inline-block; background: #f3e8ff; color: var(--accent-soft-purple); padding: 8px 20px; border-radius: 30px; font-weight: 700; font-size: 0.95rem; margin-bottom: 18px; }
-    .welcome-title { font-family: 'Outfit', sans-serif; font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-bottom: 14px; }
-    .welcome-desc { color: var(--text-muted); font-size: 1.15rem; max-width: 620px; margin: 0 auto 28px; line-height: 1.8; font-weight: 500; }
+    .spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid var(--primary-color);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
 
-    .btn-letsgo { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; border: none; padding: 18px 45px; border-radius: 16px; font-size: 1.25rem; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 20px -4px rgba(124, 58, 237, 0.3); width: 100%; max-width: 350px; }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
-    .section-heading { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; margin-bottom: 20px; text-align: center; color: #0f172a; }
-    .subject-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-    @media (min-width: 600px) { .subject-grid { grid-template-columns: repeat(2, 1fr); } }
+    /* Question Typography */
+    .question-header {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 8px;
+    }
 
-    .subject-card { background: #ffffff; border: 2px solid var(--border-color); border-radius: 18px; padding: 22px 22px; cursor: pointer; transition: all 0.2s ease; }
-    .subject-card:hover { transform: translateY(-2px); border-color: #64748b; }
-    
-    .subject-icon-badge { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 14px; }
-    .phy-bg { background: #eff6ff; }
-    .chem-bg { background: #fef2f2; }
-    .bot-bg { background: #ecfdf5; }
-    .zoo-bg { background: #fffbeb; }
-    .grand-bg { background: #f3e8ff; }
+    .question-text {
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 24px;
+    }
 
-    .subject-title { font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 800; margin-bottom: 6px; color: #0f172a; }
-    .subject-desc { font-size: 0.98rem; color: var(--text-muted); line-height: 1.6; font-weight: 500; }
-    .card-grand { grid-column: 1 / -1; border-color: #c4b5fd; }
+    /* Image Container */
+    #image-container {
+      margin-bottom: 20px;
+      text-align: center;
+    }
 
-    .quiz-topbar { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 14px 18px; border-radius: 14px; margin-bottom: 24px; border: 2px solid var(--border-color); }
-    .topbar-actions { display: flex; gap: 10px; }
-    .btn-action-sm { background: #ffffff; color: var(--text-dark); border: 2px solid var(--border-color); padding: 10px 16px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.95rem; }
-    .btn-report-sm { color: #dc2626; border-color: #fca5a5; background: #fef2f2; }
+    #question-image {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 8px;
+      object-fit: contain;
+    }
 
-    .question-title-box { font-size: 1.65rem; font-weight: 700; line-height: 1.7; margin-bottom: 26px; color: #0f172a; white-space: pre-wrap; word-break: break-word; }
-    
-    /* Responsive Diagram Image Display */
-    .question-img-container { text-align: center; margin-bottom: 24px; }
-    .question-img { max-width: 100%; max-height: 400px; border-radius: 14px; border: 2px solid var(--border-color); object-fit: contain; }
+    /* Options */
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
 
-    .options-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
-    .opt-btn { background: #ffffff; border: 2.5px solid var(--border-color); border-radius: 16px; padding: 20px 22px; color: var(--text-dark); font-size: 1.25rem; font-weight: 600; text-align: left; cursor: pointer; transition: all 0.2s ease; line-height: 1.6; width: 100%; }
-    .opt-btn:hover:not(:disabled) { border-color: var(--accent-soft-purple); background: #faf5ff; }
-    .opt-btn.correct { background: var(--success-soft) !important; border-color: #059669 !important; color: #065f46 !important; font-weight: 700; }
-    .opt-btn.wrong { background: var(--danger-soft) !important; border-color: #ef4444 !important; color: #991b1b !important; font-weight: 700; }
+    .opt-btn {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 1.15rem;
+      text-align: left;
+      background-color: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text-color);
+    }
 
-    .explanation-drawer { background: #ecfdf5; border-left: 6px solid #059669; padding: 20px; border-radius: 14px; margin-bottom: 28px; font-size: 1.1rem; line-height: 1.7; font-weight: 500; }
-    .explanation-drawer strong { font-size: 1.2rem; display: block; margin-bottom: 8px; color: #065f46; font-weight: 700; }
+    .opt-btn:hover:not(:disabled) {
+      background-color: #e9ecef;
+      border-color: #ced4da;
+    }
 
-    .nav-row { display: flex; justify-content: space-between; gap: 12px; }
-    .btn-nav { padding: 15px 24px; border-radius: 14px; font-weight: 700; border: none; cursor: pointer; font-size: 1.05rem; flex: 1; text-align: center; }
-    .btn-next-q { background: var(--accent-soft-purple); color: white; }
-    .btn-submit-q { background: #fef2f2; color: #dc2626; border: 2px solid #fca5a5; }
+    .opt-btn.correct {
+      background-color: #d4edda !important;
+      border-color: var(--success-color) !important;
+      color: #155724;
+      font-weight: bold;
+    }
 
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
-    .modal-overlay.active { display: flex; }
-    .modal-content { background: #ffffff; border-radius: 22px; padding: 25px 20px; max-width: 520px; width: 92%; max-height: 85vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer; }
+    .opt-btn.wrong {
+      background-color: #f8d7da !important;
+      border-color: var(--error-color) !important;
+      color: #721c24;
+    }
 
-    .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-    .p-btn { padding: 12px 0; background: #f8fafc; border: 2px solid var(--border-color); color: var(--text-dark); border-radius: 10px; font-weight: 700; text-align: center; font-size: 1rem; }
-    .p-btn.active { border-color: var(--accent-soft-purple); color: var(--accent-soft-purple); font-weight: 800; background: #f3e8ff; }
-    .p-btn.correct { background: #059669; color: white; border-color: #059669; }
-    .p-btn.wrong { background: #ef4444; color: white; border-color: #ef4444; }
+    .opt-btn:disabled {
+      cursor: not-allowed;
+    }
 
-    .form-group { margin-bottom: 18px; text-align: left; }
-    .form-group label { display: block; font-size: 1rem; font-weight: 700; color: #334155; margin-bottom: 8px; }
-    .form-control { width: 100%; padding: 12px 14px; border: 2px solid var(--border-color); border-radius: 12px; font-size: 1.05rem; }
-    textarea.form-control { resize: vertical; min-height: 90px; }
-    .btn-report-submit { background: #dc2626; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; cursor: pointer; font-size: 1.05rem; }
+    /* Explanation Drawer */
+    #explanation-box {
+      background-color: #eef6fc;
+      border-left: 4px solid var(--primary-color);
+      padding: 18px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 24px;
+      display: none;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
 
-    .result-box { text-align: center; }
-    .score-badge { font-family: 'Outfit', sans-serif; font-size: 3.2rem; font-weight: 800; color: var(--accent-soft-purple); margin: 15px 0; }
-    .motivate-quote { background: #f3e8ff; border: 2px solid #ddd6fe; border-radius: 16px; padding: 20px; margin: 24px 0; font-style: italic; color: #6b21a8; font-weight: 600; font-size: 1.08rem; line-height: 1.7; }
+    /* Navigation Controls */
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
 
-    .weak-report { background: #fef2f2; border: 2px solid #fca5a5; padding: 22px; border-radius: 16px; text-align: left; margin-top: 24px; }
-    .weak-report h4 { color: #991b1b; margin-bottom: 12px; font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 800; }
-    .weak-report ul { padding-left: 20px; font-size: 1.05rem; color: #7f1d1d; line-height: 1.8; font-weight: 500; }
+    .action-btn {
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: var(--primary-color);
+      color: white;
+      transition: opacity 0.2s ease;
+    }
 
-    .consistency-note { text-align: center; margin-top: 30px; color: var(--text-muted); font-size: 1.05rem; font-weight: 500; }
-    .thank-you { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--accent-soft-purple); margin-top: 12px; }
+    .action-btn:hover {
+      opacity: 0.9;
+    }
+
+    .submit-btn {
+      background-color: var(--success-color);
+    }
+
+    /* Results Screen */
+    .result-score {
+      font-size: 2.2rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 20px 0;
+      color: var(--primary-color);
+    }
+
+    .weak-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    #weak-list {
+      list-style-type: square;
+      padding-left: 24px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>NEET Quiz Hub</h1>
-    <p>Empowering NEET Aspirants Through Focused Practice</p>
-  </header>
+  <!-- 1. LOADING VIEW -->
+  <div id="loading-view" class="container active">
+    <div class="spinner"></div>
+    <p>Loading Quiz Questions...</p>
+  </div>
 
-  <main>
-    <!-- Screen 1: Welcome -->
-    <div id="welcome-view" class="card active">
-      <div class="welcome-box">
-        <span class="badge-pill">NEET PRACTICE PORTAL</span>
-        <h2 class="welcome-title">Hello! Welcome to NEET Quiz Hub 👋</h2>
-        <p class="welcome-desc">Step into your personalized NEET practice dashboard. Choose subject-specific practice sets or test your endurance with a full 200-question grand mock test.</p>
-        <button type="button" class="btn-letsgo" onclick="openBoardView()">Let's Go! 🚀</button>
-      </div>
+  <!-- 2. QUIZ VIEW -->
+  <div id="quiz-view" class="container">
+    <div class="question-header" id="question-counter">Question 1</div>
+    <div class="question-text" id="question-title">Loading Question...</div>
+
+    <div id="image-container" style="display: none;">
+      <img id="question-image" src="" alt="Question Image" />
     </div>
 
-    <!-- Screen 2: Subject Board -->
-    <div id="board-view" class="card">
-      <div class="section-heading">Select Practice Mode</div>
-      <div class="subject-grid">
+    <div class="options-grid" id="options-container"></div>
 
-        <div class="subject-card" onclick="startQuiz('Physics')">
-          <div class="subject-icon-badge phy-bg">🔬</div>
-          <div class="subject-title">Physics Practice</div>
-          <div class="subject-desc">Mechanics, Electrodynamics, Optics & Modern Physics</div>
-        </div>
-
-        <div class="subject-card" onclick="startQuiz('Chemistry')">
-          <div class="subject-icon-badge chem-bg">⚗️</div>
-          <div class="subject-title">Chemistry Practice</div>
-          <div class="subject-desc">Physical, Organic & Inorganic Chemical Reactions</div>
-        </div>
-
-        <div class="subject-card" onclick="startQuiz('Botany')">
-          <div class="subject-icon-badge bot-bg">🌱</div>
-          <div class="subject-title">Botany Practice</div>
-          <div class="subject-desc">Plant Anatomy, Genetics, Cell Biology & Ecology</div>
-        </div>
-
-        <div class="subject-card" onclick="startQuiz('Zoology')">
-          <div class="subject-icon-badge zoo-bg">🐾</div>
-          <div class="subject-title">Zoology Practice</div>
-          <div class="subject-desc">Human Physiology, Biomolecules & Reproduction</div>
-        </div>
-
-        <div class="subject-card card-grand" onclick="startQuiz('Grand')">
-          <div class="subject-icon-badge grand-bg">⭐</div>
-          <div class="subject-title">NEET Grand Mock Test</div>
-          <div class="subject-desc">Full-length test covering all 200 questions across Physics, Chemistry, Botany & Zoology</div>
-        </div>
-
-      </div>
+    <div id="explanation-box">
+      <strong>Explanation:</strong>
+      <p id="explanation-text" style="margin-top: 6px;"></p>
     </div>
 
-    <!-- Screen 3: Quiz View -->
-    <div id="quiz-view" class="card">
-      <div class="quiz-topbar">
-        <div>
-          <span id="current-subject-tag" style="font-weight: 800; color: var(--accent-soft-purple); font-size: 1.1rem;">Physics</span>
-          <span id="question-progress" style="color: var(--text-muted); font-size: 0.98rem; margin-left: 10px; font-weight: 600;">Q 1 / 50</span>
-        </div>
-        <div class="topbar-actions">
-          <button class="btn-action-sm btn-report-sm" onclick="toggleReportModal(true)">⚠️ Report</button>
-          <button class="btn-action-sm" onclick="togglePaletteModal(true)">📋 Palette</button>
-        </div>
-      </div>
-
-      <div id="question-title" class="question-title-box">Loading Question...</div>
-      
-      <div id="image-container" class="question-img-container" style="display: none;">
-        <img id="question-image" class="question-img" alt="Question Diagram" />
-      </div>
-
-      <div id="options-container" class="options-grid"></div>
-
-      <div id="explanation-box" class="explanation-drawer">
-        <strong>Detailed Explanation:</strong>
-        <p id="explanation-text"></p>
-      </div>
-
-      <div class="nav-row">
-        <button class="btn-nav btn-submit-q" onclick="confirmSubmit()">Submit</button>
-        <button id="next-btn" class="btn-nav btn-next-q" onclick="nextQuestion()">Next Question ➔</button>
-      </div>
-    </div>
-
-    <!-- Screen 4: Results -->
-    <div id="result-view" class="card">
-      <div class="result-box">
-        <h2 style="font-family:'Outfit', sans-serif;">Performance Report</h2>
-        <div id="final-score" class="score-badge">0 / 800</div>
-
-        <div id="motivate-quote" class="motivate-quote">"Success in NEET is the sum of small efforts repeated day in and day out!"</div>
-
-        <div id="weak-analysis" class="weak-report">
-          <h4>Focus Areas for Improvement:</h4>
-          <ul id="weak-list"></ul>
-        </div>
-
-        <div class="consistency-note">
-          Consistency with NEET Quiz Hub drives continuous improvement. Keep pushing forward!<br>
-          <div class="thank-you">Thank You 😊</div>
-        </div>
-
-        <button class="btn-letsgo" style="margin-top: 25px; width: 100%; max-width: 100%;" onclick="openBoardView()">Try Another Quiz</button>
-      </div>
-    </div>
-  </main>
-
-  <!-- Question Palette Modal -->
-  <div id="palette-modal" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 style="font-family:'Outfit', sans-serif; color: var(--text-dark); font-size: 1.3rem;">Question Palette</h3>
-        <button class="modal-close" onclick="togglePaletteModal(false)">&times;</button>
-      </div>
-      <div id="modal-palette-grid" class="palette-grid"></div>
+    <div class="controls">
+      <button class="action-btn" onclick="nextQuestion()">Next Question</button>
+      <button class="action-btn submit-btn" onclick="confirmSubmit()">Submit Quiz</button>
     </div>
   </div>
 
-  <!-- Report Question Modal -->
-  <div id="report-modal" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 style="font-family:'Outfit', sans-serif; color: #dc2626; font-size: 1.3rem;">Report Question Error ⚠️</h3>
-        <button class="modal-close" onclick="toggleReportModal(false)">&times;</button>
-      </div>
-      <form id="report-form" onsubmit="submitQuestionReport(event)">
-        <div class="form-group">
-          <label>Issue Category:</label>
-          <select id="report-type" class="form-control" required>
-            <option value="Wrong Answer Key">Wrong Answer Key Option</option>
-            <option value="Typo or Spelling Error">Typo or Text Error</option>
-            <option value="Image Error">Diagram / Image Issue</option>
-            <option value="Explanation Issue">Unclear / Incorrect Solution</option>
-            <option value="Other Issue">Other Issue</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Describe Problem / Correct Reason:</label>
-          <textarea id="report-reason" class="form-control" placeholder="Please explain why this question/answer is incorrect..." required></textarea>
-        </div>
-        <button type="submit" class="btn-report-submit">Submit Report</button>
-      </form>
-    </div>
+  <!-- 3. RESULT VIEW -->
+  <div id="result-view" class="container">
+    <h2 style="font-size: 2rem; text-align: center;">Quiz Results</h2>
+    <div class="result-score" id="final-score">0 / 0</div>
+
+    <div class="weak-title">Areas for Improvement:</div>
+    <ul id="weak-list"></ul>
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwFodJNqxrw8LwvnPcQRcSH0eMFZGAxcpIpbLYQauCP6GlaVgoEgcE2YmS_dvcH6ATLMQ/exec";
+    const WEB_APP_URL = "YOUR_DEPLOYED_WEB_APP_URL"; // Replace with your Apps Script URL
 
-    let grandQuestions = [];
     let activeQuestions = [];
     let userAnswers = {};
     let currentIndex = 0;
 
-    // Convert Google Drive view links to direct displayable image URLs
-    function formatImageUrl(rawUrl) {
-      if (!rawUrl) return "";
-      let url = rawUrl.trim();
-      if (url.includes("drive.google.com")) {
-        const match = url.match(/(?:file\/d\/|id=)([a-zA-Z0-9_-]+)/);
-        if (match && match[1]) {
-          return `https://lh3.googleusercontent.com/d/${match[1]}`;
-        }
-      }
-      return url;
+    // Helper to format image URLs from Google Drive if applicable
+    function formatImageUrl(url) {
+      if (!url) return "";
+      return url.trim();
     }
 
-    async function fetchQuestions() {
+    // Fetch Questions from Google Apps Script Web App
+    async function initQuiz() {
       try {
-        const response = await fetch(API_URL);
-        grandQuestions = await response.json();
-        console.log("Grand Test Questions Loaded:", grandQuestions.length);
-      } catch (err) {
-        console.error("Error loading questions:", err);
-      }
-    }
+        const response = await fetch(WEB_APP_URL);
+        activeQuestions = await response.json();
 
-    window.onload = fetchQuestions;
+        document.getElementById('loading-view').classList.remove('active');
 
-    function openBoardView() {
-      document.getElementById('welcome-view').classList.remove('active');
-      document.getElementById('quiz-view').classList.remove('active');
-      document.getElementById('result-view').classList.remove('active');
-      document.getElementById('board-view').classList.add('active');
-    }
-
-    function startQuiz(mode) {
-      if (mode === 'Grand') {
-        if (!grandQuestions || grandQuestions.length === 0) {
-          alert("Questions are loading from Google Sheet. Please wait 1 second and click again!");
+        if (activeQuestions.length === 0) {
+          alert("No questions found in Google Sheet.");
           return;
         }
-        activeQuestions = grandQuestions;
-      } else {
-        alert(`Questions for ${mode} will be updated soon! Please practice using the NEET Grand Mock Test.`);
-        return;
+
+        document.getElementById('quiz-view').classList.add('active');
+        renderQuestion(currentIndex);
+      } catch (error) {
+        console.error("Error loading quiz:", error);
+        document.getElementById('loading-view').innerHTML = "<p style='color:red;'>Failed to load quiz data. Check API URL.</p>";
       }
-
-      currentIndex = 0;
-      userAnswers = {};
-
-      document.getElementById('board-view').classList.remove('active');
-      document.getElementById('quiz-view').classList.add('active');
-      renderQuestion(0);
-    }
-
-    function togglePaletteModal(show) {
-      const modal = document.getElementById('palette-modal');
-      if (show) {
-        renderPaletteGrid();
-        modal.classList.add('active');
-      } else {
-        modal.classList.remove('active');
-      }
-    }
-
-    function toggleReportModal(show) {
-      const modal = document.getElementById('report-modal');
-      if (show) {
-        modal.classList.add('active');
-      } else {
-        modal.classList.remove('active');
-      }
-    }
-
-    function submitQuestionReport(event) {
-      event.preventDefault();
-      const type = document.getElementById('report-type').value;
-      const reason = document.getElementById('report-reason').value;
-      const q = activeQuestions[currentIndex];
-
-      console.log("Reported Question:", {
-        questionNum: currentIndex + 1,
-        questionText: q.Question,
-        issueType: type,
-        userReason: reason
-      });
-
-      alert("Thank you! Your feedback for Question " + (currentIndex + 1) + " has been submitted successfully.");
-      document.getElementById('report-form').reset();
-      toggleReportModal(false);
-    }
-
-    function renderPaletteGrid() {
-      const grid = document.getElementById('modal-palette-grid');
-      grid.innerHTML = "";
-
-      activeQuestions.forEach((q, idx) => {
-        const btn = document.createElement('div');
-        btn.className = 'p-btn';
-        if (idx === currentIndex) btn.classList.add('active');
-
-        const answered = userAnswers[idx];
-        const correct = parseInt(q.CorrectAnswer);
-
-        if (answered !== undefined) {
-          if (answered === correct) btn.classList.add('correct');
-          else btn.classList.add('wrong');
-        }
-
-        btn.innerText = idx + 1;
-        btn.onclick = () => {
-          currentIndex = idx;
-          renderQuestion(currentIndex);
-          togglePaletteModal(false);
-        };
-        grid.appendChild(btn);
-      });
     }
 
     function renderQuestion(index) {
       const q = activeQuestions[index];
-      document.getElementById('current-subject-tag').innerText = q.Chapter || q.Category || "NEET Practice";
-      document.getElementById('question-progress').innerText = `Q ${index + 1} / ${activeQuestions.length}`;
-      document.getElementById('question-title').innerText = `${index + 1}. ${q.Question || ""}`;
+      
+      document.getElementById('question-counter').innerText = `Question ${index + 1} of ${activeQuestions.length}`;
+      document.getElementById('question-title').innerText = q.QuestionTitle || q.Question || `Question ${index + 1}`;
 
-  const imgContainer = document.getElementById('image-container');
+      // Handle Image Display
+      const imgContainer = document.getElementById('image-container');
       const imgElem = document.getElementById('question-image');
       const processedImgUrl = formatImageUrl(q.ImageUrl);
 
       if (processedImgUrl !== "") {
         imgElem.src = processedImgUrl;
-        imgContainer ? imgContainer.style.display = "block" : imgElem.style.display = "block";
+        imgContainer.style.display = "block";
       } else {
-        imgContainer ? imgContainer.style.display = "none" : imgElem.style.display = "none";
+        imgContainer.style.display = "none";
       }
 
+      // Render Options
       const optionsBox = document.getElementById('options-container');
       optionsBox.innerHTML = "";
 
@@ -432,6 +322,7 @@
         optionsBox.appendChild(btn);
       });
 
+      // Handle Explanation Box
       const expDrawer = document.getElementById('explanation-box');
       if (userSelected !== undefined) {
         document.getElementById('explanation-text').innerText = q.Solution || "No detailed solution text provided for this question.";
@@ -441,9 +332,27 @@
       }
     }
 
+    // Instant Option Selection (without re-rendering entire component)
     function selectOption(selectedNum, correctNum, solution) {
       userAnswers[currentIndex] = selectedNum;
-      renderQuestion(currentIndex);
+
+      const buttons = document.querySelectorAll('.opt-btn');
+      buttons.forEach((btn, idx) => {
+        const optionNum = idx + 1;
+        btn.disabled = true;
+
+        if (optionNum === correctNum) {
+          btn.classList.add('correct');
+        }
+        if (optionNum === selectedNum && selectedNum !== correctNum) {
+          btn.classList.add('wrong');
+        }
+      });
+
+      // Show Explanation immediately
+      const expDrawer = document.getElementById('explanation-box');
+      document.getElementById('explanation-text').innerText = solution || "No detailed solution text provided for this question.";
+      expDrawer.style.display = 'block';
     }
 
     function nextQuestion() {
@@ -492,11 +401,18 @@
       if (weakKeys.length === 0) {
         weakListElem.innerHTML = "<li>Outstanding accuracy! No major weak chapters detected in attempted questions.</li>";
       } else {
+        const fragment = document.createDocumentFragment();
         weakKeys.forEach(chap => {
-          weakListElem.innerHTML += `<li><strong>${chap}</strong> (${weakChapters[chap]} incorrect attempts)</li>`;
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${chap}</strong> (${weakChapters[chap]} incorrect attempts)`;
+          fragment.appendChild(li);
         });
+        weakListElem.appendChild(fragment);
       }
     }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', initQuiz);
   </script>
 </body>
 </html>
