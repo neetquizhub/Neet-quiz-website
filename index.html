@@ -4,103 +4,113 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NEET Quiz Hub | Practice Portal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-cream: #faf8f5;
       --card-bg: #ffffff;
-      --text-dark: #2d3748;
-      --text-muted: #718096;
+      --text-dark: #0f172a;
+      --text-muted: #475569;
       --accent-soft-purple: #7c3aed;
-      --border-color: #edf2f7;
-      --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+      --border-color: #cbd5e1;
+      --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
       --success-soft: #d1fae5;
-      --success-text: #065f46;
       --danger-soft: #fee2e2;
-      --danger-text: #991b1b;
       --radius: 20px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-    body { background-color: var(--bg-cream); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.7; }
+    body { background-color: var(--bg-cream); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.6; }
 
-    header { background: #ffffff; text-align: center; padding: 25px 20px 15px; border-bottom: 1px solid var(--border-color); }
-    header h1 { font-family: 'Outfit', sans-serif; font-size: 2.2rem; font-weight: 700; color: var(--accent-soft-purple); }
-    header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 4px; font-weight: 500; }
+    header { background: #ffffff; text-align: center; padding: 22px 15px 14px; border-bottom: 2px solid var(--border-color); }
+    header h1 { font-family: 'Outfit', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--accent-soft-purple); }
+    header p { color: var(--text-muted); font-size: 1rem; margin-top: 4px; font-weight: 600; }
 
-    main { flex: 1; max-width: 900px; width: 100%; margin: 25px auto; padding: 0 20px; }
+    main { flex: 1; max-width: 950px; width: 100%; margin: 15px auto; padding: 0 12px; }
 
-    .card { background: var(--card-bg); border-radius: var(--radius); padding: 35px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-color); display: none; }
+    .card { background: var(--card-bg); border-radius: var(--radius); padding: 24px 20px; box-shadow: var(--shadow-soft); border: 2px solid var(--border-color); display: none; }
     .card.active { display: block; animation: fadeIn 0.3s ease-out; }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    .welcome-box { text-align: center; padding: 20px 10px; }
-    .badge-pill { display: inline-block; background: #f3e8ff; color: var(--accent-soft-purple); padding: 8px 20px; border-radius: 30px; font-weight: 600; font-size: 0.88rem; margin-bottom: 20px; }
-    .welcome-title { font-family: 'Outfit', sans-serif; font-size: 2.2rem; font-weight: 700; color: #1a202c; margin-bottom: 15px; }
-    .welcome-desc { color: var(--text-muted); font-size: 1.05rem; max-width: 580px; margin: 0 auto 30px; line-height: 1.8; }
+    .welcome-box { text-align: center; padding: 20px 5px; }
+    .badge-pill { display: inline-block; background: #f3e8ff; color: var(--accent-soft-purple); padding: 8px 20px; border-radius: 30px; font-weight: 700; font-size: 0.95rem; margin-bottom: 18px; }
+    .welcome-title { font-family: 'Outfit', sans-serif; font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-bottom: 14px; }
+    .welcome-desc { color: var(--text-muted); font-size: 1.15rem; max-width: 620px; margin: 0 auto 28px; line-height: 1.8; font-weight: 500; }
 
-    .btn-letsgo { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; border: none; padding: 18px 50px; border-radius: 16px; font-size: 1.15rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.3); }
-    .btn-letsgo:hover { transform: translateY(-3px); }
+    .btn-letsgo { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; border: none; padding: 18px 45px; border-radius: 16px; font-size: 1.25rem; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 20px -4px rgba(124, 58, 237, 0.3); width: 100%; max-width: 350px; }
 
-    .section-heading { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 25px; text-align: center; color: #1a202c; }
-    .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .section-heading { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; margin-bottom: 20px; text-align: center; color: #0f172a; }
+    .subject-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 600px) { .subject-grid { grid-template-columns: repeat(2, 1fr); } }
 
-    .subject-card { background: #ffffff; border: 1.5px solid var(--border-color); border-radius: 18px; padding: 25px; cursor: pointer; transition: all 0.25s ease; }
-    .subject-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); border-color: #cbd5e1; }
+    .subject-card { background: #ffffff; border: 2px solid var(--border-color); border-radius: 18px; padding: 22px 22px; cursor: pointer; transition: all 0.2s ease; }
+    .subject-card:hover { transform: translateY(-2px); border-color: #64748b; }
     
-    .subject-icon-badge { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 16px; }
-    .phy-bg { background: #eff6ff; color: #2563eb; }
-    .chem-bg { background: #fef2f2; color: #dc2626; }
-    .bot-bg { background: #ecfdf5; color: #059669; }
-    .zoo-bg { background: #fffbeb; color: #d97706; }
-    .grand-bg { background: #f3e8ff; color: #7c3aed; }
+    .subject-icon-badge { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 14px; }
+    .phy-bg { background: #eff6ff; }
+    .chem-bg { background: #fef2f2; }
+    .bot-bg { background: #ecfdf5; }
+    .zoo-bg { background: #fffbeb; }
+    .grand-bg { background: #f3e8ff; }
 
-    .subject-title { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; color: #1a202c; }
-    .subject-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
-    .card-grand { grid-column: 1 / -1; border-color: #ddd6fe; }
+    .subject-title { font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 800; margin-bottom: 6px; color: #0f172a; }
+    .subject-desc { font-size: 0.98rem; color: var(--text-muted); line-height: 1.6; font-weight: 500; }
+    .card-grand { grid-column: 1 / -1; border-color: #c4b5fd; }
 
-    .quiz-topbar { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 14px 22px; border-radius: 14px; margin-bottom: 28px; border: 1px solid var(--border-color); }
-    .btn-palette-trigger { background: #ffffff; color: var(--text-dark); border: 1.5px solid var(--border-color); padding: 10px 18px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
+    .quiz-topbar { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 14px 18px; border-radius: 14px; margin-bottom: 24px; border: 2px solid var(--border-color); }
+    .topbar-actions { display: flex; gap: 10px; }
+    .btn-action-sm { background: #ffffff; color: var(--text-dark); border: 2px solid var(--border-color); padding: 10px 16px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.95rem; }
+    .btn-report-sm { color: #dc2626; border-color: #fca5a5; background: #fef2f2; }
 
-    .question-title-box { font-size: 1.25rem; font-weight: 600; line-height: 1.8; margin-bottom: 28px; color: #1a202c; white-space: pre-wrap; }
-    .question-img { max-width: 100%; border-radius: 14px; margin-bottom: 25px; border: 1px solid var(--border-color); }
+    .question-title-box { font-size: 1.65rem; font-weight: 700; line-height: 1.7; margin-bottom: 26px; color: #0f172a; white-space: pre-wrap; word-break: break-word; }
+    
+    /* Responsive Diagram Image Display */
+    .question-img-container { text-align: center; margin-bottom: 24px; }
+    .question-img { max-width: 100%; max-height: 400px; border-radius: 14px; border: 2px solid var(--border-color); object-fit: contain; }
 
     .options-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
-    .opt-btn { background: #ffffff; border: 1.5px solid var(--border-color); border-radius: 14px; padding: 18px 22px; color: var(--text-dark); font-size: 1.02rem; font-weight: 500; text-align: left; cursor: pointer; transition: all 0.2s ease; line-height: 1.6; }
+    .opt-btn { background: #ffffff; border: 2.5px solid var(--border-color); border-radius: 16px; padding: 20px 22px; color: var(--text-dark); font-size: 1.25rem; font-weight: 600; text-align: left; cursor: pointer; transition: all 0.2s ease; line-height: 1.6; width: 100%; }
     .opt-btn:hover:not(:disabled) { border-color: var(--accent-soft-purple); background: #faf5ff; }
-    .opt-btn.correct { background: var(--success-soft) !important; border-color: #059669 !important; color: #065f46 !important; font-weight: 600; }
-    .opt-btn.wrong { background: var(--danger-soft) !important; border-color: #ef4444 !important; color: #991b1b !important; font-weight: 600; }
+    .opt-btn.correct { background: var(--success-soft) !important; border-color: #059669 !important; color: #065f46 !important; font-weight: 700; }
+    .opt-btn.wrong { background: var(--danger-soft) !important; border-color: #ef4444 !important; color: #991b1b !important; font-weight: 700; }
 
-    .explanation-drawer { background: #ecfdf5; border-left: 4px solid #059669; padding: 20px; border-radius: 12px; margin-bottom: 28px; display: none; }
+    .explanation-drawer { background: #ecfdf5; border-left: 6px solid #059669; padding: 20px; border-radius: 14px; margin-bottom: 28px; font-size: 1.1rem; line-height: 1.7; font-weight: 500; }
+    .explanation-drawer strong { font-size: 1.2rem; display: block; margin-bottom: 8px; color: #065f46; font-weight: 700; }
 
-    .nav-row { display: flex; justify-content: space-between; gap: 14px; }
-    .btn-nav { padding: 14px 32px; border-radius: 12px; font-weight: 600; border: none; cursor: pointer; font-size: 0.98rem; }
+    .nav-row { display: flex; justify-content: space-between; gap: 12px; }
+    .btn-nav { padding: 15px 24px; border-radius: 14px; font-weight: 700; border: none; cursor: pointer; font-size: 1.05rem; flex: 1; text-align: center; }
     .btn-next-q { background: var(--accent-soft-purple); color: white; }
-    .btn-submit-q { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .btn-submit-q { background: #fef2f2; color: #dc2626; border: 2px solid #fca5a5; }
 
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: none; justify-content: center; align-items: center; z-index: 1000; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
     .modal-overlay.active { display: flex; }
-    .modal-content { background: #ffffff; border-radius: 24px; padding: 30px; max-width: 550px; width: 90%; max-height: 80vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
-    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.8rem; cursor: pointer; }
+    .modal-content { background: #ffffff; border-radius: 22px; padding: 25px 20px; max-width: 520px; width: 92%; max-height: 85vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer; }
 
     .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-    .p-btn { padding: 12px 0; background: #f8fafc; border: 1px solid var(--border-color); color: var(--text-dark); border-radius: 10px; font-weight: 600; text-align: center; cursor: pointer; }
-    .p-btn.active { border-color: var(--accent-soft-purple); color: var(--accent-soft-purple); font-weight: 700; background: #f3e8ff; }
-    .p-btn.correct { background: #059669; color: white; }
-    .p-btn.wrong { background: #ef4444; color: white; }
+    .p-btn { padding: 12px 0; background: #f8fafc; border: 2px solid var(--border-color); color: var(--text-dark); border-radius: 10px; font-weight: 700; text-align: center; font-size: 1rem; }
+    .p-btn.active { border-color: var(--accent-soft-purple); color: var(--accent-soft-purple); font-weight: 800; background: #f3e8ff; }
+    .p-btn.correct { background: #059669; color: white; border-color: #059669; }
+    .p-btn.wrong { background: #ef4444; color: white; border-color: #ef4444; }
+
+    .form-group { margin-bottom: 18px; text-align: left; }
+    .form-group label { display: block; font-size: 1rem; font-weight: 700; color: #334155; margin-bottom: 8px; }
+    .form-control { width: 100%; padding: 12px 14px; border: 2px solid var(--border-color); border-radius: 12px; font-size: 1.05rem; }
+    textarea.form-control { resize: vertical; min-height: 90px; }
+    .btn-report-submit { background: #dc2626; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; cursor: pointer; font-size: 1.05rem; }
 
     .result-box { text-align: center; }
-    .score-badge { font-family: 'Outfit', sans-serif; font-size: 3.2rem; font-weight: 700; color: var(--accent-soft-purple); margin: 15px 0; }
-    .motivate-quote { background: #f3e8ff; border: 1px solid #e9d5ff; border-radius: 16px; padding: 20px; margin: 25px 0; font-style: italic; color: #6b21a8; font-weight: 500; }
+    .score-badge { font-family: 'Outfit', sans-serif; font-size: 3.2rem; font-weight: 800; color: var(--accent-soft-purple); margin: 15px 0; }
+    .motivate-quote { background: #f3e8ff; border: 2px solid #ddd6fe; border-radius: 16px; padding: 20px; margin: 24px 0; font-style: italic; color: #6b21a8; font-weight: 600; font-size: 1.08rem; line-height: 1.7; }
 
-    .weak-report { background: #fef2f2; border: 1px solid #fecaca; padding: 22px; border-radius: 16px; text-align: left; margin-top: 25px; }
-    .weak-report h4 { color: #991b1b; margin-bottom: 12px; font-family: 'Outfit', sans-serif; }
-    .weak-report ul { padding-left: 22px; font-size: 0.95rem; color: #7f1d1d; }
+    .weak-report { background: #fef2f2; border: 2px solid #fca5a5; padding: 22px; border-radius: 16px; text-align: left; margin-top: 24px; }
+    .weak-report h4 { color: #991b1b; margin-bottom: 12px; font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 800; }
+    .weak-report ul { padding-left: 20px; font-size: 1.05rem; color: #7f1d1d; line-height: 1.8; font-weight: 500; }
 
-    .consistency-note { text-align: center; margin-top: 30px; color: var(--text-muted); font-size: 0.98rem; }
-    .thank-you { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--accent-soft-purple); margin-top: 12px; }
+    .consistency-note { text-align: center; margin-top: 30px; color: var(--text-muted); font-size: 1.05rem; font-weight: 500; }
+    .thank-you { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--accent-soft-purple); margin-top: 12px; }
   </style>
 </head>
 <body>
@@ -163,14 +173,20 @@
     <div id="quiz-view" class="card">
       <div class="quiz-topbar">
         <div>
-          <span id="current-subject-tag" style="font-weight: 700; color: var(--accent-soft-purple); font-size: 1.05rem;">Physics</span>
-          <span id="question-progress" style="color: var(--text-muted); font-size: 0.9rem; margin-left: 12px;">Question 1 / 50</span>
+          <span id="current-subject-tag" style="font-weight: 800; color: var(--accent-soft-purple); font-size: 1.1rem;">Physics</span>
+          <span id="question-progress" style="color: var(--text-muted); font-size: 0.98rem; margin-left: 10px; font-weight: 600;">Q 1 / 50</span>
         </div>
-        <button class="btn-palette-trigger" onclick="togglePaletteModal(true)">📋 Question Palette</button>
+        <div class="topbar-actions">
+          <button class="btn-action-sm btn-report-sm" onclick="toggleReportModal(true)">⚠️ Report</button>
+          <button class="btn-action-sm" onclick="togglePaletteModal(true)">📋 Palette</button>
+        </div>
       </div>
 
       <div id="question-title" class="question-title-box">Loading Question...</div>
-      <img id="question-image" class="question-img" style="display: none;" />
+      
+      <div id="image-container" class="question-img-container" style="display: none;">
+        <img id="question-image" class="question-img" alt="Question Diagram" />
+      </div>
 
       <div id="options-container" class="options-grid"></div>
 
@@ -180,7 +196,7 @@
       </div>
 
       <div class="nav-row">
-        <button class="btn-nav btn-submit-q" onclick="confirmSubmit()">Submit Test</button>
+        <button class="btn-nav btn-submit-q" onclick="confirmSubmit()">Submit</button>
         <button id="next-btn" class="btn-nav btn-next-q" onclick="nextQuestion()">Next Question ➔</button>
       </div>
     </div>
@@ -188,7 +204,7 @@
     <!-- Screen 4: Results -->
     <div id="result-view" class="card">
       <div class="result-box">
-        <h2 style="font-family:'Outfit', sans-serif;">Performance Evaluation Report</h2>
+        <h2 style="font-family:'Outfit', sans-serif;">Performance Report</h2>
         <div id="final-score" class="score-badge">0 / 800</div>
 
         <div id="motivate-quote" class="motivate-quote">"Success in NEET is the sum of small efforts repeated day in and day out!"</div>
@@ -203,19 +219,46 @@
           <div class="thank-you">Thank You 😊</div>
         </div>
 
-        <button class="btn-letsgo" style="margin-top: 30px; width: 100%;" onclick="openBoardView()">Try Another Quiz</button>
+        <button class="btn-letsgo" style="margin-top: 25px; width: 100%; max-width: 100%;" onclick="openBoardView()">Try Another Quiz</button>
       </div>
     </div>
   </main>
 
-  <!-- Question Palette Modal Drawer -->
+  <!-- Question Palette Modal -->
   <div id="palette-modal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 style="font-family:'Outfit', sans-serif; color: var(--text-dark);">Question Palette</h3>
+        <h3 style="font-family:'Outfit', sans-serif; color: var(--text-dark); font-size: 1.3rem;">Question Palette</h3>
         <button class="modal-close" onclick="togglePaletteModal(false)">&times;</button>
       </div>
       <div id="modal-palette-grid" class="palette-grid"></div>
+    </div>
+  </div>
+
+  <!-- Report Question Modal -->
+  <div id="report-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-family:'Outfit', sans-serif; color: #dc2626; font-size: 1.3rem;">Report Question Error ⚠️</h3>
+        <button class="modal-close" onclick="toggleReportModal(false)">&times;</button>
+      </div>
+      <form id="report-form" onsubmit="submitQuestionReport(event)">
+        <div class="form-group">
+          <label>Issue Category:</label>
+          <select id="report-type" class="form-control" required>
+            <option value="Wrong Answer Key">Wrong Answer Key Option</option>
+            <option value="Typo or Spelling Error">Typo or Text Error</option>
+            <option value="Image Error">Diagram / Image Issue</option>
+            <option value="Explanation Issue">Unclear / Incorrect Solution</option>
+            <option value="Other Issue">Other Issue</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Describe Problem / Correct Reason:</label>
+          <textarea id="report-reason" class="form-control" placeholder="Please explain why this question/answer is incorrect..." required></textarea>
+        </div>
+        <button type="submit" class="btn-report-submit">Submit Report</button>
+      </form>
     </div>
   </div>
 
@@ -226,6 +269,19 @@
     let activeQuestions = [];
     let userAnswers = {};
     let currentIndex = 0;
+
+    // Convert Google Drive view links to direct displayable image URLs
+    function formatImageUrl(rawUrl) {
+      if (!rawUrl) return "";
+      let url = rawUrl.trim();
+      if (url.includes("drive.google.com")) {
+        const match = url.match(/(?:file\/d\/|id=)([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          return `https://lh3.googleusercontent.com/d/${match[1]}`;
+        }
+      }
+      return url;
+    }
 
     async function fetchQuestions() {
       try {
@@ -276,6 +332,33 @@
       }
     }
 
+    function toggleReportModal(show) {
+      const modal = document.getElementById('report-modal');
+      if (show) {
+        modal.classList.add('active');
+      } else {
+        modal.classList.remove('active');
+      }
+    }
+
+    function submitQuestionReport(event) {
+      event.preventDefault();
+      const type = document.getElementById('report-type').value;
+      const reason = document.getElementById('report-reason').value;
+      const q = activeQuestions[currentIndex];
+
+      console.log("Reported Question:", {
+        questionNum: currentIndex + 1,
+        questionText: q.Question,
+        issueType: type,
+        userReason: reason
+      });
+
+      alert("Thank you! Your feedback for Question " + (currentIndex + 1) + " has been submitted successfully.");
+      document.getElementById('report-form').reset();
+      toggleReportModal(false);
+    }
+
     function renderPaletteGrid() {
       const grid = document.getElementById('modal-palette-grid');
       grid.innerHTML = "";
@@ -306,15 +389,19 @@
     function renderQuestion(index) {
       const q = activeQuestions[index];
       document.getElementById('current-subject-tag').innerText = q.Chapter || q.Category || "NEET Practice";
-      document.getElementById('question-progress').innerText = `Question ${index + 1} of ${activeQuestions.length}`;
+      document.getElementById('question-progress').innerText = `Q ${index + 1} / ${activeQuestions.length}`;
       document.getElementById('question-title').innerText = `${index + 1}. ${q.Question || ""}`;
 
+    // Handle Image URL Conversion
+      const imgContainer = document.getElementById('image-container');
       const imgElem = document.getElementById('question-image');
-      if (q.ImageUrl && q.ImageUrl.trim() !== "") {
-        imgElem.src = q.ImageUrl;
-        imgElem.style.display = "block";
+      const processedImgUrl = formatImageUrl(q.ImageUrl);
+
+      if (processedImgUrl !== "") {
+        imgElem.src = processedImgUrl;
+        imgContainer.style.display = "block";
       } else {
-        imgElem.style.display = "none";
+        imgContainer.style.display = "none";
       }
 
       const optionsBox = document.getElementById('options-container');
@@ -365,7 +452,7 @@
         currentIndex++;
         renderQuestion(currentIndex);
       } else {
-        alert("You have reached the end of this quiz section. Click 'Submit Test' to evaluate!");
+        alert("You have reached the end of this quiz section. Click 'Submit' to evaluate!");
       }
     }
 
