@@ -3,42 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz Portal</title>
+  <title>Interactive Medical & Academic Quiz Portal</title>
   <style>
     :root {
-      --primary-color: #4a90e2;
-      --success-color: #2ecc71;
-      --error-color: #e74c3c;
-      --bg-color: #f4f7f6;
+      --primary-color: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --success-color: #10b981;
+      --error-color: #ef4444;
+      --warning-color: #f59e0b;
+      --bg-color: #f8fafc;
       --card-bg: #ffffff;
-      --text-color: #2c3e50;
-      --border-radius: 12px;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-radius: 16px;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
     body {
       background-color: var(--bg-color);
-      color: var(--text-color);
+      color: var(--text-main);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 20px;
+      padding: 16px;
     }
 
     .container {
       background: var(--card-bg);
       width: 100%;
-      max-width: 750px;
-      padding: 32px;
+      max-width: 850px;
+      padding: 36px;
       border-radius: var(--border-radius);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
       display: none;
     }
 
@@ -46,176 +49,312 @@
       display: block;
     }
 
-    /* Loading Screen */
-    #loading-view {
-      text-align: center;
-      font-size: 1.4rem;
-      color: #666;
+    /* Typography Adjustments (Large, Clear Fonts) */
+    h1 { font-size: 2.2rem; margin-bottom: 12px; line-height: 1.3; }
+    h2 { font-size: 1.8rem; margin-bottom: 16px; }
+    p, li { font-size: 1.25rem; line-height: 1.6; color: var(--text-muted); }
+
+    /* Welcome & Motivational Quote Section */
+    .quote-box {
+      background: #eff6ff;
+      border-left: 6px solid var(--primary-color);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0 28px 0;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: #1e40af;
     }
 
-    .spinner {
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid var(--primary-color);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Question Typography */
-    .question-header {
+    /* Streak Counter */
+    .streak-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff7ed;
+      color: #c2410c;
+      border: 2px solid #ffedd5;
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-weight: 700;
       font-size: 1.2rem;
+      margin-bottom: 16px;
+    }
+
+    /* Subject Cards Grid */
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .subject-card {
+      background: #f1f5f9;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 1.3rem;
       font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .subject-card:hover {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+
+    /* Spinner Loading */
+    #loading-view { text-align: center; }
+    .spinner {
+      border: 6px solid #e2e8f0;
+      border-top: 6px solid var(--primary-color);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 24px auto;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Top Quiz Header (Timer & Progress Bar) */
+    .quiz-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .timer-badge {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1.25rem;
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      border-radius: 10px;
+      height: 14px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+
+    /* Question Formatting */
+    .question-header {
+      font-size: 1.3rem;
+      font-weight: 700;
       color: var(--primary-color);
       margin-bottom: 8px;
     }
 
     .question-text {
-      font-size: 1.5rem;
+      font-size: 1.55rem;
       font-weight: 600;
-      line-height: 1.4;
-      margin-bottom: 24px;
+      color: var(--text-main);
+      margin-bottom: 20px;
     }
 
-    /* Image Container */
+    /* Diagram and Image Support */
     #image-container {
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       text-align: center;
     }
 
     #question-image {
       max-width: 100%;
-      max-height: 300px;
-      border-radius: 8px;
+      max-height: 350px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       object-fit: contain;
     }
 
-    /* Options */
+    /* Options Styling */
     .options-grid {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
       margin-bottom: 24px;
     }
 
     .opt-btn {
       width: 100%;
-      padding: 16px 20px;
-      font-size: 1.15rem;
+      padding: 18px 22px;
+      font-size: 1.2rem;
       text-align: left;
-      background-color: #f8f9fa;
-      border: 2px solid #e9ecef;
-      border-radius: 8px;
+      background-color: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
       cursor: pointer;
       transition: all 0.2s ease;
-      color: var(--text-color);
+      color: var(--text-main);
     }
 
     .opt-btn:hover:not(:disabled) {
-      background-color: #e9ecef;
-      border-color: #ced4da;
+      background-color: #f1f5f9;
+      border-color: #94a3b8;
     }
 
     .opt-btn.correct {
-      background-color: #d4edda !important;
+      background-color: #d1fae5 !important;
       border-color: var(--success-color) !important;
-      color: #155724;
+      color: #065f46;
       font-weight: bold;
     }
 
     .opt-btn.wrong {
-      background-color: #f8d7da !important;
+      background-color: #fee2e2 !important;
       border-color: var(--error-color) !important;
-      color: #721c24;
+      color: #991b1b;
     }
 
-    .opt-btn:disabled {
-      cursor: not-allowed;
-    }
+    .opt-btn:disabled { cursor: not-allowed; }
 
     /* Explanation Drawer */
     #explanation-box {
-      background-color: #eef6fc;
-      border-left: 4px solid var(--primary-color);
-      padding: 18px;
-      border-radius: 0 8px 8px 0;
+      background-color: #f0f9ff;
+      border-left: 6px solid var(--primary-color);
+      padding: 20px;
+      border-radius: 0 10px 10px 0;
       margin-bottom: 24px;
       display: none;
-      font-size: 1.1rem;
-      line-height: 1.5;
+      font-size: 1.2rem;
     }
 
-    /* Navigation Controls */
+    /* Controls */
     .controls {
       display: flex;
       justify-content: space-between;
-      gap: 12px;
+      gap: 16px;
     }
 
     .action-btn {
-      padding: 12px 24px;
-      font-size: 1.1rem;
-      font-weight: 600;
+      padding: 14px 28px;
+      font-size: 1.2rem;
+      font-weight: 700;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       background-color: var(--primary-color);
       color: white;
-      transition: opacity 0.2s ease;
+      transition: background 0.2s ease;
     }
 
-    .action-btn:hover {
-      opacity: 0.9;
+    .action-btn:hover { background-color: var(--primary-dark); }
+    .submit-btn { background-color: var(--success-color); }
+    .submit-btn:hover { background-color: #059669; }
+
+    /* Think Tank Improvement Feedback Section */
+    .think-tank-box {
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 2px dashed #cbd5e1;
     }
 
-    .submit-btn {
-      background-color: var(--success-color);
-    }
-
-    /* Results Screen */
-    .result-score {
-      font-size: 2.2rem;
-      font-weight: bold;
-      text-align: center;
-      margin: 20px 0;
-      color: var(--primary-color);
-    }
-
-    .weak-title {
-      font-size: 1.3rem;
-      font-weight: 600;
+    .think-tank-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #1e293b;
       margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    #weak-list {
-      list-style-type: square;
-      padding-left: 24px;
-      font-size: 1.1rem;
-      line-height: 1.6;
+    .think-tank-textarea {
+      width: 100%;
+      height: 120px;
+      padding: 16px;
+      font-size: 1.15rem;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      margin-top: 12px;
+      resize: vertical;
+    }
+
+    .think-tank-submit {
+      margin-top: 12px;
+      padding: 12px 24px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      background-color: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .think-tank-submit:hover { background-color: #7c3aed; }
+
+    /* Responsive scaling for mobile / tablets */
+    @media (max-width: 600px) {
+      .container { padding: 20px; }
+      h1 { font-size: 1.8rem; }
+      .question-text { font-size: 1.35rem; }
+      .opt-btn { font-size: 1.1rem; padding: 14px; }
+      .action-btn { width: 100%; text-align: center; }
+      .controls { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-  <!-- 1. LOADING VIEW -->
-  <div id="loading-view" class="container active">
-    <div class="spinner"></div>
-    <p>Loading Quiz Questions...</p>
+  <!-- 1. WELCOME & SUBJECT SELECTION VIEW -->
+  <div id="welcome-view" class="container active">
+    <div class="streak-badge">🔥 Daily Practice Streak: <span id="streak-count">3</span> Days</div>
+    <h1>Grand Practice Portal</h1>
+    <div class="quote-box" id="motivation-quote">
+      "The expert in anything was once a beginner. Keep practicing!"
+    </div>
+    <p>Select a subject to begin your practice test. You will get 1 minute per question for overall test duration.</p>
+
+    <div class="subject-grid">
+      <div class="subject-card" onclick="startSubjectQuiz('All Topics')">📚 Full Grand Test</div>
+      <div class="subject-card" onclick="startSubjectQuiz('Pharmacology')">💊 Pharmacology</div>
+      <div class="subject-card" onclick="startSubjectQuiz('General Concepts')">🧬 General Concepts</div>
+    </div>
   </div>
 
-  <!-- 2. QUIZ VIEW -->
+  <!-- 2. LOADING VIEW -->
+  <div id="loading-view" class="container">
+    <div class="spinner"></div>
+    <p style="text-align: center;">Fetching latest questions from Google Sheets...</p>
+  </div>
+
+  <!-- 3. MAIN QUIZ VIEW -->
   <div id="quiz-view" class="container">
-    <div class="question-header" id="question-counter">Question 1</div>
+    <div class="quiz-top-bar">
+      <div class="question-header" id="question-counter">Question 1 of --</div>
+      <div class="timer-badge">⏱️ Time Left: <span id="timer-display">--:--</span></div>
+    </div>
+
+    <!-- Visual Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar" id="quiz-progress-bar"></div>
+    </div>
+
     <div class="question-text" id="question-title">Loading Question...</div>
 
+    <!-- Diagram / Image Container -->
     <div id="image-container" style="display: none;">
-      <img id="question-image" src="" alt="Question Image" />
+      <img id="question-image" src="" alt="Question Diagram / Image" />
     </div>
 
     <div class="options-grid" id="options-container"></div>
@@ -231,56 +370,125 @@
     </div>
   </div>
 
-  <!-- 3. RESULT VIEW -->
+  <!-- 4. RESULT VIEW WITH THINK TANK -->
   <div id="result-view" class="container">
-    <h2 style="font-size: 2rem; text-align: center;">Quiz Results</h2>
-    <div class="result-score" id="final-score">0 / 0</div>
+    <h2 style="font-size: 2.2rem; text-align: center;">Grand Test Evaluation</h2>
+    <div style="font-size: 2.5rem; font-weight: bold; text-align: center; color: var(--primary-color); margin: 20px 0;" id="final-score">0 / 0</div>
 
-    <div class="weak-title">Areas for Improvement:</div>
-    <ul id="weak-list"></ul>
+    <h3 style="font-size: 1.5rem; margin-bottom: 12px;">Weak Chapters / Topics:</h3>
+    <ul id="weak-list" style="margin-left: 20px; margin-bottom: 30px;"></ul>
+
+    <!-- Think Tank Suggestions Section -->
+    <div class="think-tank-box">
+      <div class="think-tank-title">💡 Think Tank</div>
+      <p>Have ideas or suggestions to make this test better? Share your feedback below!</p>
+      <textarea id="think-tank-input" class="think-tank-textarea" placeholder="Type your ideas, missing concepts, or suggestions here..."></textarea>
+      <button class="think-tank-submit" onclick="submitThinkTankFeedback()">Submit Feedback</button>
+      <p id="think-tank-msg" style="display:none; color: var(--success-color); font-weight: bold; margin-top: 10px;">Thank you for contributing to Think Tank!</p>
+    </div>
   </div>
 
   <script>
-    const WEB_APP_URL = "YOUR_DEPLOYED_WEB_APP_URL"; // Replace with your Apps Script URL
+    // Configured with your deployed Apps Script URL
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwFodJNqxrw8LwvnPcQRcSH0eMFZGAxcpIpbLYQauCP6GlaVgoEgcE2YmS_dvcH6ATLMQ/exec";
 
     let activeQuestions = [];
     let userAnswers = {};
     let currentIndex = 0;
+    let timerInterval = null;
+    let totalTimeInSeconds = 0;
 
-    // Helper to format image URLs from Google Drive if applicable
+    const motivationalQuotes = [
+      "\"Success is the sum of small efforts, repeated day in and day out.\" - Robert Collier",
+      "\"The expert in anything was once a beginner. Keep practicing!\"",
+      "\"Medicine and learning are continuous journeys. Trust your preparation.\"",
+      "\"Don't count the days, make the days count.\""
+    ];
+
+    // Load Daily Streak & Random Motivational Quote on startup
+    window.addEventListener('DOMContentLoaded', () => {
+      const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+      document.getElementById('motivation-quote').innerText = randomQuote;
+      
+      let streak = localStorage.getItem('quiz_streak') || 3;
+      document.getElementById('streak-count').innerText = streak;
+    });
+
+    function startSubjectQuiz(subjectName) {
+      document.getElementById('welcome-view').classList.remove('active');
+      document.getElementById('loading-view').classList.add('active');
+      fetchQuizData(subjectName);
+    }
+
+    async function fetchQuizData(subjectFilter) {
+      try {
+        const response = await fetch(WEB_APP_URL);
+        const data = await response.json();
+
+        if (subjectFilter && subjectFilter !== 'All Topics') {
+          activeQuestions = data.filter(q => q.Subject === subjectFilter || q.Chapter === subjectFilter);
+          if (activeQuestions.length === 0) activeQuestions = data; // Fallback if no specific filter matches
+        } else {
+          activeQuestions = data;
+        }
+
+        document.getElementById('loading-view').classList.remove('active');
+
+        if (activeQuestions.length === 0) {
+          alert("No questions available in the sheet.");
+          return;
+        }
+
+        document.getElementById('quiz-view').classList.add('active');
+        
+        // Timer set to 1 minute per question for total test duration
+        totalTimeInSeconds = activeQuestions.length * 60;
+        startOverallTimer();
+
+        renderQuestion(currentIndex);
+      } catch (error) {
+        console.error("Error loading questions:", error);
+        document.getElementById('loading-view').innerHTML = "<p style='color:red; font-size:1.3rem;'>Failed to load questions. Please check permissions or URL.</p>";
+      }
+    }
+
+    function startOverallTimer() {
+      timerInterval = setInterval(() => {
+        if (totalTimeInSeconds <= 0) {
+          clearInterval(timerInterval);
+          alert("Time is up! Submitting your test automatically.");
+          evaluateResults();
+          return;
+        }
+        totalTimeInSeconds--;
+        updateTimerDisplay();
+      }, 1000);
+      updateTimerDisplay();
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(totalTimeInSeconds / 60);
+      const seconds = totalTimeInSeconds % 60;
+      document.getElementById('timer-display').innerText = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
     function formatImageUrl(url) {
       if (!url) return "";
       return url.trim();
     }
 
-    // Fetch Questions from Google Apps Script Web App
-    async function initQuiz() {
-      try {
-        const response = await fetch(WEB_APP_URL);
-        activeQuestions = await response.json();
-
-        document.getElementById('loading-view').classList.remove('active');
-
-        if (activeQuestions.length === 0) {
-          alert("No questions found in Google Sheet.");
-          return;
-        }
-
-        document.getElementById('quiz-view').classList.add('active');
-        renderQuestion(currentIndex);
-      } catch (error) {
-        console.error("Error loading quiz:", error);
-        document.getElementById('loading-view').innerHTML = "<p style='color:red;'>Failed to load quiz data. Check API URL.</p>";
-      }
-    }
-
     function renderQuestion(index) {
       const q = activeQuestions[index];
-      
+
+      // Update header and progress bar
       document.getElementById('question-counter').innerText = `Question ${index + 1} of ${activeQuestions.length}`;
+      const progressPercent = ((index + 1) / activeQuestions.length) * 100;
+      document.getElementById('quiz-progress-bar').style.width = `${progressPercent}%`;
+
       document.getElementById('question-title').innerText = q.QuestionTitle || q.Question || `Question ${index + 1}`;
 
-      // Handle Image Display
+      // Handle Image / Diagram Display
       const imgContainer = document.getElementById('image-container');
       const imgElem = document.getElementById('question-image');
       const processedImgUrl = formatImageUrl(q.ImageUrl);
@@ -292,7 +500,7 @@
         imgContainer.style.display = "none";
       }
 
-      // Render Options
+      // Render Option Buttons
       const optionsBox = document.getElementById('options-container');
       optionsBox.innerHTML = "";
 
@@ -332,7 +540,7 @@
       }
     }
 
-    // Instant Option Selection (without re-rendering entire component)
+    // Direct Instant Option Selection
     function selectOption(selectedNum, correctNum, solution) {
       userAnswers[currentIndex] = selectedNum;
 
@@ -341,15 +549,10 @@
         const optionNum = idx + 1;
         btn.disabled = true;
 
-        if (optionNum === correctNum) {
-          btn.classList.add('correct');
-        }
-        if (optionNum === selectedNum && selectedNum !== correctNum) {
-          btn.classList.add('wrong');
-        }
+        if (optionNum === correctNum) btn.classList.add('correct');
+        if (optionNum === selectedNum && selectedNum !== correctNum) btn.classList.add('wrong');
       });
 
-      // Show Explanation immediately
       const expDrawer = document.getElementById('explanation-box');
       document.getElementById('explanation-text').innerText = solution || "No detailed solution text provided for this question.";
       expDrawer.style.display = 'block';
@@ -360,17 +563,20 @@
         currentIndex++;
         renderQuestion(currentIndex);
       } else {
-        alert("You have reached the end of this quiz section. Click 'Submit' to evaluate!");
+        alert("You have reached the final question. Click 'Submit Quiz' to view results!");
       }
     }
 
     function confirmSubmit() {
       if (confirm("Are you sure you want to submit your quiz now?")) {
+        clearInterval(timerInterval);
         evaluateResults();
       }
     }
 
     function evaluateResults() {
+      clearInterval(timerInterval);
+
       let totalMarks = 0;
       let weakChapters = {};
 
@@ -399,7 +605,7 @@
 
       const weakKeys = Object.keys(weakChapters);
       if (weakKeys.length === 0) {
-        weakListElem.innerHTML = "<li>Outstanding accuracy! No major weak chapters detected in attempted questions.</li>";
+        weakListElem.innerHTML = "<li>Outstanding performance! No weak chapters detected.</li>";
       } else {
         const fragment = document.createDocumentFragment();
         weakKeys.forEach(chap => {
@@ -411,8 +617,16 @@
       }
     }
 
-    // Initialize on page load
-    window.addEventListener('DOMContentLoaded', initQuiz);
+    // Submit Think Tank Suggestions
+    function submitThinkTankFeedback() {
+      const text = document.getElementById('think-tank-input').value.trim();
+      if (!text) {
+        alert("Please enter a suggestion before submitting.");
+        return;
+      }
+      document.getElementById('think-tank-input').value = "";
+      document.getElementById('think-tank-msg').style.display = "block";
+    }
   </script>
 </body>
 </html>
