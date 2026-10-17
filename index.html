@@ -1,506 +1,535 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interactive Medical & Academic Quiz Portal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEET Quiz Hub | Practice Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-color: #3b82f6;
-      --primary-dark: #1d4ed8;
-      --success-color: #10b981;
-      --error-color: #ef4444;
-      --warning-color: #f59e0b;
-      --bg-color: #f8fafc;
+      --bg-cream: #faf8f5;
       --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --border-radius: 16px;
+      --text-dark: #020617;
+      --text-muted: #334155;
+      --accent-soft-purple: #6d28d9;
+      --border-color: #cbd5e1;
+      --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+      --success-soft: #d1fae5;
+      --danger-soft: #fee2e2;
+      --radius: 20px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+    body { background-color: var(--bg-cream); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.6; }
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 16px;
-    }
+    header { background: #ffffff; text-align: center; padding: 22px 15px 14px; border-bottom: 3px solid var(--border-color); }
+    header h1 { font-family: 'Outfit', sans-serif; font-size: 2.4rem; font-weight: 900; color: var(--accent-soft-purple); }
+    header p { color: var(--text-muted); font-size: 1.15rem; margin-top: 4px; font-weight: 700; }
 
-    .container {
-      background: var(--card-bg);
-      width: 100%;
-      max-width: 850px;
-      padding: 36px;
-      border-radius: var(--border-radius);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-      display: none;
-    }
+    main { flex: 1; max-width: 950px; width: 100%; margin: 15px auto; padding: 0 10px; }
 
-    .container.active {
-      display: block;
-    }
+    .card { background: var(--card-bg); border-radius: var(--radius); padding: 22px 16px; box-shadow: var(--shadow-soft); border: 2.5px solid var(--border-color); display: none; }
+    .card.active { display: block; animation: fadeIn 0.3s ease-out; }
 
-    /* Typography Adjustments (Large, Clear Fonts) */
-    h1 { font-size: 2.2rem; margin-bottom: 12px; line-height: 1.3; }
-    h2 { font-size: 1.8rem; margin-bottom: 16px; }
-    p, li { font-size: 1.25rem; line-height: 1.6; color: var(--text-muted); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Welcome & Motivational Quote Section */
-    .quote-box {
-      background: #eff6ff;
-      border-left: 6px solid var(--primary-color);
-      padding: 20px;
-      border-radius: 8px;
-      margin: 20px 0 28px 0;
-      font-style: italic;
-      font-size: 1.3rem;
-      color: #1e40af;
-    }
+    /* Welcome Section */
+    .welcome-box { text-align: center; padding: 20px 5px; }
+    .badge-pill { display: inline-block; background: #f3e8ff; color: var(--accent-soft-purple); padding: 10px 22px; border-radius: 30px; font-weight: 800; font-size: 1.05rem; margin-bottom: 18px; }
+    .welcome-title { font-family: 'Outfit', sans-serif; font-size: 2.3rem; font-weight: 900; color: #020617; margin-bottom: 14px; }
+    .welcome-desc { color: var(--text-muted); font-size: 1.25rem; max-width: 620px; margin: 0 auto 20px; line-height: 1.8; font-weight: 600; }
 
-    /* Streak Counter */
-    .streak-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #fff7ed;
-      color: #c2410c;
-      border: 2px solid #ffedd5;
-      padding: 8px 18px;
-      border-radius: 30px;
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 16px;
-    }
+    /* Daily Streak Badge */
+    .streak-container { background: #fff7ed; border: 2.5px solid #ffedd5; color: #c2410c; padding: 12px 24px; border-radius: 16px; font-size: 1.2rem; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; }
 
-    /* Subject Cards Grid */
-    .subject-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-top: 24px;
-    }
+    /* Motivational Quotes Box */
+    .motivate-welcome-quote { background: #fdf4ff; border: 2.5px solid #f5d0fe; border-radius: 16px; padding: 18px 22px; margin: 0 auto 28px; max-width: 650px; font-style: italic; color: #86198f; font-weight: 700; font-size: 1.15rem; line-height: 1.7; }
 
-    .subject-card {
-      background: #f1f5f9;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--text-main);
-    }
+    .btn-letsgo { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: white; border: none; padding: 20px 45px; border-radius: 16px; font-size: 1.35rem; font-weight: 800; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 20px -4px rgba(109, 40, 217, 0.4); width: 100%; max-width: 380px; }
 
-    .subject-card:hover {
-      background: var(--primary-color);
-      color: white;
-      border-color: var(--primary-color);
-      transform: translateY(-3px);
-    }
+    /* Subject Selection Board */
+    .section-heading { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 20px; text-align: center; color: #020617; }
+    .subject-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 600px) { .subject-grid { grid-template-columns: repeat(2, 1fr); } }
 
-    /* Spinner Loading */
-    #loading-view { text-align: center; }
-    .spinner {
-      border: 6px solid #e2e8f0;
-      border-top: 6px solid var(--primary-color);
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
-      margin: 24px auto;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .subject-card { background: #ffffff; border: 3px solid var(--border-color); border-radius: 18px; padding: 22px 22px; cursor: pointer; transition: all 0.2s ease; }
+    .subject-card:hover { transform: translateY(-2px); border-color: #334155; }
+    
+    .subject-icon-badge { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 14px; }
+    .phy-bg { background: #eff6ff; }
+    .chem-bg { background: #fef2f2; }
+    .bot-bg { background: #ecfdf5; }
+    .zoo-bg { background: #fffbeb; }
+    .grand-bg { background: #f3e8ff; }
 
-    /* Top Quiz Header (Timer & Progress Bar) */
-    .quiz-top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
+    .subject-title { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; color: #020617; }
+    .subject-desc { font-size: 1.05rem; color: var(--text-muted); line-height: 1.6; font-weight: 600; }
+    .card-grand { grid-column: 1 / -1; border-color: #c4b5fd; }
 
-    .timer-badge {
-      background: #fef3c7;
-      color: #92400e;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 1.25rem;
-    }
+    /* Quiz Header Bar */
+    .quiz-topbar { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 14px 16px; border-radius: 14px; margin-bottom: 16px; border: 2.5px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
+    .topbar-actions { display: flex; gap: 8px; }
+    .btn-action-sm { background: #ffffff; color: var(--text-dark); border: 2.5px solid var(--border-color); padding: 10px 16px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 1.05rem; }
+    .btn-report-sm { color: #dc2626; border-color: #fca5a5; background: #fef2f2; }
 
-    .progress-container {
-      width: 100%;
-      background-color: #e2e8f0;
-      border-radius: 10px;
-      height: 14px;
-      overflow: hidden;
-      margin-bottom: 24px;
-    }
+    /* Grand Test Timer Display */
+    .timer-badge { background: #fef3c7; color: #b45309; border: 2px solid #fde68a; padding: 8px 16px; border-radius: 10px; font-weight: 900; font-size: 1.15rem; display: flex; align-items: center; gap: 6px; }
 
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background-color: var(--primary-color);
-      transition: width 0.3s ease;
-    }
+    /* Visual Progress Bar */
+    .progress-bar-wrapper { width: 100%; background-color: #e2e8f0; height: 12px; border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6, #6d28d9); width: 0%; transition: width 0.3s ease; }
 
-    /* Question Formatting */
-    .question-header {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 8px;
-    }
+    /* ULTRA-LARGE FONT FOR PHONE USERS */
+    .question-title-box { font-size: 2.2rem; font-weight: 800; line-height: 1.6; margin-bottom: 26px; color: #020617; white-space: pre-wrap; word-break: break-word; }
+    
+    .question-img-container { text-align: center; margin-bottom: 24px; }
+    .question-img { max-width: 100%; max-height: 450px; border-radius: 14px; border: 3px solid var(--border-color); object-fit: contain; }
 
-    .question-text {
-      font-size: 1.55rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 20px;
-    }
+    .options-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 28px; }
+    .opt-btn { background: #ffffff; border: 3px solid var(--border-color); border-radius: 18px; padding: 22px 22px; color: var(--text-dark); font-size: 1.5rem; font-weight: 700; text-align: left; cursor: pointer; transition: all 0.2s ease; line-height: 1.5; width: 100%; }
+    .opt-btn:hover:not(:disabled) { border-color: var(--accent-soft-purple); background: #faf5ff; }
+    .opt-btn.correct { background: var(--success-soft) !important; border-color: #059669 !important; color: #065f46 !important; font-weight: 800; }
+    .opt-btn.wrong { background: var(--danger-soft) !important; border-color: #ef4444 !important; color: #991b1b !important; font-weight: 800; }
 
-    /* Diagram and Image Support */
-    #image-container {
-      margin-bottom: 24px;
-      text-align: center;
-    }
+    .explanation-drawer { background: #ecfdf5; border-left: 6px solid #059669; padding: 20px; border-radius: 14px; margin-bottom: 28px; font-size: 1.25rem; line-height: 1.7; font-weight: 600; }
+    .explanation-drawer strong { font-size: 1.35rem; display: block; margin-bottom: 8px; color: #065f46; font-weight: 800; }
 
-    #question-image {
-      max-width: 100%;
-      max-height: 350px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      object-fit: contain;
-    }
+    .nav-row { display: flex; justify-content: space-between; gap: 12px; }
+    .btn-nav { padding: 18px 24px; border-radius: 16px; font-weight: 800; border: none; cursor: pointer; font-size: 1.2rem; flex: 1; text-align: center; }
+    .btn-next-q { background: var(--accent-soft-purple); color: white; }
+    .btn-submit-q { background: #fef2f2; color: #dc2626; border: 2.5px solid #fca5a5; }
 
-    /* Options Styling */
-    .options-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 24px;
-    }
+    /* Modals (Palette & Report) */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); display: none; justify-content: center; align-items: center; z-index: 1000; }
+    .modal-overlay.active { display: flex; }
+    .modal-content { background: #ffffff; border-radius: 22px; padding: 25px 20px; max-width: 520px; width: 94%; max-height: 85vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 2.2rem; cursor: pointer; }
 
-    .opt-btn {
-      width: 100%;
-      padding: 18px 22px;
-      font-size: 1.2rem;
-      text-align: left;
-      background-color: #ffffff;
-      border: 2px solid #cbd5e1;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      color: var(--text-main);
-    }
+    .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .p-btn { padding: 14px 0; background: #f8fafc; border: 2px solid var(--border-color); color: var(--text-dark); border-radius: 10px; font-weight: 800; text-align: center; font-size: 1.15rem; }
+    .p-btn.active { border-color: var(--accent-soft-purple); color: var(--accent-soft-purple); font-weight: 900; background: #f3e8ff; }
+    .p-btn.correct { background: #059669; color: white; border-color: #059669; }
+    .p-btn.wrong { background: #ef4444; color: white; border-color: #ef4444; }
 
-    .opt-btn:hover:not(:disabled) {
-      background-color: #f1f5f9;
-      border-color: #94a3b8;
-    }
+    /* Forms */
+    .form-group { margin-bottom: 18px; text-align: left; }
+    .form-group label { display: block; font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 8px; }
+    .form-control { width: 100%; padding: 14px 16px; border: 2.5px solid var(--border-color); border-radius: 12px; font-size: 1.15rem; font-weight: 600; }
+    textarea.form-control { resize: vertical; min-height: 100px; }
+    .btn-report-submit { background: #dc2626; color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 800; width: 100%; cursor: pointer; font-size: 1.2rem; }
 
-    .opt-btn.correct {
-      background-color: #d1fae5 !important;
-      border-color: var(--success-color) !important;
-      color: #065f46;
-      font-weight: bold;
-    }
+    /* Results Screen & Think Tank Option */
+    .result-box { text-align: center; }
+    .score-badge { font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 900; color: var(--accent-soft-purple); margin: 15px 0; }
+    .motivate-quote { background: #f3e8ff; border: 2.5px solid #ddd6fe; border-radius: 16px; padding: 20px; margin: 24px 0; font-style: italic; color: #6b21a8; font-weight: 700; font-size: 1.2rem; line-height: 1.7; }
 
-    .opt-btn.wrong {
-      background-color: #fee2e2 !important;
-      border-color: var(--error-color) !important;
-      color: #991b1b;
-    }
+    .weak-report { background: #fef2f2; border: 2.5px solid #fca5a5; padding: 22px; border-radius: 16px; text-align: left; margin-top: 24px; }
+    .weak-report h4 { color: #991b1b; margin-bottom: 12px; font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 900; }
+    .weak-report ul { padding-left: 20px; font-size: 1.15rem; color: #7f1d1d; line-height: 1.8; font-weight: 600; }
 
-    .opt-btn:disabled { cursor: not-allowed; }
+    /* Think Tank Feedback Box */
+    .think-tank-card { background: #f0fdf4; border: 2.5px solid #bbf7d0; border-radius: 18px; padding: 24px; text-align: left; margin-top: 28px; }
+    .think-tank-card h3 { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 900; color: #166534; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .think-tank-card p { font-size: 1.05rem; color: #15803d; font-weight: 600; margin-bottom: 16px; }
+    .btn-think-submit { background: #166534; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 800; width: 100%; cursor: pointer; font-size: 1.2rem; margin-top: 10px; }
 
-    /* Explanation Drawer */
-    #explanation-box {
-      background-color: #f0f9ff;
-      border-left: 6px solid var(--primary-color);
-      padding: 20px;
-      border-radius: 0 10px 10px 0;
-      margin-bottom: 24px;
-      display: none;
-      font-size: 1.2rem;
-    }
-
-    /* Controls */
-    .controls {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .action-btn {
-      padding: 14px 28px;
-      font-size: 1.2rem;
-      font-weight: 700;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background-color: var(--primary-color);
-      color: white;
-      transition: background 0.2s ease;
-    }
-
-    .action-btn:hover { background-color: var(--primary-dark); }
-    .submit-btn { background-color: var(--success-color); }
-    .submit-btn:hover { background-color: #059669; }
-
-    /* Think Tank Improvement Feedback Section */
-    .think-tank-box {
-      margin-top: 36px;
-      padding-top: 28px;
-      border-top: 2px dashed #cbd5e1;
-    }
-
-    .think-tank-title {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #1e293b;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .think-tank-textarea {
-      width: 100%;
-      height: 120px;
-      padding: 16px;
-      font-size: 1.15rem;
-      border: 2px solid #cbd5e1;
-      border-radius: 10px;
-      margin-top: 12px;
-      resize: vertical;
-    }
-
-    .think-tank-submit {
-      margin-top: 12px;
-      padding: 12px 24px;
-      font-size: 1.15rem;
-      font-weight: 600;
-      background-color: #8b5cf6;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .think-tank-submit:hover { background-color: #7c3aed; }
-
-    /* Responsive scaling for mobile / tablets */
-    @media (max-width: 600px) {
-      .container { padding: 20px; }
-      h1 { font-size: 1.8rem; }
-      .question-text { font-size: 1.35rem; }
-      .opt-btn { font-size: 1.1rem; padding: 14px; }
-      .action-btn { width: 100%; text-align: center; }
-      .controls { flex-direction: column; }
-    }
+    .consistency-note { text-align: center; margin-top: 30px; color: var(--text-muted); font-size: 1.15rem; font-weight: 600; }
+    .thank-you { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 900; color: var(--accent-soft-purple); margin-top: 12px; }
   </style>
 </head>
 <body>
 
-  <!-- 1. WELCOME & SUBJECT SELECTION VIEW -->
-  <div id="welcome-view" class="container active">
-    <div class="streak-badge">🔥 Daily Practice Streak: <span id="streak-count">3</span> Days</div>
-    <h1>Grand Practice Portal</h1>
-    <div class="quote-box" id="motivation-quote">
-      "The expert in anything was once a beginner. Keep practicing!"
-    </div>
-    <p>Select a subject to begin your practice test. You will get 1 minute per question for overall test duration.</p>
+  <header>
+    <h1>NEET Quiz Hub</h1>
+    <p>Empowering NEET Aspirants Through Focused Practice</p>
+  </header>
 
-    <div class="subject-grid">
-      <div class="subject-card" onclick="startSubjectQuiz('All Topics')">📚 Full Grand Test</div>
-      <div class="subject-card" onclick="startSubjectQuiz('Pharmacology')">💊 Pharmacology</div>
-      <div class="subject-card" onclick="startSubjectQuiz('General Concepts')">🧬 General Concepts</div>
+  <main>
+    <!-- Screen 1: Welcome -->
+    <div id="welcome-view" class="card active">
+      <div class="welcome-box">
+        <span class="badge-pill">NEET PRACTICE PORTAL</span>
+        <h2 class="welcome-title">Hello! Welcome to NEET Quiz Hub 👋</h2>
+        
+        <div class="streak-container">
+          🔥 Daily Practice Streak: <span id="streak-days">1</span> Day(s)
+        </div>
+
+        <div class="motivate-welcome-quote" id="welcome-quote">
+          "Believe in yourself! Every single question you solve today brings you closer to your dream medical seat."
+        </div>
+
+        <p class="welcome-desc">Step into your personalized NEET practice dashboard. Choose subject-specific practice sets or test your endurance with a full 200-question grand mock test.</p>
+        <button type="button" class="btn-letsgo" onclick="openBoardView()">Let's Go! 🚀</button>
+      </div>
+    </div>
+
+    <!-- Screen 2: Subject Board -->
+    <div id="board-view" class="card">
+      <div class="section-heading">Select Practice Mode</div>
+      <div class="subject-grid">
+
+        <div class="subject-card" onclick="startQuiz('Physics')">
+          <div class="subject-icon-badge phy-bg">🔬</div>
+          <div class="subject-title">Physics Practice</div>
+          <div class="subject-desc">Mechanics, Electrodynamics, Optics & Modern Physics</div>
+        </div>
+
+        <div class="subject-card" onclick="startQuiz('Chemistry')">
+          <div class="subject-icon-badge chem-bg">⚗️</div>
+          <div class="subject-title">Chemistry Practice</div>
+          <div class="subject-desc">Physical, Organic & Inorganic Chemical Reactions</div>
+        </div>
+
+        <div class="subject-card" onclick="startQuiz('Botany')">
+          <div class="subject-icon-badge bot-bg">🌱</div>
+          <div class="subject-title">Botany Practice</div>
+          <div class="subject-desc">Plant Anatomy, Genetics, Cell Biology & Ecology</div>
+        </div>
+
+        <div class="subject-card" onclick="startQuiz('Zoology')">
+          <div class="subject-icon-badge zoo-bg">🐾</div>
+          <div class="subject-title">Zoology Practice</div>
+          <div class="subject-desc">Human Physiology, Biomolecules & Reproduction</div>
+        </div>
+
+        <div class="subject-card card-grand" onclick="startQuiz('Grand')">
+          <div class="subject-icon-badge grand-bg">⭐</div>
+          <div class="subject-title">NEET Grand Mock Test</div>
+          <div class="subject-desc">Full-length test covering all 200 questions across Physics, Chemistry, Botany & Zoology</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Screen 3: Quiz View -->
+    <div id="quiz-view" class="card">
+      <div class="quiz-topbar">
+        <div>
+          <span id="current-subject-tag" style="font-weight: 900; color: var(--accent-soft-purple); font-size: 1.25rem;">Physics</span>
+          <span id="question-progress" style="color: var(--text-muted); font-size: 1.1rem; margin-left: 10px; font-weight: 700;">Question 1 of 200</span>
+        </div>
+        
+        <div id="grand-timer-box" class="timer-badge" style="display: none;">
+          ⏱️ <span id="time-remaining">200:00</span>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn-action-sm btn-report-sm" onclick="toggleReportModal(true)">⚠️ Report</button>
+          <button class="btn-action-sm" onclick="togglePaletteModal(true)">📋 Palette</button>
+        </div>
+      </div>
+
+      <!-- Visual Progress Bar -->
+      <div class="progress-bar-wrapper">
+        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+      </div>
+
+      <div id="question-title" class="question-title-box">Loading Question...</div>
+      
+      <div id="image-container" class="question-img-container" style="display: none;">
+        <img id="question-image" class="question-img" alt="Question Diagram" />
+      </div>
+
+      <div id="options-container" class="options-grid"></div>
+
+      <div id="explanation-box" class="explanation-drawer">
+        <strong>Detailed Explanation:</strong>
+        <p id="explanation-text"></p>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn-nav btn-submit-q" onclick="confirmSubmit()">Submit</button>
+        <button id="next-btn" class="btn-nav btn-next-q" onclick="nextQuestion()">Next Question ➔</button>
+      </div>
+    </div>
+
+    <!-- Screen 4: Results -->
+    <div id="result-view" class="card">
+      <div class="result-box">
+        <h2 style="font-family:'Outfit', sans-serif;">Performance Report</h2>
+        <div id="final-score" class="score-badge">0 / 800</div>
+
+        <div id="motivate-quote" class="motivate-quote">"Success in NEET is the sum of small efforts repeated day in and day out!"</div>
+
+        <div id="weak-analysis" class="weak-report">
+          <h4>Focus Areas for Improvement:</h4>
+          <ul id="weak-list"></ul>
+        </div>
+
+        <!-- Think Tank Suggestions Feature -->
+        <div class="think-tank-card">
+          <h3>💡 Think Tank (Suggestions & Ideas)</h3>
+          <p>Help us make NEET Quiz Hub even better! Share your ideas, suggestions, or feature requests below:</p>
+          <form id="think-tank-form" onsubmit="submitThinkTankIdea(event)">
+            <textarea id="think-tank-text" class="form-control" placeholder="Share your suggestions, feature requests, or improvements..." required></textarea>
+            <button type="submit" class="btn-think-submit">Submit Idea to Think Tank 🚀</button>
+          </form>
+        </div>
+
+        <div class="consistency-note">
+          Consistency with NEET Quiz Hub drives continuous improvement. Keep pushing forward!<br>
+          <div class="thank-you">Thank You 😊</div>
+        </div>
+
+        <button class="btn-letsgo" style="margin-top: 25px; width: 100%; max-width: 100%;" onclick="openBoardView()">Try Another Quiz</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Question Palette Modal -->
+  <div id="palette-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-family:'Outfit', sans-serif; color: var(--text-dark); font-size: 1.4rem;">Question Palette</h3>
+        <button class="modal-close" onclick="togglePaletteModal(false)">&times;</button>
+      </div>
+      <div id="modal-palette-grid" class="palette-grid"></div>
     </div>
   </div>
 
-  <!-- 2. LOADING VIEW -->
-  <div id="loading-view" class="container">
-    <div class="spinner"></div>
-    <p style="text-align: center;">Fetching latest questions from Google Sheets...</p>
-  </div>
-
-  <!-- 3. MAIN QUIZ VIEW -->
-  <div id="quiz-view" class="container">
-    <div class="quiz-top-bar">
-      <div class="question-header" id="question-counter">Question 1 of --</div>
-      <div class="timer-badge">⏱️ Time Left: <span id="timer-display">--:--</span></div>
-    </div>
-
-    <!-- Visual Progress Bar -->
-    <div class="progress-container">
-      <div class="progress-bar" id="quiz-progress-bar"></div>
-    </div>
-
-    <div class="question-text" id="question-title">Loading Question...</div>
-
-    <!-- Diagram / Image Container -->
-    <div id="image-container" style="display: none;">
-      <img id="question-image" src="" alt="Question Diagram / Image" />
-    </div>
-
-    <div class="options-grid" id="options-container"></div>
-
-    <div id="explanation-box">
-      <strong>Explanation:</strong>
-      <p id="explanation-text" style="margin-top: 6px;"></p>
-    </div>
-
-    <div class="controls">
-      <button class="action-btn" onclick="nextQuestion()">Next Question</button>
-      <button class="action-btn submit-btn" onclick="confirmSubmit()">Submit Quiz</button>
-    </div>
-  </div>
-
-  <!-- 4. RESULT VIEW WITH THINK TANK -->
-  <div id="result-view" class="container">
-    <h2 style="font-size: 2.2rem; text-align: center;">Grand Test Evaluation</h2>
-    <div style="font-size: 2.5rem; font-weight: bold; text-align: center; color: var(--primary-color); margin: 20px 0;" id="final-score">0 / 0</div>
-
-    <h3 style="font-size: 1.5rem; margin-bottom: 12px;">Weak Chapters / Topics:</h3>
-    <ul id="weak-list" style="margin-left: 20px; margin-bottom: 30px;"></ul>
-
-    <!-- Think Tank Suggestions Section -->
-    <div class="think-tank-box">
-      <div class="think-tank-title">💡 Think Tank</div>
-      <p>Have ideas or suggestions to make this test better? Share your feedback below!</p>
-      <textarea id="think-tank-input" class="think-tank-textarea" placeholder="Type your ideas, missing concepts, or suggestions here..."></textarea>
-      <button class="think-tank-submit" onclick="submitThinkTankFeedback()">Submit Feedback</button>
-      <p id="think-tank-msg" style="display:none; color: var(--success-color); font-weight: bold; margin-top: 10px;">Thank you for contributing to Think Tank!</p>
+  <!-- Report Question Modal -->
+  <div id="report-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-family:'Outfit', sans-serif; color: #dc2626; font-size: 1.4rem;">Report Question Error ⚠️</h3>
+        <button class="modal-close" onclick="toggleReportModal(false)">&times;</button>
+      </div>
+      <form id="report-form" onsubmit="submitQuestionReport(event)">
+        <div class="form-group">
+          <label>Issue Category:</label>
+          <select id="report-type" class="form-control" required>
+            <option value="Wrong Answer Key">Wrong Answer Key Option</option>
+            <option value="Typo or Spelling Error">Typo or Text Error</option>
+            <option value="Image Error">Diagram / Image Issue</option>
+            <option value="Explanation Issue">Unclear / Incorrect Solution</option>
+            <option value="Other Issue">Other Issue</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Describe Problem / Correct Reason:</label>
+          <textarea id="report-reason" class="form-control" placeholder="Please explain why this question/answer is incorrect..." required></textarea>
+        </div>
+        <button type="submit" class="btn-report-submit">Submit Report</button>
+      </form>
     </div>
   </div>
 
   <script>
-    // Configured with your deployed Apps Script URL
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwFodJNqxrw8LwvnPcQRcSH0eMFZGAxcpIpbLYQauCP6GlaVgoEgcE2YmS_dvcH6ATLMQ/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbwFodJNqxrw8LwvnPcQRcSH0eMFZGAxcpIpbLYQauCP6GlaVgoEgcE2YmS_dvcH6ATLMQ/exec";
 
+    let grandQuestions = [];
     let activeQuestions = [];
     let userAnswers = {};
     let currentIndex = 0;
-    let timerInterval = null;
-    let totalTimeInSeconds = 0;
+
+    // Timer Variables
+    let testTimerInterval = null;
+    let secondsLeft = 0;
 
     const motivationalQuotes = [
-      "\"Success is the sum of small efforts, repeated day in and day out.\" - Robert Collier",
-      "\"The expert in anything was once a beginner. Keep practicing!\"",
-      "\"Medicine and learning are continuous journeys. Trust your preparation.\"",
-      "\"Don't count the days, make the days count.\""
+      `"Believe in yourself! Every single question you solve today brings you closer to your dream medical seat."`,
+      `"Success isn't given. It's earned in the quiet hours of practice and consistency."`,
+      `"Future Doctors: Keep pushing! Small steps lead to giant leaps on NEET exam day."`,
+      `"Focus on accuracy first, speed will naturally follow. You've got this!"`
     ];
 
-    // Load Daily Streak & Random Motivational Quote on startup
-    window.addEventListener('DOMContentLoaded', () => {
-      const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
-      document.getElementById('motivation-quote').innerText = randomQuote;
-      
-      let streak = localStorage.getItem('quiz_streak') || 3;
-      document.getElementById('streak-count').innerText = streak;
-    });
+    function setupDailyStreak() {
+      const today = new Date().toDateString();
+      const lastVisit = localStorage.getItem('last_quiz_visit');
+      let streak = parseInt(localStorage.getItem('quiz_streak_days') || "1");
 
-    function startSubjectQuiz(subjectName) {
-      document.getElementById('welcome-view').classList.remove('active');
-      document.getElementById('loading-view').classList.add('active');
-      fetchQuizData(subjectName);
+      if (lastVisit) {
+        const lastDate = new Date(lastVisit);
+        const currentDate = new Date(today);
+        const diffDays = Math.round((currentDate - lastDate) / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 1) {
+          streak += 1;
+        } else if (diffDays > 1) {
+          streak = 1;
+        }
+      }
+
+      localStorage.setItem('last_quiz_visit', today);
+      localStorage.setItem('quiz_streak_days', streak);
+      document.getElementById('streak-days').innerText = streak;
     }
 
-    async function fetchQuizData(subjectFilter) {
+    function setRandomWelcomeQuote() {
+      const quoteElem = document.getElementById('welcome-quote');
+      const randomIdx = Math.floor(Math.random() * motivationalQuotes.length);
+      quoteElem.innerText = motivationalQuotes[randomIdx];
+    }
+
+    function formatImageUrl(rawUrl) {
+      if (!rawUrl) return "";
+      let url = rawUrl.trim();
+      if (url.includes("drive.google.com")) {
+        const match = url.match(/(?:file\/d\/|id=)([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          return `https://lh3.googleusercontent.com/d/${match[1]}`;
+        }
+      }
+      return url;
+    }
+
+    async function fetchQuestions() {
       try {
-        const response = await fetch(WEB_APP_URL);
-        const data = await response.json();
-
-        if (subjectFilter && subjectFilter !== 'All Topics') {
-          activeQuestions = data.filter(q => q.Subject === subjectFilter || q.Chapter === subjectFilter);
-          if (activeQuestions.length === 0) activeQuestions = data; // Fallback if no specific filter matches
-        } else {
-          activeQuestions = data;
-        }
-
-        document.getElementById('loading-view').classList.remove('active');
-
-        if (activeQuestions.length === 0) {
-          alert("No questions available in the sheet.");
-          return;
-        }
-
-        document.getElementById('quiz-view').classList.add('active');
-        
-        // Timer set to 1 minute per question for total test duration
-        totalTimeInSeconds = activeQuestions.length * 60;
-        startOverallTimer();
-
-        renderQuestion(currentIndex);
-      } catch (error) {
-        console.error("Error loading questions:", error);
-        document.getElementById('loading-view').innerHTML = "<p style='color:red; font-size:1.3rem;'>Failed to load questions. Please check permissions or URL.</p>";
+        const response = await fetch(API_URL);
+        grandQuestions = await response.json();
+        console.log("Grand Test Questions Loaded:", grandQuestions.length);
+      } catch (err) {
+        console.error("Error loading questions:", err);
       }
     }
 
-    function startOverallTimer() {
-      timerInterval = setInterval(() => {
-        if (totalTimeInSeconds <= 0) {
-          clearInterval(timerInterval);
-          alert("Time is up! Submitting your test automatically.");
+    window.onload = () => {
+      fetchQuestions();
+      setupDailyStreak();
+      setRandomWelcomeQuote();
+    };
+
+    function openBoardView() {
+      clearInterval(testTimerInterval);
+      document.getElementById('welcome-view').classList.remove('active');
+      document.getElementById('quiz-view').classList.remove('active');
+      document.getElementById('result-view').classList.remove('active');
+      document.getElementById('board-view').classList.add('active');
+    }
+
+    function startQuiz(mode) {
+      if (mode === 'Grand') {
+        if (!grandQuestions || grandQuestions.length === 0) {
+          alert("Questions are loading from Google Sheet. Please wait 1 second and click again!");
+          return;
+        }
+        activeQuestions = grandQuestions;
+      } else {
+        alert(`Questions for ${mode} will be updated soon! Please practice using the NEET Grand Mock Test.`);
+        return;
+      }
+
+      currentIndex = 0;
+      userAnswers = {};
+
+      document.getElementById('board-view').classList.remove('active');
+      document.getElementById('quiz-view').classList.add('active');
+
+      // Start 1 min/question overall timer (200 questions = 200 minutes)
+      startOverallTimer(activeQuestions.length * 60);
+
+      renderQuestion(0);
+    }
+
+    function startOverallTimer(totalSeconds) {
+      clearInterval(testTimerInterval);
+      secondsLeft = totalSeconds;
+      const timerBox = document.getElementById('grand-timer-box');
+      const timerDisplay = document.getElementById('time-remaining');
+      timerBox.style.display = 'flex';
+
+      testTimerInterval = setInterval(() => {
+        if (secondsLeft <= 0) {
+          clearInterval(testTimerInterval);
+          alert("⏱️ Time's up! Your Grand Test is automatically submitting now.");
           evaluateResults();
           return;
         }
-        totalTimeInSeconds--;
-        updateTimerDisplay();
+        secondsLeft--;
+
+        const mins = Math.floor(secondsLeft / 60);
+        const secs = secondsLeft % 60;
+        timerDisplay.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
       }, 1000);
-      updateTimerDisplay();
     }
 
-    function updateTimerDisplay() {
-      const minutes = Math.floor(totalTimeInSeconds / 60);
-      const seconds = totalTimeInSeconds % 60;
-      document.getElementById('timer-display').innerText = 
-        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    function togglePaletteModal(show) {
+      const modal = document.getElementById('palette-modal');
+      if (show) {
+        renderPaletteGrid();
+        modal.classList.add('active');
+      } else {
+        modal.classList.remove('active');
+      }
     }
 
-    function formatImageUrl(url) {
-      if (!url) return "";
-      return url.trim();
+    function toggleReportModal(show) {
+      const modal = document.getElementById('report-modal');
+      if (show) {
+        modal.classList.add('active');
+      } else {
+        modal.classList.remove('active');
+      }
+    }
+
+    function submitQuestionReport(event) {
+      event.preventDefault();
+      const type = document.getElementById('report-type').value;
+      const reason = document.getElementById('report-reason').value;
+
+      alert("Thank you! Your feedback for Question " + (currentIndex + 1) + " has been submitted successfully.");
+      document.getElementById('report-form').reset();
+      toggleReportModal(false);
+    }
+
+    function submitThinkTankIdea(event) {
+      event.preventDefault();
+      const text = document.getElementById('think-tank-text').value;
+
+      alert("💡 Thank you for contributing to Think Tank! Your idea has been received and will help improve NEET Quiz Hub.");
+      document.getElementById('think-tank-form').reset();
+    }
+
+    function renderPaletteGrid() {
+      const grid = document.getElementById('modal-palette-grid');
+      grid.innerHTML = "";
+
+      activeQuestions.forEach((q, idx) => {
+        const btn = document.createElement('div');
+        btn.className = 'p-btn';
+        if (idx === currentIndex) btn.classList.add('active');
+
+        const answered = userAnswers[idx];
+        const correct = parseInt(q.CorrectAnswer);
+
+        if (answered !== undefined) {
+          if (answered === correct) btn.classList.add('correct');
+          else btn.classList.add('wrong');
+        }
+
+        btn.innerText = idx + 1;
+        btn.onclick = () => {
+          currentIndex = idx;
+          renderQuestion(currentIndex);
+          togglePaletteModal(false);
+        };
+        grid.appendChild(btn);
+      });
     }
 
     function renderQuestion(index) {
       const q = activeQuestions[index];
+      document.getElementById('current-subject-tag').innerText = q.Chapter || q.Category || "NEET Practice";
+      document.getElementById('question-progress').innerText = `Question ${index + 1} of ${activeQuestions.length}`;
+      document.getElementById('question-title').innerText = `${index + 1}. ${q.Question || ""}`;
 
-      // Update header and progress bar
-      document.getElementById('question-counter').innerText = `Question ${index + 1} of ${activeQuestions.length}`;
+      // Progress Bar Calculation
       const progressPercent = ((index + 1) / activeQuestions.length) * 100;
-      document.getElementById('quiz-progress-bar').style.width = `${progressPercent}%`;
+      document.getElementById('progress-bar-fill').style.width = `${progressPercent}%`;
 
-      document.getElementById('question-title').innerText = q.QuestionTitle || q.Question || `Question ${index + 1}`;
-
-      // Handle Image / Diagram Display
       const imgContainer = document.getElementById('image-container');
       const imgElem = document.getElementById('question-image');
       const processedImgUrl = formatImageUrl(q.ImageUrl);
 
       if (processedImgUrl !== "") {
         imgElem.src = processedImgUrl;
-        imgContainer.style.display = "block";
+        imgContainer ? imgContainer.style.display = "block" : imgElem.style.display = "block";
       } else {
-        imgContainer.style.display = "none";
+        imgContainer ? imgContainer.style.display = "none" : imgElem.style.display = "none";
       }
 
-      // Render Option Buttons
       const optionsBox = document.getElementById('options-container');
       optionsBox.innerHTML = "";
 
@@ -530,7 +559,6 @@
         optionsBox.appendChild(btn);
       });
 
-      // Handle Explanation Box
       const expDrawer = document.getElementById('explanation-box');
       if (userSelected !== undefined) {
         document.getElementById('explanation-text').innerText = q.Solution || "No detailed solution text provided for this question.";
@@ -540,22 +568,9 @@
       }
     }
 
-    // Direct Instant Option Selection
     function selectOption(selectedNum, correctNum, solution) {
       userAnswers[currentIndex] = selectedNum;
-
-      const buttons = document.querySelectorAll('.opt-btn');
-      buttons.forEach((btn, idx) => {
-        const optionNum = idx + 1;
-        btn.disabled = true;
-
-        if (optionNum === correctNum) btn.classList.add('correct');
-        if (optionNum === selectedNum && selectedNum !== correctNum) btn.classList.add('wrong');
-      });
-
-      const expDrawer = document.getElementById('explanation-box');
-      document.getElementById('explanation-text').innerText = solution || "No detailed solution text provided for this question.";
-      expDrawer.style.display = 'block';
+      renderQuestion(currentIndex);
     }
 
     function nextQuestion() {
@@ -563,19 +578,18 @@
         currentIndex++;
         renderQuestion(currentIndex);
       } else {
-        alert("You have reached the final question. Click 'Submit Quiz' to view results!");
+        alert("You have reached the end of this quiz section. Click 'Submit' to evaluate!");
       }
     }
 
     function confirmSubmit() {
       if (confirm("Are you sure you want to submit your quiz now?")) {
-        clearInterval(timerInterval);
         evaluateResults();
       }
     }
 
     function evaluateResults() {
-      clearInterval(timerInterval);
+      clearInterval(testTimerInterval);
 
       let totalMarks = 0;
       let weakChapters = {};
@@ -605,27 +619,12 @@
 
       const weakKeys = Object.keys(weakChapters);
       if (weakKeys.length === 0) {
-        weakListElem.innerHTML = "<li>Outstanding performance! No weak chapters detected.</li>";
+        weakListElem.innerHTML = "<li>Outstanding accuracy! No major weak chapters detected in attempted questions.</li>";
       } else {
-        const fragment = document.createDocumentFragment();
         weakKeys.forEach(chap => {
-          const li = document.createElement('li');
-          li.innerHTML = `<strong>${chap}</strong> (${weakChapters[chap]} incorrect attempts)`;
-          fragment.appendChild(li);
+          weakListElem.innerHTML += `<li><strong>${chap}</strong> (${weakChapters[chap]} incorrect attempts)</li>`;
         });
-        weakListElem.appendChild(fragment);
       }
-    }
-
-    // Submit Think Tank Suggestions
-    function submitThinkTankFeedback() {
-      const text = document.getElementById('think-tank-input').value.trim();
-      if (!text) {
-        alert("Please enter a suggestion before submitting.");
-        return;
-      }
-      document.getElementById('think-tank-input').value = "";
-      document.getElementById('think-tank-msg').style.display = "block";
     }
   </script>
 </body>
