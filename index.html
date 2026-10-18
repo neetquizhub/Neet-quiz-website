@@ -136,18 +136,13 @@
       color: var(--slate-blue);
     }
 
-    .btn.danger {
-      background: #c0392b;
-      color: white;
-    }
-
     .btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
       transform: none !important;
     }
 
-    /* 1. Welcome Screen */
+    /* Welcome Screen */
     #welcome-view {
       text-align: center;
       padding: 60px 20px;
@@ -174,7 +169,7 @@
       background: var(--slate-blue);
     }
 
-    /* 2. Subject & Chapter Selection View */
+    /* Subject & Chapter Selection View */
     .section-title {
       font-size: 26px;
       color: var(--slate-blue);
@@ -223,11 +218,26 @@
     .physics { background: var(--soft-denim); }
     .chemistry { background: var(--soft-rose); }
 
-    /* Numbered Grand Test List */
-    .grand-section {
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 2px dashed var(--border);
+    .grand-card-button {
+      background: linear-gradient(135deg, var(--soft-denim), var(--periwinkle-mist));
+      width: 100%;
+      border-radius: 20px;
+      padding: 24px;
+      text-align: left;
+      border: 1px solid var(--border);
+      margin-top: 10px;
+      transition: all 0.25s ease;
+    }
+
+    .grand-card-button:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .grand-card-button h3 {
+      font-size: 22px;
+      margin: 0 0 5px;
+      color: var(--slate-blue);
     }
 
     .chapter-list {
@@ -255,7 +265,7 @@
       border-color: var(--slate-blue);
     }
 
-    /* 4-7. Quiz View & Header Bar */
+    /* Quiz View Top Controls */
     .quiz-nav-top {
       display: flex;
       justify-content: space-between;
@@ -307,7 +317,6 @@
       border-radius: 14px;
     }
 
-    /* Toggleable Question Palette */
     .palette-toggle-btn {
       background: var(--soft-denim);
       color: var(--slate-blue);
@@ -357,7 +366,7 @@
       color: #2b5b32;
     }
 
-    /* 5. Question & Option Styling with Soft Outlines */
+    /* Question & Option Styling */
     .question-box {
       margin: 20px 0;
     }
@@ -406,7 +415,6 @@
       border-color: var(--selected-border);
     }
 
-    /* Requirement 6: Soft Green & Red Outlines */
     .option-btn.correct {
       background: var(--correct-bg) !important;
       border-color: var(--correct-border) !important;
@@ -419,7 +427,6 @@
       color: #6d2525;
     }
 
-    /* Instant Explanations */
     .explanation-box {
       margin-top: 25px;
       padding: 22px;
@@ -436,7 +443,6 @@
       font-size: 20px;
     }
 
-    /* Navigation Controls */
     .quiz-controls {
       display: flex;
       justify-content: space-between;
@@ -529,7 +535,6 @@
       color: #3b6342;
     }
 
-    /* Modal Forms */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -608,15 +613,16 @@
   </header>
 
   <main>
-    <!-- 1. Welcome Page -->
+    <!-- Welcome Page -->
     <section id="welcome-view" class="glass-card">
       <h1>Master NEET with Confidence</h1>
       <p>Subject-wise, chapter-focused practice tests designed to elevate your NEET score with deep explanations and instant feedback.</p>
       <button class="btn start-hero-btn" onclick="showSubjectSelection()">Start Practice →</button>
     </section>
 
-    <!-- 2 & 3. Subject & Grand Test Selection View -->
+    <!-- Main Selection Screen -->
     <section id="selection-view" class="glass-card hidden">
+      <!-- Step 1: Subjects Grid & Grand Test Entry Card -->
       <div id="subject-step">
         <h2 class="section-title">Select Subject</h2>
         <div class="subject-grid">
@@ -645,20 +651,25 @@
           </button>
         </div>
 
-        <!-- 2. Numbered Grand Tests List -->
-        <div class="grand-section">
-          <h2 class="section-title">⭐ Grand Mock Tests</h2>
-          <div id="grand-tests-list" class="chapter-list">
-            <!-- Dynamically populated Grand Test 1, Grand Test 2, etc. -->
-          </div>
-        </div>
+        <!-- Grand Test Main Card Button -->
+        <button class="grand-card-button" onclick="openGrandTestsPage()">
+          <h3>⭐ Grand Mock Tests</h3>
+          <p>Practice full-length papers covering all subjects.</p>
+        </button>
       </div>
 
-      <!-- Chapter Selection Step -->
+      <!-- Step 2A: Subject Chapters Page -->
       <div id="chapter-step" class="hidden">
-        <button class="btn secondary" style="margin-bottom: 20px;" onclick="backToSubjects()">← Back to Subjects</button>
+        <button class="btn secondary" style="margin-bottom: 20px;" onclick="backToSubjects()">← Back to Main Menu</button>
         <h2 class="section-title" id="chapter-title">Select Chapter</h2>
         <div id="chapter-list" class="chapter-list"></div>
+      </div>
+
+      <!-- Step 2B: Dedicated Grand Tests Page -->
+      <div id="grand-tests-step" class="hidden">
+        <button class="btn secondary" style="margin-bottom: 20px;" onclick="backToSubjects()">← Back to Main Menu</button>
+        <h2 class="section-title">⭐ Select Full Mock Test</h2>
+        <div id="grand-tests-list" class="chapter-list"></div>
       </div>
 
       <div id="loading-status" style="margin-top: 20px; color: var(--text-muted); font-weight: 600;">
@@ -666,31 +677,25 @@
       </div>
     </section>
 
-    <!-- 4 - 11. Active Quiz View -->
+    <!-- Active Quiz View -->
     <section id="quiz-view" class="glass-card hidden">
-      <!-- 7. Top Navigation Bar with Home Symbol, Category & Report Button -->
       <div class="quiz-nav-top">
         <button class="home-icon-btn" onclick="confirmGoHome()">🏠 Home</button>
         <span id="quiz-category-badge" style="font-weight: 800; font-size: 18px; color: var(--slate-blue);">Botany</span>
-        <!-- 3. Explicit Manual Submit Button in Header -->
         <button class="btn" style="background: #2b5b32; padding: 8px 16px; font-size: 14px;" onclick="confirmSubmit()">Submit Test</button>
         <button class="report-btn" onclick="openReportModal()">🚩 Report</button>
       </div>
 
-      <!-- Status Bar: Timer & Toggleable Palette -->
       <div class="quiz-status-bar">
         <div id="quiz-timer" class="timer-badge">Time: 00:00</div>
-        <!-- 4. Toggleable Questions Palette Option -->
         <button class="palette-toggle-btn" onclick="togglePalette()">📑 Questions Palette ▾</button>
       </div>
 
-      <!-- 4. Expandable Questions Palette Drawer -->
       <div id="palette-box" class="palette-box hidden">
         <div style="font-weight: 700; margin-bottom: 8px; color: var(--slate-blue);">Select a question:</div>
         <div id="palette-grid" class="palette-grid"></div>
       </div>
 
-      <!-- 5. Question & Options Box -->
       <div class="question-box">
         <div id="question-text" class="question-text"></div>
         <img id="question-image" class="question-image hidden" alt="Question Diagram">
@@ -699,14 +704,13 @@
         <div id="explanation-box" class="explanation-box hidden"></div>
       </div>
 
-      <!-- 8. Navigation Controls -->
       <div class="quiz-controls">
         <button class="btn secondary" id="prev-btn" onclick="previousQuestion()">← Previous</button>
         <button class="btn" id="next-btn" onclick="nextQuestion()">Next →</button>
       </div>
     </section>
 
-    <!-- 13 & 14. Results & Scorecard View -->
+    <!-- Results & Scorecard View -->
     <section id="result-view" class="glass-card hidden">
       <div class="scorecard-large">
         <h2 style="margin: 0; color: var(--slate-blue); font-size: 28px;">NEET Performance Summary</h2>
@@ -733,14 +737,12 @@
         </div>
       </div>
 
-      <!-- Improvement Areas Box -->
       <div id="improvement-box" class="improvement-box hidden">
         <h3>🎯 Improvement Areas</h3>
         <p style="margin-top: 0; color: #6d2525;">Focus on revising these topics where questions were missed:</p>
         <ul id="improvement-list" class="improvement-list"></ul>
       </div>
 
-      <!-- Thank You Note & Quote -->
       <div class="thankyou-note">
         <h3>Keep Pushing Forward!</h3>
         <div class="quote" id="motivational-quote">"Success in NEET is the sum of small efforts repeated day in and day out."</div>
@@ -762,7 +764,7 @@
         <div class="field">
           <label>Issue Type</label>
           <select id="report-issue-type" required>
-            <option value="Incorrect Answer">Incorrect Answer</option>
+            <option value="IncorrectAnswer">Incorrect Answer</option>
             <option value="Typo">Typo in Question/Options</option>
             <option value="Image Error">Missing or Wrong Image</option>
             <option value="Explanation Error">Explanation Error</option>
@@ -880,16 +882,16 @@
       document.getElementById("selection-view").classList.remove("hidden");
       document.getElementById("subject-step").classList.remove("hidden");
       document.getElementById("chapter-step").classList.add("hidden");
+      document.getElementById("grand-tests-step").classList.add("hidden");
     }
 
-    // 5. FIXED: Strict category filtering so Botany and Grand Test don't cross-contaminate
     function selectSubject(subject) {
       selectedSubject = subject;
       document.getElementById("subject-step").classList.add("hidden");
+      document.getElementById("grand-tests-step").classList.add("hidden");
       document.getElementById("chapter-step").classList.remove("hidden");
       document.getElementById("chapter-title").textContent = `${subject} - Select Chapter`;
 
-      // Strict match for subject category only
       const subjectQuestions = rawQuestions.filter(q => {
         const cat = String(q.Category || "").trim().toLowerCase();
         return cat === subject.toLowerCase();
@@ -916,8 +918,16 @@
       });
     }
 
+    /* Open Dedicated Grand Mock Tests Page */
+    function openGrandTestsPage() {
+      document.getElementById("subject-step").classList.add("hidden");
+      document.getElementById("chapter-step").classList.add("hidden");
+      document.getElementById("grand-tests-step").classList.remove("hidden");
+    }
+
     function backToSubjects() {
       document.getElementById("chapter-step").classList.add("hidden");
+      document.getElementById("grand-tests-step").classList.add("hidden");
       document.getElementById("subject-step").classList.remove("hidden");
     }
 
@@ -939,18 +949,15 @@
       initQuizEngine(questions, `${subject} ${chapter !== "All" ? "- " + chapter : ""}`);
     }
 
-    // 2. Numbered Grand Mock Tests Generation
     function populateGrandTestsList() {
       const grandList = document.getElementById("grand-tests-list");
       grandList.replaceChildren();
 
-      // Extract all questions tagged as Grand Test
       const grandQs = rawQuestions.filter(q => {
         const cat = String(q.Category || "").trim().toLowerCase();
         return cat.includes("grand");
       });
 
-      // Group Grand Tests by Chapter or Test Name field (e.g. GrandTest1, GrandTest2)
       const grandGroups = {};
       
       grandQs.forEach(q => {
@@ -975,7 +982,7 @@
         return;
       }
 
-      testKeys.forEach((testKey, idx) => {
+      testKeys.forEach((testKey) => {
         const btn = document.createElement("button");
         btn.className = "chapter-btn";
         btn.innerHTML = `<span>⭐ ${testKey}</span> <span>(${grandGroups[testKey].length} Qs)</span>`;
@@ -984,7 +991,6 @@
       });
     }
 
-    // Quiz Initialization
     function initQuizEngine(questions, label) {
       activeQuestions = [...questions];
       currentIndex = 0;
@@ -997,7 +1003,6 @@
 
       document.getElementById("quiz-category-badge").textContent = label;
 
-      // 1 minute per question rule
       secondsRemaining = activeQuestions.length * 60;
       startTimer();
       renderPalette();
@@ -1026,7 +1031,6 @@
         `Time: ${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
     }
 
-    // 4. Toggle Question Palette Drawer
     function togglePalette() {
       const pBox = document.getElementById("palette-box");
       pBox.classList.toggle("hidden");
@@ -1054,7 +1058,6 @@
       });
     }
 
-    // 5 & 6. Question Rendering with Soft Outlines
     function renderQuestion() {
       const q = activeQuestions[currentIndex];
 
@@ -1084,7 +1087,7 @@
           btn.classList.add("selected");
         }
 
-        // 6. Soft Green & Soft Red Outlines
+        // Show green/red outlines and disable buttons ONLY after submission (Review mode)
         if (submitted) {
           btn.disabled = true;
           if (idx === correctIndex) btn.classList.add("correct");
@@ -1100,10 +1103,9 @@
         grid.appendChild(btn);
       });
 
+      // Show explanation box ONLY in Review mode after test submission
       const explanationBox = document.getElementById("explanation-box");
-      const userSelected = userAnswers[currentIndex];
-
-      if (userSelected !== undefined || submitted) {
+      if (submitted) {
         explanationBox.innerHTML = `<h4>Explanation:</h4>${q.Solution || "No detailed solution provided for this question."}`;
         explanationBox.classList.remove("hidden");
       } else {
@@ -1138,7 +1140,6 @@
       }
     }
 
-    // 7. Home Symbol Action with Confirmation
     function confirmGoHome() {
       if (confirm("Are you sure you want to exit the quiz? Your current progress will be lost.")) {
         clearInterval(timerInterval);
@@ -1146,7 +1147,6 @@
       }
     }
 
-    // 3. Explicit Submission Trigger
     function confirmSubmit() {
       if (confirm("Are you sure you want to submit your test now?")) {
         submitQuiz();
