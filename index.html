@@ -3,629 +3,904 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEET Quiz Hub | Practice Portal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#e8e9e1">
+
+  <title>NEET Quiz Hub</title>
+
   <style>
     :root {
-      --bg-cream: #faf8f5;
-      --card-bg: #ffffff;
-      --text-dark: #020617;
-      --text-muted: #334155;
-      --accent-soft-purple: #6d28d9;
-      --border-color: #cbd5e1;
-      --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
-      --success-soft: #d1fae5;
-      --danger-soft: #fee2e2;
-      --radius: 20px;
+      --background: #f5f4ef;
+      --surface: #ffffff;
+      --sage: #dce6dc;
+      --sage-dark: #55745e;
+      --lavender: #e7e0ed;
+      --blue: #dce7ee;
+      --cream: #f1e6d5;
+      --text: #343b37;
+      --muted: #788078;
+      --border: #e5e5dd;
+      --correct: #d8ead9;
+      --wrong: #f2dada;
+      --shadow: 0 8px 28px rgba(50, 60, 50, 0.06);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-    body { background-color: var(--bg-cream); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.6; }
+    * {
+      box-sizing: border-box;
+    }
 
-    header { background: #ffffff; text-align: center; padding: 22px 15px 14px; border-bottom: 3px solid var(--border-color); }
-    header h1 { font-family: 'Outfit', sans-serif; font-size: 2.4rem; font-weight: 900; color: var(--accent-soft-purple); }
-    header p { color: var(--text-muted); font-size: 1.15rem; margin-top: 4px; font-weight: 700; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-    main { flex: 1; max-width: 950px; width: 100%; margin: 15px auto; padding: 0 10px; }
+    button, input, textarea, select {
+      font: inherit;
+    }
 
-    .card { background: var(--card-bg); border-radius: var(--radius); padding: 22px 16px; box-shadow: var(--shadow-soft); border: 2.5px solid var(--border-color); display: none; }
-    .card.active { display: block; animation: fadeIn 0.3s ease-out; }
+    button {
+      cursor: pointer;
+    }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    header {
+      background: var(--surface);
+      padding: 18px 5%;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
 
-    /* Welcome Section */
-    .welcome-box { text-align: center; padding: 20px 5px; }
-    .badge-pill { display: inline-block; background: #f3e8ff; color: var(--accent-soft-purple); padding: 10px 22px; border-radius: 30px; font-weight: 800; font-size: 1.05rem; margin-bottom: 18px; }
-    .welcome-title { font-family: 'Outfit', sans-serif; font-size: 2.3rem; font-weight: 900; color: #020617; margin-bottom: 14px; }
-    .welcome-desc { color: var(--text-muted); font-size: 1.25rem; max-width: 620px; margin: 0 auto 20px; line-height: 1.8; font-weight: 600; }
+    .brand {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--sage-dark);
+    }
 
-    /* Daily Streak Badge */
-    .streak-container { background: #fff7ed; border: 2.5px solid #ffedd5; color: #c2410c; padding: 12px 24px; border-radius: 16px; font-size: 1.2rem; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-    /* Motivational Quotes Box */
-    .motivate-welcome-quote { background: #fdf4ff; border: 2.5px solid #f5d0fe; border-radius: 16px; padding: 18px 22px; margin: 0 auto 28px; max-width: 650px; font-style: italic; color: #86198f; font-weight: 700; font-size: 1.15rem; line-height: 1.7; }
+    .header-note {
+      font-size: 13px;
+      color: var(--muted);
+    }
 
-    .btn-letsgo { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: white; border: none; padding: 20px 45px; border-radius: 16px; font-size: 1.35rem; font-weight: 800; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 20px -4px rgba(109, 40, 217, 0.4); width: 100%; max-width: 380px; }
+    /* Soft, non-distracting daily streak badge */
+    .streak-badge {
+      background: #f0ebe1;
+      color: #6b6355;
+      border: 1px solid #e2dad0;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
 
-    /* Subject Selection Board */
-    .section-heading { font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 20px; text-align: center; color: #020617; }
-    .subject-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-    @media (min-width: 600px) { .subject-grid { grid-template-columns: repeat(2, 1fr); } }
+    main {
+      max-width: 1000px;
+      padding: 28px 16px 60px;
+      margin: auto;
+    }
 
-    .subject-card { background: #ffffff; border: 3px solid var(--border-color); border-radius: 18px; padding: 22px 22px; cursor: pointer; transition: all 0.2s ease; }
-    .subject-card:hover { transform: translateY(-2px); border-color: #334155; }
-    
-    .subject-icon-badge { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 14px; }
-    .phy-bg { background: #eff6ff; }
-    .chem-bg { background: #fef2f2; }
-    .bot-bg { background: #ecfdf5; }
-    .zoo-bg { background: #fffbeb; }
-    .grand-bg { background: #f3e8ff; }
+    .hero {
+      text-align: center;
+      padding: 35px 15px;
+    }
 
-    .subject-title { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; color: #020617; }
-    .subject-desc { font-size: 1.05rem; color: var(--text-muted); line-height: 1.6; font-weight: 600; }
-    .card-grand { grid-column: 1 / -1; border-color: #c4b5fd; }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      margin: 0 0 10px;
+      line-height: 1.2;
+    }
 
-    /* Quiz Header Bar */
-    .quiz-topbar { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 14px 16px; border-radius: 14px; margin-bottom: 16px; border: 2.5px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
-    .topbar-actions { display: flex; gap: 8px; }
-    .btn-action-sm { background: #ffffff; color: var(--text-dark); border: 2.5px solid var(--border-color); padding: 10px 16px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 1.05rem; }
-    .btn-report-sm { color: #dc2626; border-color: #fca5a5; background: #fef2f2; }
+    .hero p {
+      color: var(--muted);
+      max-width: 580px;
+      margin: 12px auto;
+    }
 
-    /* Grand Test Timer Display */
-    .timer-badge { background: #fef3c7; color: #b45309; border: 2px solid #fde68a; padding: 8px 16px; border-radius: 10px; font-weight: 900; font-size: 1.15rem; display: flex; align-items: center; gap: 6px; }
+    .section-title {
+      font-size: 22px;
+      margin: 25px 0 15px;
+    }
 
-    /* Visual Progress Bar */
-    .progress-bar-wrapper { width: 100%; background-color: #e2e8f0; height: 12px; border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
-    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6, #6d28d9); width: 0%; transition: width 0.3s ease; }
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
 
-    /* ULTRA-LARGE FONT FOR PHONE USERS */
-    .question-title-box { font-size: 2.2rem; font-weight: 800; line-height: 1.6; margin-bottom: 26px; color: #020617; white-space: pre-wrap; word-break: break-word; }
-    
-    .question-img-container { text-align: center; margin-bottom: 24px; }
-    .question-img { max-width: 100%; max-height: 450px; border-radius: 14px; border: 3px solid var(--border-color); object-fit: contain; }
+    .subject-card {
+      border: 1px solid transparent;
+      border-radius: 18px;
+      padding: 23px 18px;
+      text-align: left;
+      min-height: 140px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-    .options-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 28px; }
-    .opt-btn { background: #ffffff; border: 3px solid var(--border-color); border-radius: 18px; padding: 22px 22px; color: var(--text-dark); font-size: 1.5rem; font-weight: 700; text-align: left; cursor: pointer; transition: all 0.2s ease; line-height: 1.5; width: 100%; }
-    .opt-btn:hover:not(:disabled) { border-color: var(--accent-soft-purple); background: #faf5ff; }
-    .opt-btn.correct { background: var(--success-soft) !important; border-color: #059669 !important; color: #065f46 !important; font-weight: 800; }
-    .opt-btn.wrong { background: var(--danger-soft) !important; border-color: #ef4444 !important; color: #991b1b !important; font-weight: 800; }
+    .subject-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
 
-    .explanation-drawer { background: #ecfdf5; border-left: 6px solid #059669; padding: 20px; border-radius: 14px; margin-bottom: 28px; font-size: 1.25rem; line-height: 1.7; font-weight: 600; }
-    .explanation-drawer strong { font-size: 1.35rem; display: block; margin-bottom: 8px; color: #065f46; font-weight: 800; }
+    .subject-card h3 {
+      margin: 5px 0;
+      font-size: 19px;
+    }
 
-    .nav-row { display: flex; justify-content: space-between; gap: 12px; }
-    .btn-nav { padding: 18px 24px; border-radius: 16px; font-weight: 800; border: none; cursor: pointer; font-size: 1.2rem; flex: 1; text-align: center; }
-    .btn-next-q { background: var(--accent-soft-purple); color: white; }
-    .btn-submit-q { background: #fef2f2; color: #dc2626; border: 2.5px solid #fca5a5; }
+    .subject-card p {
+      margin: 0;
+      color: #606b63;
+      font-size: 13px;
+    }
 
-    /* Modals (Palette & Report) */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); display: none; justify-content: center; align-items: center; z-index: 1000; }
-    .modal-overlay.active { display: flex; }
-    .modal-content { background: #ffffff; border-radius: 22px; padding: 25px 20px; max-width: 520px; width: 94%; max-height: 85vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 2.2rem; cursor: pointer; }
+    .subject-icon {
+      font-size: 27px;
+    }
 
-    .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-    .p-btn { padding: 14px 0; background: #f8fafc; border: 2px solid var(--border-color); color: var(--text-dark); border-radius: 10px; font-weight: 800; text-align: center; font-size: 1.15rem; }
-    .p-btn.active { border-color: var(--accent-soft-purple); color: var(--accent-soft-purple); font-weight: 900; background: #f3e8ff; }
-    .p-btn.correct { background: #059669; color: white; border-color: #059669; }
-    .p-btn.wrong { background: #ef4444; color: white; border-color: #ef4444; }
+    .botany { background: #e0e9dc; }
+    .zoology { background: #e8e1ed; }
+    .physics { background: #dce8ee; }
+    .chemistry { background: #f0e5d6; }
 
-    /* Forms */
-    .form-group { margin-bottom: 18px; text-align: left; }
-    .form-group label { display: block; font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 8px; }
-    .form-control { width: 100%; padding: 14px 16px; border: 2.5px solid var(--border-color); border-radius: 12px; font-size: 1.15rem; font-weight: 600; }
-    textarea.form-control { resize: vertical; min-height: 100px; }
-    .btn-report-submit { background: #dc2626; color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 800; width: 100%; cursor: pointer; font-size: 1.2rem; }
+    .grand-card {
+      background: #e7e6df;
+      width: 100%;
+      margin-top: 15px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      text-align: left;
+    }
 
-    /* Results Screen & Think Tank Option */
-    .result-box { text-align: center; }
-    .score-badge { font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 900; color: var(--accent-soft-purple); margin: 15px 0; }
-    .motivate-quote { background: #f3e8ff; border: 2.5px solid #ddd6fe; border-radius: 16px; padding: 20px; margin: 24px 0; font-style: italic; color: #6b21a8; font-weight: 700; font-size: 1.2rem; line-height: 1.7; }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      margin-top: 22px;
+      box-shadow: var(--shadow);
+    }
 
-    .weak-report { background: #fef2f2; border: 2.5px solid #fca5a5; padding: 22px; border-radius: 16px; text-align: left; margin-top: 24px; }
-    .weak-report h4 { color: #991b1b; margin-bottom: 12px; font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 900; }
-    .weak-report ul { padding-left: 20px; font-size: 1.15rem; color: #7f1d1d; line-height: 1.8; font-weight: 600; }
+    .panel h2 {
+      margin-top: 0;
+    }
 
-    /* Think Tank Feedback Box */
-    .think-tank-card { background: #f0fdf4; border: 2.5px solid #bbf7d0; border-radius: 18px; padding: 24px; text-align: left; margin-top: 28px; }
-    .think-tank-card h3 { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 900; color: #166534; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-    .think-tank-card p { font-size: 1.05rem; color: #15803d; font-weight: 600; margin-bottom: 16px; }
-    .btn-think-submit { background: #166534; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 800; width: 100%; cursor: pointer; font-size: 1.2rem; margin-top: 10px; }
+    .btn {
+      border: none;
+      background: var(--sage-dark);
+      color: white;
+      border-radius: 10px;
+      padding: 11px 18px;
+      font-weight: 700;
+    }
 
-    .consistency-note { text-align: center; margin-top: 30px; color: var(--text-muted); font-size: 1.15rem; font-weight: 600; }
-    .thank-you { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 900; color: var(--accent-soft-purple); margin-top: 12px; }
+    .btn.secondary {
+      background: #e8e8e1;
+      color: var(--text);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin: 15px 0;
+      padding: 12px;
+      border-radius: 10px;
+      background: #ecebe5;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status.error {
+      background: var(--wrong);
+      color: #7c3434;
+    }
+
+    .status.success {
+      background: var(--correct);
+      color: #315d38;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .quiz-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .badge {
+      background: var(--lavender);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .question-text {
+      font-size: 20px;
+      font-weight: 700;
+      white-space: pre-wrap;
+      margin: 20px 0;
+    }
+
+    .question-image {
+      max-width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      display: block;
+      margin: 15px auto;
+      border-radius: 10px;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option {
+      width: 100%;
+      padding: 14px;
+      text-align: left;
+      background: #fafaf7;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+    }
+
+    .option.selected {
+      background: var(--blue);
+      border-color: #8ba6b6;
+    }
+
+    .option.correct {
+      background: var(--correct);
+      border-color: #8cb493;
+    }
+
+    .option.wrong {
+      background: var(--wrong);
+      border-color: #d5a0a0;
+    }
+
+    .explanation {
+      margin-top: 18px;
+      padding: 15px;
+      background: #f2efe8;
+      border-radius: 12px;
+      white-space: pre-wrap;
+    }
+
+    .quiz-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin: 15px 0;
+    }
+
+    .field label {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fcfcfa;
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--text);
+    }
+
+    .field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .subject-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 25px 5px;
+      }
+
+      .panel {
+        padding: 17px;
+      }
+
+      .question-text {
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
-<body>
 
+<body>
   <header>
-    <h1>NEET Quiz Hub</h1>
-    <p>Empowering NEET Aspirants Through Focused Practice</p>
+    <div class="brand">NEET Quiz Hub</div>
+    <div class="header-right">
+      <div class="header-note">Practice. Learn. Improve.</div>
+      <div class="streak-badge" title="Daily Activity Streak">
+        <span>🔥 Daily Streak:</span>
+        <span id="streak-count">0 days</span>
+      </div>
+    </div>
   </header>
 
   <main>
-    <!-- Screen 1: Welcome -->
-    <div id="welcome-view" class="card active">
-      <div class="welcome-box">
-        <span class="badge-pill">NEET PRACTICE PORTAL</span>
-        <h2 class="welcome-title">Hello! Welcome to NEET Quiz Hub 👋</h2>
-        
-        <div class="streak-container">
-          🔥 Daily Practice Streak: <span id="streak-days">1</span> Day(s)
-        </div>
-
-        <div class="motivate-welcome-quote" id="welcome-quote">
-          "Believe in yourself! Every single question you solve today brings you closer to your dream medical seat."
-        </div>
-
-        <p class="welcome-desc">Step into your personalized NEET practice dashboard. Choose subject-specific practice sets or test your endurance with a full 200-question grand mock test.</p>
-        <button type="button" class="btn-letsgo" onclick="openBoardView()">Let's Go! 🚀</button>
+    <section id="home-view">
+      <div class="hero">
+        <h1>Your NEET Preparation Space</h1>
+        <p>
+          Practice subject-wise questions, review explanations,
+          and build confidence one question at a time.
+        </p>
       </div>
-    </div>
 
-    <!-- Screen 2: Subject Board -->
-    <div id="board-view" class="card">
-      <div class="section-heading">Select Practice Mode</div>
+      <h2 class="section-title">Choose a Subject</h2>
+
       <div class="subject-grid">
+        <button class="subject-card botany" onclick="startQuiz('Botany')">
+          <span class="subject-icon">🌱</span>
+          <h3>Botany</h3>
+          <p>Explore plant biology.</p>
+        </button>
 
-        <div class="subject-card" onclick="startQuiz('Physics')">
-          <div class="subject-icon-badge phy-bg">🔬</div>
-          <div class="subject-title">Physics Practice</div>
-          <div class="subject-desc">Mechanics, Electrodynamics, Optics & Modern Physics</div>
-        </div>
+        <button class="subject-card zoology" onclick="startQuiz('Zoology')">
+          <span class="subject-icon">🧬</span>
+          <h3>Zoology</h3>
+          <p>Explore animal biology.</p>
+        </button>
 
-        <div class="subject-card" onclick="startQuiz('Chemistry')">
-          <div class="subject-icon-badge chem-bg">⚗️</div>
-          <div class="subject-title">Chemistry Practice</div>
-          <div class="subject-desc">Physical, Organic & Inorganic Chemical Reactions</div>
-        </div>
+        <button class="subject-card physics" onclick="startQuiz('Physics')">
+          <span class="subject-icon">⚛️</span>
+          <h3>Physics</h3>
+          <p>Practice concepts and numericals.</p>
+        </button>
 
-        <div class="subject-card" onclick="startQuiz('Botany')">
-          <div class="subject-icon-badge bot-bg">🌱</div>
-          <div class="subject-title">Botany Practice</div>
-          <div class="subject-desc">Plant Anatomy, Genetics, Cell Biology & Ecology</div>
-        </div>
-
-        <div class="subject-card" onclick="startQuiz('Zoology')">
-          <div class="subject-icon-badge zoo-bg">🐾</div>
-          <div class="subject-title">Zoology Practice</div>
-          <div class="subject-desc">Human Physiology, Biomolecules & Reproduction</div>
-        </div>
-
-        <div class="subject-card card-grand" onclick="startQuiz('Grand')">
-          <div class="subject-icon-badge grand-bg">⭐</div>
-          <div class="subject-title">NEET Grand Mock Test</div>
-          <div class="subject-desc">Full-length test covering all 200 questions across Physics, Chemistry, Botany & Zoology</div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Screen 3: Quiz View -->
-    <div id="quiz-view" class="card">
-      <div class="quiz-topbar">
-        <div>
-          <span id="current-subject-tag" style="font-weight: 900; color: var(--accent-soft-purple); font-size: 1.25rem;">Physics</span>
-          <span id="question-progress" style="color: var(--text-muted); font-size: 1.1rem; margin-left: 10px; font-weight: 700;">Question 1 of 200</span>
-        </div>
-        
-        <div id="grand-timer-box" class="timer-badge" style="display: none;">
-          ⏱️ <span id="time-remaining">200:00</span>
-        </div>
-
-        <div class="topbar-actions">
-          <button class="btn-action-sm btn-report-sm" onclick="toggleReportModal(true)">⚠️ Report</button>
-          <button class="btn-action-sm" onclick="togglePaletteModal(true)">📋 Palette</button>
-        </div>
+        <button class="subject-card chemistry" onclick="startQuiz('Chemistry')">
+          <span class="subject-icon">🧪</span>
+          <h3>Chemistry</h3>
+          <p>Strengthen chemical concepts.</p>
+        </button>
       </div>
 
-      <!-- Visual Progress Bar -->
-      <div class="progress-bar-wrapper">
-        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+      <button class="grand-card" onclick="startQuiz('Grand')">
+        <h3>⭐ Grand Test</h3>
+        <p>Practice questions from all available subjects.</p>
+      </button>
+
+      <div id="loading-status" class="status">
+        Connecting to the question bank...
       </div>
 
-      <div id="question-title" class="question-title-box">Loading Question...</div>
-      
-      <div id="image-container" class="question-img-container" style="display: none;">
-        <img id="question-image" class="question-img" alt="Question Diagram" />
-      </div>
+      <div class="form-grid">
+        <section class="panel">
+          <h2>📝 Report a Question</h2>
+          <p>Help us identify errors and improve the question bank.</p>
 
-      <div id="options-container" class="options-grid"></div>
+          <form id="report-form">
+            <div class="field">
+              <label for="report-category">Subject</label>
+              <select id="report-category" required>
+                <option value="">Select a subject</option>
+                <option>Botany</option>
+                <option>Zoology</option>
+                <option>Physics</option>
+                <option>Chemistry</option>
+              </select>
+            </div>
 
-      <div id="explanation-box" class="explanation-drawer">
-        <strong>Detailed Explanation:</strong>
-        <p id="explanation-text"></p>
-      </div>
+            <div class="field">
+              <label for="report-question">Question or Question Number</label>
+              <input id="report-question" required maxlength="1000">
+            </div>
 
-      <div class="nav-row">
-        <button class="btn-nav btn-submit-q" onclick="confirmSubmit()">Submit</button>
-        <button id="next-btn" class="btn-nav btn-next-q" onclick="nextQuestion()">Next Question ➔</button>
-      </div>
-    </div>
+            <div class="field">
+              <label for="report-issue">Issue Type</label>
+              <select id="report-issue" required>
+                <option value="">Select an issue</option>
+                <option>Incorrect answer</option>
+                <option>Incorrect explanation</option>
+                <option>Typographical error</option>
+                <option>Missing image</option>
+                <option>Other</option>
+              </select>
+            </div>
 
-    <!-- Screen 4: Results -->
-    <div id="result-view" class="card">
-      <div class="result-box">
-        <h2 style="font-family:'Outfit', sans-serif;">Performance Report</h2>
-        <div id="final-score" class="score-badge">0 / 800</div>
+            <div class="field">
+              <label for="report-details">Additional Details</label>
+              <textarea id="report-details" maxlength="3000"></textarea>
+            </div>
 
-        <div id="motivate-quote" class="motivate-quote">"Success in NEET is the sum of small efforts repeated day in and day out!"</div>
-
-        <div id="weak-analysis" class="weak-report">
-          <h4>Focus Areas for Improvement:</h4>
-          <ul id="weak-list"></ul>
-        </div>
-
-        <!-- Think Tank Suggestions Feature -->
-        <div class="think-tank-card">
-          <h3>💡 Think Tank (Suggestions & Ideas)</h3>
-          <p>Help us make NEET Quiz Hub even better! Share your ideas, suggestions, or feature requests below:</p>
-          <form id="think-tank-form" onsubmit="submitThinkTankIdea(event)">
-            <textarea id="think-tank-text" class="form-control" placeholder="Share your suggestions, feature requests, or improvements..." required></textarea>
-            <button type="submit" class="btn-think-submit">Submit Idea to Think Tank 🚀</button>
+            <button class="btn" type="submit">Submit Report</button>
+            <div id="report-status" class="status hidden"></div>
           </form>
-        </div>
+        </section>
 
-        <div class="consistency-note">
-          Consistency with NEET Quiz Hub drives continuous improvement. Keep pushing forward!<br>
-          <div class="thank-you">Thank You 😊</div>
-        </div>
+        <section class="panel">
+          <h2>💡 Think Tank</h2>
+          <p>Share ideas to make NEET Quiz Hub better.</p>
 
-        <button class="btn-letsgo" style="margin-top: 25px; width: 100%; max-width: 100%;" onclick="openBoardView()">Try Another Quiz</button>
+          <form id="thinktank-form">
+            <div class="field">
+              <label for="idea-name">Name (Optional)</label>
+              <input id="idea-name" maxlength="100" placeholder="Anonymous">
+            </div>
+
+            <div class="field">
+              <label for="idea-type">Suggestion Type</label>
+              <select id="idea-type" required>
+                <option value="">Select a category</option>
+                <option>New feature</option>
+                <option>Question suggestion</option>
+                <option>Website improvement</option>
+                <option>Study resource</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="idea-details">Your Idea</label>
+              <textarea id="idea-details" required maxlength="3000"></textarea>
+            </div>
+
+            <button class="btn" type="submit">Submit Idea</button>
+            <div id="idea-status" class="status hidden"></div>
+          </form>
+        </section>
       </div>
-    </div>
+    </section>
+
+    <section id="quiz-view" class="panel hidden">
+      <div class="quiz-top">
+        <button class="btn secondary" onclick="goHome()">← Home</button>
+        <span id="quiz-category" class="badge"></span>
+        <span id="quiz-progress" class="badge"></span>
+        <span id="quiz-timer" class="badge">Time: --:--</span>
+      </div>
+
+      <div id="question-text" class="question-text"></div>
+      <img id="question-image" class="question-image hidden" alt="Question diagram">
+
+      <div id="options" class="options"></div>
+      <div id="explanation" class="explanation hidden"></div>
+
+      <div class="quiz-actions">
+        <button class="btn secondary" id="previous-btn" onclick="previousQuestion()">
+          Previous
+        </button>
+        <button class="btn" id="next-btn" onclick="nextQuestion()">
+          Next
+        </button>
+        <button class="btn hidden" id="submit-btn" onclick="submitQuiz()">
+          Submit Test
+        </button>
+      </div>
+    </section>
+
+    <section id="result-view" class="panel hidden">
+      <h2>Test Results</h2>
+      <div id="result-summary"></div>
+      <button class="btn" onclick="goHome()">Return to Home</button>
+    </section>
   </main>
 
-  <!-- Question Palette Modal -->
-  <div id="palette-modal" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 style="font-family:'Outfit', sans-serif; color: var(--text-dark); font-size: 1.4rem;">Question Palette</h3>
-        <button class="modal-close" onclick="togglePaletteModal(false)">&times;</button>
-      </div>
-      <div id="modal-palette-grid" class="palette-grid"></div>
-    </div>
-  </div>
-
-  <!-- Report Question Modal -->
-  <div id="report-modal" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 style="font-family:'Outfit', sans-serif; color: #dc2626; font-size: 1.4rem;">Report Question Error ⚠️</h3>
-        <button class="modal-close" onclick="toggleReportModal(false)">&times;</button>
-      </div>
-      <form id="report-form" onsubmit="submitQuestionReport(event)">
-        <div class="form-group">
-          <label>Issue Category:</label>
-          <select id="report-type" class="form-control" required>
-            <option value="Wrong Answer Key">Wrong Answer Key Option</option>
-            <option value="Typo or Spelling Error">Typo or Text Error</option>
-            <option value="Image Error">Diagram / Image Issue</option>
-            <option value="Explanation Issue">Unclear / Incorrect Solution</option>
-            <option value="Other Issue">Other Issue</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Describe Problem / Correct Reason:</label>
-          <textarea id="report-reason" class="form-control" placeholder="Please explain why this question/answer is incorrect..." required></textarea>
-        </div>
-        <button type="submit" class="btn-report-submit">Submit Report</button>
-      </form>
-    </div>
-  </div>
+  <footer>
+    NEET Quiz Hub · Keep learning, keep improving.
+  </footer>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwFodJNqxrw8LwvnPcQRcSH0eMFZGAxcpIpbLYQauCP6GlaVgoEgcE2YmS_dvcH6ATLMQ/exec";
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbwFodJNqxrw8LwvnPcQRcSH0eMFZGAxcpIpbLYQauCP6GlaVgoEgcE2YmS_dvcH6ATLMQ/exec";
 
     let grandQuestions = [];
     let activeQuestions = [];
-    let userAnswers = {};
     let currentIndex = 0;
+    let userAnswers = {};
+    let currentMode = "";
+    let timerInterval = null;
+    let secondsRemaining = 0;
+    let submitted = false;
 
-    // Timer Variables
-    let testTimerInterval = null;
-    let secondsLeft = 0;
-
-    const motivationalQuotes = [
-      `"Believe in yourself! Every single question you solve today brings you closer to your dream medical seat."`,
-      `"Success isn't given. It's earned in the quiet hours of practice and consistency."`,
-      `"Future Doctors: Keep pushing! Small steps lead to giant leaps on NEET exam day."`,
-      `"Focus on accuracy first, speed will naturally follow. You've got this!"`
-    ];
-
-    function setupDailyStreak() {
+    // Daily Streak Logic
+    function initializeStreak() {
       const today = new Date().toDateString();
-      const lastVisit = localStorage.getItem('last_quiz_visit');
-      let streak = parseInt(localStorage.getItem('quiz_streak_days') || "1");
+      const lastVisit = localStorage.getItem("lastQuizVisitDate");
+      let streak = parseInt(localStorage.getItem("quizStreakCount") || "0", 10);
 
-      if (lastVisit) {
-        const lastDate = new Date(lastVisit);
-        const currentDate = new Date(today);
-        const diffDays = Math.round((currentDate - lastDate) / (1000 * 60 * 60 * 24));
+      if (!lastVisit) {
+        streak = 1;
+        localStorage.setItem("lastQuizVisitDate", today);
+        localStorage.setItem("quizStreakCount", streak);
+      } else if (lastVisit !== today) {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
 
-        if (diffDays === 1) {
+        if (lastVisit === yesterday.toDateString()) {
           streak += 1;
-        } else if (diffDays > 1) {
+        } else {
           streak = 1;
         }
+        localStorage.setItem("lastQuizVisitDate", today);
+        localStorage.setItem("quizStreakCount", streak);
       }
 
-      localStorage.setItem('last_quiz_visit', today);
-      localStorage.setItem('quiz_streak_days', streak);
-      document.getElementById('streak-days').innerText = streak;
-    }
-
-    function setRandomWelcomeQuote() {
-      const quoteElem = document.getElementById('welcome-quote');
-      const randomIdx = Math.floor(Math.random() * motivationalQuotes.length);
-      quoteElem.innerText = motivationalQuotes[randomIdx];
-    }
-
-    function formatImageUrl(rawUrl) {
-      if (!rawUrl) return "";
-      let url = rawUrl.trim();
-      if (url.includes("drive.google.com")) {
-        const match = url.match(/(?:file\/d\/|id=)([a-zA-Z0-9_-]+)/);
-        if (match && match[1]) {
-          return `https://lh3.googleusercontent.com/d/${match[1]}`;
-        }
-      }
-      return url;
+      document.getElementById("streak-count").textContent = `${streak} ${streak === 1 ? 'day' : 'days'}`;
     }
 
     async function fetchQuestions() {
+      const status = document.getElementById("loading-status");
+
       try {
         const response = await fetch(API_URL);
-        grandQuestions = await response.json();
-        console.log("Grand Test Questions Loaded:", grandQuestions.length);
-      } catch (err) {
-        console.error("Error loading questions:", err);
+
+        if (!response.ok) {
+          throw new Error("The question service returned an error.");
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error(
+            data.error || "The question service did not return a question list."
+          );
+        }
+
+        grandQuestions = data.filter(question =>
+          String(question.Question || "").trim() !== ""
+        );
+
+        status.textContent =
+          `${grandQuestions.length} questions loaded successfully.`;
+        status.className = "status success";
+
+      } catch (error) {
+        status.textContent =
+          "Unable to load questions. Check the Apps Script deployment and spreadsheet permissions.";
+        status.className = "status error";
+        console.error("Question loading error:", error);
       }
     }
 
-    window.onload = () => {
-      fetchQuestions();
-      setupDailyStreak();
-      setRandomWelcomeQuote();
-    };
-
-    function openBoardView() {
-      clearInterval(testTimerInterval);
-      document.getElementById('welcome-view').classList.remove('active');
-      document.getElementById('quiz-view').classList.remove('active');
-      document.getElementById('result-view').classList.remove('active');
-      document.getElementById('board-view').classList.add('active');
+    function getCategory(question) {
+      return String(question.Category || "").trim().toLowerCase();
     }
 
     function startQuiz(mode) {
-      if (mode === 'Grand') {
-        if (!grandQuestions || grandQuestions.length === 0) {
-          alert("Questions are loading from Google Sheet. Please wait 1 second and click again!");
-          return;
-        }
-        activeQuestions = grandQuestions;
+      if (grandQuestions.length === 0) {
+        alert("Questions are not available yet. Please wait or refresh the page.");
+        return;
+      }
+
+      currentMode = mode;
+
+      if (mode === "Grand") {
+        activeQuestions = [...grandQuestions];
       } else {
-        alert(`Questions for ${mode} will be updated soon! Please practice using the NEET Grand Mock Test.`);
+        activeQuestions = grandQuestions.filter(question =>
+          getCategory(question) === mode.toLowerCase()
+        );
+      }
+
+      if (activeQuestions.length === 0) {
+        alert(
+          `No questions were found for ${mode}. Check the Category column in Google Sheets.`
+        );
         return;
       }
 
       currentIndex = 0;
       userAnswers = {};
+      submitted = false;
 
-      document.getElementById('board-view').classList.remove('active');
-      document.getElementById('quiz-view').classList.add('active');
+      document.getElementById("home-view").classList.add("hidden");
+      document.getElementById("result-view").classList.add("hidden");
+      document.getElementById("quiz-view").classList.remove("hidden");
 
-      // Start 1 min/question overall timer (200 questions = 200 minutes)
-      startOverallTimer(activeQuestions.length * 60);
-
-      renderQuestion(0);
+      // Set time to 1 minute per question (e.g., 200 questions = 200 minutes)
+      secondsRemaining = activeQuestions.length * 60;
+      startTimer();
+      renderQuestion();
     }
 
-    function startOverallTimer(totalSeconds) {
-      clearInterval(testTimerInterval);
-      secondsLeft = totalSeconds;
-      const timerBox = document.getElementById('grand-timer-box');
-      const timerDisplay = document.getElementById('time-remaining');
-      timerBox.style.display = 'flex';
+    function startTimer() {
+      clearInterval(timerInterval);
+      updateTimer();
 
-      testTimerInterval = setInterval(() => {
-        if (secondsLeft <= 0) {
-          clearInterval(testTimerInterval);
-          alert("⏱️ Time's up! Your Grand Test is automatically submitting now.");
-          evaluateResults();
-          return;
+      timerInterval = setInterval(() => {
+        secondsRemaining--;
+        updateTimer();
+
+        if (secondsRemaining <= 0) {
+          clearInterval(timerInterval);
+          submitQuiz();
         }
-        secondsLeft--;
-
-        const mins = Math.floor(secondsLeft / 60);
-        const secs = secondsLeft % 60;
-        timerDisplay.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
       }, 1000);
     }
 
-    function togglePaletteModal(show) {
-      const modal = document.getElementById('palette-modal');
-      if (show) {
-        renderPaletteGrid();
-        modal.classList.add('active');
+    function updateTimer() {
+      const minutes = Math.floor(Math.max(0, secondsRemaining) / 60);
+      const seconds = Math.max(0, secondsRemaining) % 60;
+
+      document.getElementById("quiz-timer").textContent =
+        `Time: ${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
+
+    function renderQuestion() {
+      const question = activeQuestions[currentIndex];
+
+      document.getElementById("quiz-category").textContent = currentMode;
+      document.getElementById("quiz-progress").textContent =
+        `Question ${currentIndex + 1} of ${activeQuestions.length}`;
+
+      document.getElementById("question-text").textContent =
+        question.Question || "Question text is unavailable.";
+
+      const image = document.getElementById("question-image");
+      const imageUrl = String(question.ImageUrl || "").trim();
+
+      if (imageUrl) {
+        image.src = imageUrl;
+        image.classList.remove("hidden");
+        image.onerror = () => image.classList.add("hidden");
       } else {
-        modal.classList.remove('active');
-      }
-    }
-
-    function toggleReportModal(show) {
-      const modal = document.getElementById('report-modal');
-      if (show) {
-        modal.classList.add('active');
-      } else {
-        modal.classList.remove('active');
-      }
-    }
-
-    function submitQuestionReport(event) {
-      event.preventDefault();
-      const type = document.getElementById('report-type').value;
-      const reason = document.getElementById('report-reason').value;
-
-      alert("Thank you! Your feedback for Question " + (currentIndex + 1) + " has been submitted successfully.");
-      document.getElementById('report-form').reset();
-      toggleReportModal(false);
-    }
-
-    function submitThinkTankIdea(event) {
-      event.preventDefault();
-      const text = document.getElementById('think-tank-text').value;
-
-      alert("💡 Thank you for contributing to Think Tank! Your idea has been received and will help improve NEET Quiz Hub.");
-      document.getElementById('think-tank-form').reset();
-    }
-
-    function renderPaletteGrid() {
-      const grid = document.getElementById('modal-palette-grid');
-      grid.innerHTML = "";
-
-      activeQuestions.forEach((q, idx) => {
-        const btn = document.createElement('div');
-        btn.className = 'p-btn';
-        if (idx === currentIndex) btn.classList.add('active');
-
-        const answered = userAnswers[idx];
-        const correct = parseInt(q.CorrectAnswer);
-
-        if (answered !== undefined) {
-          if (answered === correct) btn.classList.add('correct');
-          else btn.classList.add('wrong');
-        }
-
-        btn.innerText = idx + 1;
-        btn.onclick = () => {
-          currentIndex = idx;
-          renderQuestion(currentIndex);
-          togglePaletteModal(false);
-        };
-        grid.appendChild(btn);
-      });
-    }
-
-    function renderQuestion(index) {
-      const q = activeQuestions[index];
-      document.getElementById('current-subject-tag').innerText = q.Chapter || q.Category || "NEET Practice";
-      document.getElementById('question-progress').innerText = `Question ${index + 1} of ${activeQuestions.length}`;
-      document.getElementById('question-title').innerText = `${index + 1}. ${q.Question || ""}`;
-
-      // Progress Bar Calculation
-      const progressPercent = ((index + 1) / activeQuestions.length) * 100;
-      document.getElementById('progress-bar-fill').style.width = `${progressPercent}%`;
-
-      const imgContainer = document.getElementById('image-container');
-      const imgElem = document.getElementById('question-image');
-      const processedImgUrl = formatImageUrl(q.ImageUrl);
-
-      if (processedImgUrl !== "") {
-        imgElem.src = processedImgUrl;
-        imgContainer ? imgContainer.style.display = "block" : imgElem.style.display = "block";
-      } else {
-        imgContainer ? imgContainer.style.display = "none" : imgElem.style.display = "none";
+        image.removeAttribute("src");
+        image.classList.add("hidden");
       }
 
-      const optionsBox = document.getElementById('options-container');
-      optionsBox.innerHTML = "";
+      const optionsContainer = document.getElementById("options");
+      optionsContainer.replaceChildren();
 
       const options = [
-        { text: q.OptionA, num: 1 },
-        { text: q.OptionB, num: 2 },
-        { text: q.OptionC, num: 3 },
-        { text: q.OptionD, num: 4 }
+        question.OptionA,
+        question.OptionB,
+        question.OptionC,
+        question.OptionD
       ];
 
-      const userSelected = userAnswers[index];
-      const correctNum = parseInt(q.CorrectAnswer);
+      const correctAnswer = normalizeAnswer(question.CorrectAnswer);
 
-      options.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'opt-btn';
-        btn.innerText = opt.text || "";
+      options.forEach((optionText, index) => {
+        const button = document.createElement("button");
+        button.className = "option";
+        button.textContent =
+          `${String.fromCharCode(65 + index)}. ${optionText || ""}`;
 
-        if (userSelected !== undefined) {
-          btn.disabled = true;
-          if (opt.num === correctNum) btn.classList.add('correct');
-          if (opt.num === userSelected && userSelected !== correctNum) btn.classList.add('wrong');
-        } else {
-          btn.onclick = () => selectOption(opt.num, correctNum, q.Solution);
+        if (userAnswers[currentIndex] === index) {
+          button.classList.add("selected");
         }
 
-        optionsBox.appendChild(btn);
+        if (submitted) {
+          button.disabled = true;
+
+          if (index === correctAnswer) {
+            button.classList.add("correct");
+          }
+
+          if (
+            userAnswers[currentIndex] === index &&
+            index !== correctAnswer
+          ) {
+            button.classList.add("wrong");
+          }
+        } else {
+          button.addEventListener("click", () => {
+            userAnswers[currentIndex] = index;
+            renderQuestion();
+          });
+        }
+
+        optionsContainer.appendChild(button);
       });
 
-      const expDrawer = document.getElementById('explanation-box');
-      if (userSelected !== undefined) {
-        document.getElementById('explanation-text').innerText = q.Solution || "No detailed solution text provided for this question.";
-        expDrawer.style.display = 'block';
+      const explanation = document.getElementById("explanation");
+
+      if (submitted) {
+        explanation.textContent =
+          `Correct Answer: ${String.fromCharCode(65 + correctAnswer)}\n\n` +
+          (question.Solution || "No explanation is available.");
+        explanation.classList.remove("hidden");
       } else {
-        expDrawer.style.display = 'none';
+        explanation.classList.add("hidden");
       }
+
+      document.getElementById("previous-btn").disabled = currentIndex === 0;
+
+      document.getElementById("next-btn").classList.toggle(
+        "hidden",
+        currentIndex === activeQuestions.length - 1 || submitted
+      );
+
+      document.getElementById("submit-btn").classList.toggle(
+        "hidden",
+        currentIndex !== activeQuestions.length - 1 || submitted
+      );
     }
 
-    function selectOption(selectedNum, correctNum, solution) {
-      userAnswers[currentIndex] = selectedNum;
-      renderQuestion(currentIndex);
+    function normalizeAnswer(value) {
+      const answer = String(value || "").trim().toUpperCase();
+
+      if (["A", "B", "C", "D"].includes(answer)) {
+        return answer.charCodeAt(0) - 65;
+      }
+
+      const number = Number(answer);
+
+      if (number >= 1 && number <= 4) {
+        return number - 1;
+      }
+
+      return 0;
+    }
+
+    function previousQuestion() {
+      if (currentIndex > 0 && !submitted) {
+        currentIndex--;
+        renderQuestion();
+      }
     }
 
     function nextQuestion() {
-      if (currentIndex < activeQuestions.length - 1) {
+      if (currentIndex < activeQuestions.length - 1 && !submitted) {
         currentIndex++;
-        renderQuestion(currentIndex);
-      } else {
-        alert("You have reached the end of this quiz section. Click 'Submit' to evaluate!");
+        renderQuestion();
       }
     }
 
-    function confirmSubmit() {
-      if (confirm("Are you sure you want to submit your quiz now?")) {
-        evaluateResults();
-      }
-    }
+    function submitQuiz() {
+      if (submitted) return;
 
-    function evaluateResults() {
-      clearInterval(testTimerInterval);
+      submitted = true;
+      clearInterval(timerInterval);
 
-      let totalMarks = 0;
-      let weakChapters = {};
+      let correct = 0;
+      let attempted = 0;
 
-      activeQuestions.forEach((q, idx) => {
-        const selected = userAnswers[idx];
-        const correct = parseInt(q.CorrectAnswer);
-        const chapter = q.Chapter || "General Concepts";
+      activeQuestions.forEach((question, index) => {
+        const answer = userAnswers[index];
 
-        if (selected !== undefined) {
-          if (selected === correct) {
-            totalMarks += 4;
-          } else {
-            totalMarks -= 1;
-            weakChapters[chapter] = (weakChapters[chapter] || 0) + 1;
+        if (answer !== undefined) {
+          attempted++;
+
+          if (answer === normalizeAnswer(question.CorrectAnswer)) {
+            correct++;
           }
         }
       });
 
-      document.getElementById('quiz-view').classList.remove('active');
-      document.getElementById('result-view').classList.add('active');
+      const unanswered = activeQuestions.length - attempted;
+      const incorrect = attempted - correct;
 
-      document.getElementById('final-score').innerText = `${totalMarks} / ${activeQuestions.length * 4}`;
+      document.getElementById("quiz-view").classList.add("hidden");
+      document.getElementById("result-view").classList.remove("hidden");
 
-      const weakListElem = document.getElementById('weak-list');
-      weakListElem.innerHTML = "";
+      document.getElementById("result-summary").textContent =
+        `Subject: ${currentMode}\n` +
+        `Total Questions: ${activeQuestions.length}\n` +
+        `Attempted: ${attempted}\n` +
+        `Correct: ${correct}\n` +
+        `Incorrect: ${incorrect}\n` +
+        `Unanswered: ${unanswered}\n` +
+        `Score: ${correct} / ${activeQuestions.length}`;
 
-      const weakKeys = Object.keys(weakChapters);
-      if (weakKeys.length === 0) {
-        weakListElem.innerHTML = "<li>Outstanding accuracy! No major weak chapters detected in attempted questions.</li>";
-      } else {
-        weakKeys.forEach(chap => {
-          weakListElem.innerHTML += `<li><strong>${chap}</strong> (${weakChapters[chap]} incorrect attempts)</li>`;
+      document.getElementById("result-summary").style.whiteSpace = "pre-line";
+    }
+
+    function goHome() {
+      clearInterval(timerInterval);
+
+      document.getElementById("quiz-view").classList.add("hidden");
+      document.getElementById("result-view").classList.add("hidden");
+      document.getElementById("home-view").classList.remove("hidden");
+    }
+
+    async function sendSubmission(payload, statusElement) {
+      statusElement.className = "status";
+      statusElement.textContent = "Submitting...";
+
+      try {
+        await fetch(API_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
         });
+
+        statusElement.textContent =
+          "Submission sent. Please check the spreadsheet to confirm it was saved.";
+        statusElement.className = "status success";
+
+      } catch (error) {
+        statusElement.textContent =
+          "Submission could not be sent. Please try again.";
+        statusElement.className = "status error";
+        console.error("Submission error:", error);
       }
     }
+
+    document.getElementById("report-form").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const payload = {
+        type: "report",
+        category: document.getElementById("report-category").value,
+        question: document.getElementById("report-question").value.trim(),
+        issue: document.getElementById("report-issue").value,
+        details: document.getElementById("report-details").value.trim()
+      };
+
+      sendSubmission(
+        payload,
+        document.getElementById("report-status")
+      );
+    });
+
+    document.getElementById("thinktank-form").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const payload = {
+        type: "thinktank",
+        name: document.getElementById("idea-name").value.trim() || "Anonymous",
+        idea: document.getElementById("idea-type").value,
+        details: document.getElementById("idea-details").value.trim()
+      };
+
+      sendSubmission(
+        payload,
+        document.getElementById("idea-status")
+      );
+    });
+
+    // Run on startup
+    initializeStreak();
+    fetchQuestions();
   </script>
 </body>
 </html>
