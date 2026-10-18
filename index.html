@@ -23,11 +23,11 @@
       --shadow: 0 10px 30px rgba(75, 93, 115, 0.08);
 
       /* Feedback soft colors */
-      --correct-bg: #d8ead9;
+      --correct-bg: #eaf5ea;
       --correct-border: #8cb493;
-      --wrong-bg: #f2dada;
+      --wrong-bg: #fbebeb;
       --wrong-border: #d5a0a0;
-      --selected-bg: #dce7ee;
+      --selected-bg: #eaf1f7;
       --selected-border: #8ba6b6;
     }
 
@@ -136,6 +136,11 @@
       color: var(--slate-blue);
     }
 
+    .btn.danger {
+      background: #c0392b;
+      color: white;
+    }
+
     .btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
@@ -218,27 +223,18 @@
     .physics { background: var(--soft-denim); }
     .chemistry { background: var(--soft-rose); }
 
-    .grand-card {
-      background: linear-gradient(135deg, var(--soft-denim), var(--periwinkle-mist));
-      width: 100%;
-      border-radius: 20px;
-      padding: 26px;
-      text-align: left;
-      border: 1px solid var(--border);
+    /* Numbered Grand Test List */
+    .grand-section {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 2px dashed var(--border);
     }
 
-    .grand-card h3 {
-      font-size: 22px;
-      margin: 0 0 5px;
-      color: var(--slate-blue);
-    }
-
-    /* Chapter Selector */
     .chapter-list {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 12px;
-      margin-top: 20px;
+      margin-top: 15px;
     }
 
     .chapter-btn {
@@ -259,23 +255,36 @@
       border-color: var(--slate-blue);
     }
 
-    /* 4-7. Quiz View & Top Columns */
-    .quiz-meta-top {
+    /* 4-7. Quiz View & Header Bar */
+    .quiz-nav-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: var(--misty-lavender);
       padding: 12px 20px;
-      border-radius: 14px;
+      border-radius: 16px;
       margin-bottom: 20px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .home-icon-btn {
+      background: var(--surface);
+      color: var(--slate-blue);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 16px;
       font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .report-btn {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.8);
       color: #b33939;
-      border-radius: 8px;
-      padding: 6px 14px;
+      border-radius: 10px;
+      padding: 8px 14px;
       font-size: 14px;
       font-weight: 700;
     }
@@ -298,22 +307,36 @@
       border-radius: 14px;
     }
 
-    /* Question Palette */
-    .palette-container {
+    /* Toggleable Question Palette */
+    .palette-toggle-btn {
+      background: var(--soft-denim);
+      color: var(--slate-blue);
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .palette-box {
+      background: var(--dove-grey);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .palette-grid {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      max-width: 100%;
-      max-height: 100px;
+      max-height: 120px;
       overflow-y: auto;
-      padding: 8px;
-      background: var(--dove-grey);
-      border-radius: 14px;
+      padding-top: 10px;
     }
 
     .palette-btn {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 10px;
       background: var(--surface);
       border: 1px solid var(--border);
@@ -326,6 +349,7 @@
 
     .palette-btn.current {
       border: 2px solid var(--slate-blue);
+      background: var(--periwinkle-mist);
     }
 
     .palette-btn.answered {
@@ -333,9 +357,9 @@
       color: #2b5b32;
     }
 
-    /* 5. Big Font Question Display */
+    /* 5. Question & Option Styling with Soft Outlines */
     .question-box {
-      margin: 25px 0;
+      margin: 20px 0;
     }
 
     .question-text {
@@ -366,7 +390,7 @@
       padding: 20px;
       text-align: left;
       background: var(--surface);
-      border: 2px solid var(--border);
+      border: 3px solid var(--border);
       border-radius: 16px;
       font-size: 20px;
       font-weight: 600;
@@ -374,6 +398,7 @@
       display: flex;
       align-items: center;
       gap: 15px;
+      transition: border-color 0.2s ease, background 0.2s ease;
     }
 
     .option-btn.selected {
@@ -381,6 +406,7 @@
       border-color: var(--selected-border);
     }
 
+    /* Requirement 6: Soft Green & Red Outlines */
     .option-btn.correct {
       background: var(--correct-bg) !important;
       border-color: var(--correct-border) !important;
@@ -393,7 +419,7 @@
       color: #6d2525;
     }
 
-    /* 9 & 11. Instant Explanations */
+    /* Instant Explanations */
     .explanation-box {
       margin-top: 25px;
       padding: 22px;
@@ -410,7 +436,7 @@
       font-size: 20px;
     }
 
-    /* 8 & 10. Navigation & Submit */
+    /* Navigation Controls */
     .quiz-controls {
       display: flex;
       justify-content: space-between;
@@ -419,7 +445,7 @@
       gap: 15px;
     }
 
-    /* 13 & 14. Large Scorecard & Improvement Areas */
+    /* Scorecard & Results */
     .scorecard-large {
       text-align: center;
       padding: 40px 20px;
@@ -503,13 +529,10 @@
       color: #3b6342;
     }
 
-    /* Modal Form for Report / Think Tank */
+    /* Modal Forms */
     .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(4px);
       display: flex;
@@ -592,7 +615,7 @@
       <button class="btn start-hero-btn" onclick="showSubjectSelection()">Start Practice →</button>
     </section>
 
-    <!-- 2 & 3. Subject & Chapter Selection View -->
+    <!-- 2 & 3. Subject & Grand Test Selection View -->
     <section id="selection-view" class="glass-card hidden">
       <div id="subject-step">
         <h2 class="section-title">Select Subject</h2>
@@ -622,39 +645,52 @@
           </button>
         </div>
 
-        <button class="grand-card" onclick="startGrandTest()">
-          <h3>⭐ Grand Test</h3>
-          <p>Full mock test covering Botany, Zoology, Physics & Chemistry.</p>
-        </button>
+        <!-- 2. Numbered Grand Tests List -->
+        <div class="grand-section">
+          <h2 class="section-title">⭐ Grand Mock Tests</h2>
+          <div id="grand-tests-list" class="chapter-list">
+            <!-- Dynamically populated Grand Test 1, Grand Test 2, etc. -->
+          </div>
+        </div>
       </div>
 
-      <!-- Chapter Step (Hidden until subject selected) -->
+      <!-- Chapter Selection Step -->
       <div id="chapter-step" class="hidden">
         <button class="btn secondary" style="margin-bottom: 20px;" onclick="backToSubjects()">← Back to Subjects</button>
         <h2 class="section-title" id="chapter-title">Select Chapter</h2>
         <div id="chapter-list" class="chapter-list"></div>
       </div>
 
-      <div id="loading-status" class="status-badge" style="margin-top: 20px; color: var(--text-muted);">
+      <div id="loading-status" style="margin-top: 20px; color: var(--text-muted); font-weight: 600;">
         Loading question bank...
       </div>
     </section>
 
     <!-- 4 - 11. Active Quiz View -->
     <section id="quiz-view" class="glass-card hidden">
-      <!-- Top Column: Category & Report -->
-      <div class="quiz-meta-top">
-        <span id="quiz-category-badge">Botany</span>
-        <button class="report-btn" onclick="openReportModal()">🚩 Report Question</button>
+      <!-- 7. Top Navigation Bar with Home Symbol, Category & Report Button -->
+      <div class="quiz-nav-top">
+        <button class="home-icon-btn" onclick="confirmGoHome()">🏠 Home</button>
+        <span id="quiz-category-badge" style="font-weight: 800; font-size: 18px; color: var(--slate-blue);">Botany</span>
+        <!-- 3. Explicit Manual Submit Button in Header -->
+        <button class="btn" style="background: #2b5b32; padding: 8px 16px; font-size: 14px;" onclick="confirmSubmit()">Submit Test</button>
+        <button class="report-btn" onclick="openReportModal()">🚩 Report</button>
       </div>
 
-      <!-- Top Status Column: Timer & Questions Palette -->
+      <!-- Status Bar: Timer & Toggleable Palette -->
       <div class="quiz-status-bar">
         <div id="quiz-timer" class="timer-badge">Time: 00:00</div>
-        <div id="palette-container" class="palette-container"></div>
+        <!-- 4. Toggleable Questions Palette Option -->
+        <button class="palette-toggle-btn" onclick="togglePalette()">📑 Questions Palette ▾</button>
       </div>
 
-      <!-- 5. Big Font Question & Options -->
+      <!-- 4. Expandable Questions Palette Drawer -->
+      <div id="palette-box" class="palette-box hidden">
+        <div style="font-weight: 700; margin-bottom: 8px; color: var(--slate-blue);">Select a question:</div>
+        <div id="palette-grid" class="palette-grid"></div>
+      </div>
+
+      <!-- 5. Question & Options Box -->
       <div class="question-box">
         <div id="question-text" class="question-text"></div>
         <img id="question-image" class="question-image hidden" alt="Question Diagram">
@@ -663,11 +699,10 @@
         <div id="explanation-box" class="explanation-box hidden"></div>
       </div>
 
-      <!-- 8 & 10. Navigation Buttons -->
+      <!-- 8. Navigation Controls -->
       <div class="quiz-controls">
         <button class="btn secondary" id="prev-btn" onclick="previousQuestion()">← Previous</button>
         <button class="btn" id="next-btn" onclick="nextQuestion()">Next →</button>
-        <button class="btn hidden" id="submit-btn" style="background: #2b5b32;" onclick="submitQuiz()">Submit Test</button>
       </div>
     </section>
 
@@ -705,7 +740,7 @@
         <ul id="improvement-list" class="improvement-list"></ul>
       </div>
 
-      <!-- Thank you Note & Quote -->
+      <!-- Thank You Note & Quote -->
       <div class="thankyou-note">
         <h3>Keep Pushing Forward!</h3>
         <div class="quote" id="motivational-quote">"Success in NEET is the sum of small efforts repeated day in and day out."</div>
@@ -745,7 +780,7 @@
     </div>
   </div>
 
-  <!-- 15. Think Tank Modal -->
+  <!-- Think Tank Modal -->
   <div id="thinktank-modal" class="modal-overlay hidden">
     <div class="modal-body">
       <h2>💡 Think Tank Feedback</h2>
@@ -796,7 +831,6 @@
       "\"Consistency is the key to mastering Physics, Chemistry, and Biology.\""
     ];
 
-    // Initialize Daily Streak
     function initializeStreak() {
       const today = new Date().toDateString();
       const lastVisit = localStorage.getItem("lastQuizVisitDate");
@@ -821,7 +855,6 @@
       document.getElementById("streak-count").textContent = `${streak} ${streak === 1 ? 'day' : 'days'}`;
     }
 
-    // Fetch Questions from Google Sheets
     async function fetchQuestions() {
       const status = document.getElementById("loading-status");
       try {
@@ -832,14 +865,14 @@
         if (!Array.isArray(data)) throw new Error("Invalid format");
 
         rawQuestions = data.filter(q => String(q.Question || "").trim() !== "");
-        status.textContent = `${rawQuestions.length} questions ready.`;
+        status.textContent = `${rawQuestions.length} questions loaded successfully.`;
+        populateGrandTestsList();
       } catch (e) {
-        status.textContent = "Unable to fetch live question bank. Ensure deployment permissions.";
+        status.textContent = "Unable to fetch questions. Please verify spreadsheet access.";
         console.error(e);
       }
     }
 
-    // 1. Navigation Flow
     function showSubjectSelection() {
       document.getElementById("welcome-view").classList.add("hidden");
       document.getElementById("quiz-view").classList.add("hidden");
@@ -849,25 +882,24 @@
       document.getElementById("chapter-step").classList.add("hidden");
     }
 
-    // 2 & 3. Subject & Chapter Handling
+    // 5. FIXED: Strict category filtering so Botany and Grand Test don't cross-contaminate
     function selectSubject(subject) {
       selectedSubject = subject;
       document.getElementById("subject-step").classList.add("hidden");
       document.getElementById("chapter-step").classList.remove("hidden");
       document.getElementById("chapter-title").textContent = `${subject} - Select Chapter`;
 
-      // 12. Strict Category Filtering (Subject-specific questions)
-      const subjectQuestions = rawQuestions.filter(q => 
-        String(q.Category || "").trim().toLowerCase() === subject.toLowerCase()
-      );
+      // Strict match for subject category only
+      const subjectQuestions = rawQuestions.filter(q => {
+        const cat = String(q.Category || "").trim().toLowerCase();
+        return cat === subject.toLowerCase();
+      });
 
-      // Extract unique chapters from Google Sheet "Chapter" column (falls back to "General Practice")
       const chapters = [...new Set(subjectQuestions.map(q => String(q.Chapter || "General Practice").trim()))];
 
       const chapterList = document.getElementById("chapter-list");
       chapterList.replaceChildren();
 
-      // "All Chapters" Option
       const allBtn = document.createElement("button");
       allBtn.className = "chapter-btn";
       allBtn.innerHTML = `<span>All ${subject} Chapters</span> <span>(${subjectQuestions.length} Qs)</span>`;
@@ -900,34 +932,59 @@
       }
 
       if (questions.length === 0) {
-        alert("No questions found for this chapter.");
+        alert("No questions found for this selection.");
         return;
       }
 
       initQuizEngine(questions, `${subject} ${chapter !== "All" ? "- " + chapter : ""}`);
     }
 
-    // 12. Grand Test strictly includes questions dedicated to Grand Test or loads across all pool
-    function startGrandTest() {
-      let grandQuestions = rawQuestions.filter(q => 
-        String(q.Category || "").trim().toLowerCase() === "grand" ||
-        String(q.Category || "").trim().toLowerCase() === "grand test"
-      );
+    // 2. Numbered Grand Mock Tests Generation
+    function populateGrandTestsList() {
+      const grandList = document.getElementById("grand-tests-list");
+      grandList.replaceChildren();
 
-      // Fallback: If no strict 'Grand' tagged questions exist, use all available subject questions
-      if (grandQuestions.length === 0) {
-        grandQuestions = [...rawQuestions];
+      // Extract all questions tagged as Grand Test
+      const grandQs = rawQuestions.filter(q => {
+        const cat = String(q.Category || "").trim().toLowerCase();
+        return cat.includes("grand");
+      });
+
+      // Group Grand Tests by Chapter or Test Name field (e.g. GrandTest1, GrandTest2)
+      const grandGroups = {};
+      
+      grandQs.forEach(q => {
+        const testName = String(q.Chapter || q.TestName || "Grand Test 1").trim();
+        if (!grandGroups[testName]) grandGroups[testName] = [];
+        grandGroups[testName].push(q);
+      });
+
+      const testKeys = Object.keys(grandGroups);
+
+      if (testKeys.length === 0 && grandQs.length > 0) {
+        grandGroups["Grand Test 1"] = grandQs;
+        testKeys.push("Grand Test 1");
       }
 
-      if (grandQuestions.length === 0) {
-        alert("No questions available for Grand Test.");
+      if (testKeys.length === 0) {
+        const btn = document.createElement("button");
+        btn.className = "chapter-btn";
+        btn.innerHTML = `<span>Full Syllabus Mock (All Questions)</span> <span>(${rawQuestions.length} Qs)</span>`;
+        btn.onclick = () => initQuizEngine(rawQuestions, "Grand Test 1");
+        grandList.appendChild(btn);
         return;
       }
 
-      initQuizEngine(grandQuestions, "Grand Test");
+      testKeys.forEach((testKey, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "chapter-btn";
+        btn.innerHTML = `<span>⭐ ${testKey}</span> <span>(${grandGroups[testKey].length} Qs)</span>`;
+        btn.onclick = () => initQuizEngine(grandGroups[testKey], testKey);
+        grandList.appendChild(btn);
+      });
     }
 
-    // Initialize Quiz Engine
+    // Quiz Initialization
     function initQuizEngine(questions, label) {
       activeQuestions = [...questions];
       currentIndex = 0;
@@ -940,14 +997,13 @@
 
       document.getElementById("quiz-category-badge").textContent = label;
 
-      // 1 minute per question rule (200 Qs = 200 mins)
+      // 1 minute per question rule
       secondsRemaining = activeQuestions.length * 60;
       startTimer();
       renderPalette();
       renderQuestion();
     }
 
-    // 6. Timer Logic
     function startTimer() {
       clearInterval(timerInterval);
       updateTimerDisplay();
@@ -970,10 +1026,15 @@
         `Time: ${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
     }
 
-    // 6. Question Palette Rendering
+    // 4. Toggle Question Palette Drawer
+    function togglePalette() {
+      const pBox = document.getElementById("palette-box");
+      pBox.classList.toggle("hidden");
+    }
+
     function renderPalette() {
-      const palette = document.getElementById("palette-container");
-      palette.replaceChildren();
+      const grid = document.getElementById("palette-grid");
+      grid.replaceChildren();
 
       activeQuestions.forEach((_, idx) => {
         const btn = document.createElement("button");
@@ -989,11 +1050,11 @@
           renderPalette();
         };
 
-        palette.appendChild(btn);
+        grid.appendChild(btn);
       });
     }
 
-    // 5, 9, 11. Question & Options Rendering with Instant Explanations
+    // 5 & 6. Question Rendering with Soft Outlines
     function renderQuestion() {
       const q = activeQuestions[currentIndex];
 
@@ -1023,7 +1084,7 @@
           btn.classList.add("selected");
         }
 
-        // Color coding for submitted/reviewed state
+        // 6. Soft Green & Soft Red Outlines
         if (submitted) {
           btn.disabled = true;
           if (idx === correctIndex) btn.classList.add("correct");
@@ -1039,7 +1100,6 @@
         grid.appendChild(btn);
       });
 
-      // 9. Explanations shown immediately on selection or when submitted
       const explanationBox = document.getElementById("explanation-box");
       const userSelected = userAnswers[currentIndex];
 
@@ -1050,10 +1110,8 @@
         explanationBox.classList.add("hidden");
       }
 
-      // 8. Navigation Controls
       document.getElementById("prev-btn").disabled = currentIndex === 0;
       document.getElementById("next-btn").classList.toggle("hidden", currentIndex === activeQuestions.length - 1);
-      document.getElementById("submit-btn").classList.toggle("hidden", currentIndex !== activeQuestions.length - 1 && !submitted);
 
       renderPalette();
     }
@@ -1080,7 +1138,21 @@
       }
     }
 
-    // 13 & 14. Quiz Submission & NEET Scorecard Calculation (+4 / -1)
+    // 7. Home Symbol Action with Confirmation
+    function confirmGoHome() {
+      if (confirm("Are you sure you want to exit the quiz? Your current progress will be lost.")) {
+        clearInterval(timerInterval);
+        showSubjectSelection();
+      }
+    }
+
+    // 3. Explicit Submission Trigger
+    function confirmSubmit() {
+      if (confirm("Are you sure you want to submit your test now?")) {
+        submitQuiz();
+      }
+    }
+
     function submitQuiz() {
       submitted = true;
       clearInterval(timerInterval);
@@ -1110,7 +1182,6 @@
       const maxScore = activeQuestions.length * 4;
       const percentage = Math.max(0, Math.round((neetScore / maxScore) * 100));
 
-      // Update Large Scorecard UI
       document.getElementById("final-score-text").textContent = `${neetScore} / ${maxScore}`;
       document.getElementById("final-score-percent").textContent = `${percentage}% NEET Accuracy`;
 
@@ -1119,7 +1190,6 @@
       document.getElementById("stat-incorrect").textContent = incorrect;
       document.getElementById("stat-unattempted").textContent = unattempted;
 
-      // 13. Improvement Areas Listing
       const impBox = document.getElementById("improvement-box");
       const impList = document.getElementById("improvement-list");
       impList.replaceChildren();
@@ -1136,7 +1206,6 @@
         impBox.classList.add("hidden");
       }
 
-      // Random Quote
       document.getElementById("motivational-quote").textContent = 
         quotes[Math.floor(Math.random() * quotes.length)];
 
@@ -1144,7 +1213,6 @@
       document.getElementById("result-view").classList.remove("hidden");
     }
 
-    // 16. Revisit Quiz Mode
     function revisitQuiz() {
       document.getElementById("result-view").classList.add("hidden");
       document.getElementById("quiz-view").classList.remove("hidden");
@@ -1152,7 +1220,6 @@
       renderQuestion();
     }
 
-    // Modals Handling
     function openReportModal() {
       document.getElementById("report-modal").classList.remove("hidden");
     }
@@ -1169,7 +1236,6 @@
       document.getElementById("thinktank-modal").classList.add("hidden");
     }
 
-    // Dispatch Report & ThinkTank Payload
     async function sendPayload(payload) {
       try {
         await fetch(API_URL, {
@@ -1205,7 +1271,6 @@
       closeThinkTankModal();
     };
 
-    // Initialize Page
     initializeStreak();
     fetchQuestions();
   </script>
